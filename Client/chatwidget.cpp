@@ -14,19 +14,27 @@
 #include<QColorDialog>
 
 
-ChatWidget::ChatWidget(QWidget *parent) :
+ChatWidget::ChatWidget(QWidget *parent,User *user) :
     QWidget(parent),
     ui(new Ui::ChatWidget)
 {
+    setWindowFlags(Qt::Window);
     ui->setupUi(this);
     udpSocket=new QUdpSocket(this);
     server=new TcpServer(this);
-    port=25252;
+    Self=new User(this);
+
+    ChattingUsers = new UserList(this);
+    port=25254;
     udpSocket->bind(port,QUdpSocket::ShareAddress|QUdpSocket::ReuseAddressHint);
-    connect(udpSocket,SIGNAL(readyRead()),this,SLOT(processPendingDatagrams())); // readyRead（）在哪里
-    connect(server,SIGNAL(sendFileName(QString)),this,SLOT(getFileName(QString))); // 怎么回事，sendFileName在哪里
+    connect(udpSocket,SIGNAL(readyRead()),this,SLOT(processPendingDatagrams()));
+    connect(server,SIGNAL(sendFileName(QString)),this,SLOT(getFileName(QString)));
     connect(ui->messageTextEdit,SIGNAL(currentCharFormatChanged(QTextCharFormat)),this,SLOT(currentFormatChanged(QTextCharFormat)));
-    sendMessage(MessageType::NewParticipant);
+    connect(this,SIGNAL(Selfsetted()),this,SLOT(BroadCastNewPtcp()));
+    if(user){
+        setSelf(user);
+        emit Selfsetted();
+    }
 }
 
 ChatWidget::~ChatWidget()
@@ -35,14 +43,18 @@ ChatWidget::~ChatWidget()
 }
 
 // 发送信息，在信息处理是，根据私聊和群聊来做不同修改
+//格式：<<type<<ID[<<nickName][<<MyIP][<<PartnerIP][<<Message]
 void ChatWidget::sendMessage(MessageType::MessageType type,QString serverAddress)
 {
     QByteArray data;
     QDataStream out(&data,QIODevice::WriteOnly);
     out.setVersion(VERSION);
-    QString localHostName=QHostInfo::localHostName();
-    QString address=getIP();
-    out<<type<<getUserName()<<localHostName; // 在data的前面先加一个标志代表群聊，再加一个int类型的变量来标记聊天室
+    QString address=Self->getIpAddress();
+    if(Self==NULL)  {
+        QMessageBox::critical(0,"发送数据失败","缺少用户信息",QMessageBox::Cancel);
+        return;
+    }
+    out<<type<<Self->getID(); // 在data的前面先加一个标志代表群聊，再加一个int类型的变量来标记聊天室(目前只有一个聊天室)
     //out<<某个标志<<room<<type<<getUserName()<<localHostName;
     switch(type)
     {
@@ -52,28 +64,34 @@ void ChatWidget::sendMessage(MessageType::MessageType type,QString serverAddress
             QMessageBox::warning(0,tr("警告"),tr("发送内容不能为空"),QMessageBox::Ok);
             return;
         }
-        out<<address<<getMessage();
+        out<<Self->getNickname()<<getMessage();
         ui->messageBrowser->verticalScrollBar()->setValue(ui->messageBrowser->verticalScrollBar()->maximum());
         break;}
 
     case MessageType::NewParticipant:
-    {out<<address;
-        break;}
+        out<<Self->getNickname()<<Self->getIpAddress();
+        break;
 
     case MessageType::ParticipantLeft:
         break;
 
     case MessageType::FileName:
-    {int row=ui->userTableWidget->currentRow();
-        QString clientAddress=ui->userTableWidget->item(row,2)->text();
-        out<<address<<clientAddress<<fileName;
-        break;}
+    {
+        int row=ui->userTableWidget->currentRow();
+        int ID=ui->userTableWidget->item(row,0)->text().toInt();
+        User *user=ChattingUsers->searchByID(ID);
+        QString clientAddress=user->getIpAddress();
+        out<<Self->getNickname()<<address<<clientAddress<<fileName;
+        break;
+    }
 
     case MessageType::Refuse:
       {  out<<serverAddress;
         break;}
+    default:
+        break;
     }
-    udpSocket->writeDatagram(data,data.length(),QHostAddress::Broadcast,port);
+    udpSocket->writeDatagram(data,QHostAddress::Broadcast,port);
 }
 
 //存在需要解决的信息时的操作，在信息处理时，根据私聊和群聊来做不同修改
@@ -95,41 +113,45 @@ void ChatWidget::processPendingDatagrams()
 
         int messageType;
         in>>messageType;
-        QString userName,localHostName,ipAddress,message;
+        int ID;
+        QString nickName,ipAddress,message;
         QString time=QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
 
         switch(messageType)
         {
         case MessageType::Message:
-        {in>>userName>>localHostName>>ipAddress>>message;
+        {in>>ID>>nickName>>message;
             ui->messageBrowser->setTextColor(Qt::blue);
             ui->messageBrowser->setCurrentFont(QFont("Times New Roman",12));
-            ui->messageBrowser->append("["+userName+"]"+time);
+            ui->messageBrowser->append("["+nickName+"]"+time);
             ui->messageBrowser->append(message);
             break;}
 
         case MessageType::NewParticipant:
-           { in>>userName>>localHostName>>ipAddress;
-            newParticipant(userName,localHostName,ipAddress);
-            break;}
+           { in>>ID>>nickName>>ipAddress;
+            User *user=new User(0,ID,nickName,ipAddress,User::Online);
+            newParticipant(user,time);
+            break;
+        }
 
         case MessageType::ParticipantLeft:
-           { in>>userName>>localHostName;
-            participantLeft(userName,localHostName,time);
+           { in>>ID;
+            participantLeft(ID,time);
             break;}
 
         case MessageType::FileName:
-        {in>>userName>>localHostName>>ipAddress;
-            QString clientAddress,fileName;
+        {QString clientAddress,fileName;
+            in>>ID>>nickName>>ipAddress;
             in>>clientAddress>>fileName;
-            hasPendingFile(userName,ipAddress,clientAddress,fileName);
-            break;}
+            hasPendingFile(ID,nickName,ipAddress,clientAddress,fileName);
+            break;
+        }
 
         case MessageType::Refuse:
-        {in>>userName>>localHostName;
+        {in>>ID;
             QString serverAddress;
             in>>serverAddress;
-            QString ipAddress=getIP();
+            QString ipAddress=Self->getIpAddress();
             if(ipAddress==serverAddress)
                 server->refused();
             break;}
@@ -140,50 +162,42 @@ void ChatWidget::processPendingDatagrams()
 }
 
 // 新用户加入时的操作，私聊不需要，群聊部分修改
-void ChatWidget::newParticipant(QString userName,QString localHostName,QString ipAddress)
+void ChatWidget::newParticipant(User *user,QString time)
 {
-    bool isEmpty=ui->userTableWidget->findItems(localHostName,Qt::MatchExactly).isEmpty();
-    if(isEmpty)
-    {
-        QTableWidgetItem* user=new QTableWidgetItem(userName);
-        QTableWidgetItem* host=new QTableWidgetItem(localHostName);
-        QTableWidgetItem* ip=new QTableWidgetItem(ipAddress);
-
-        ui->userTableWidget->insertRow(0);
-        ui->userTableWidget->setItem(0,0,user);
-        ui->userTableWidget->setItem(0,1,host);
-        ui->userTableWidget->setItem(0,2,ip);
-
-        ui->messageBrowser->setTextColor(Qt::gray);
-        ui->messageBrowser->setCurrentFont(QFont("Times New Roman",10));
-        ui->messageBrowser->append(tr("%1在线！").arg(userName));
-
-        ui->userNumberLabel->setText(tr("在线人数:%1").arg(ui->userTableWidget->rowCount()));
-
-        sendMessage(MessageType::NewParticipant);
-
-    }
+    ChattingUsers->insertByID(user);
+    QTableWidgetItem *id=new QTableWidgetItem(QString::number(user->getID()));
+    QTableWidgetItem *nickname=new QTableWidgetItem(user->getNickname());
+    id->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+    nickname->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+    ui->userTableWidget->insertRow(0);
+    ui->userTableWidget->setItem(0,0,id);
+    ui->userTableWidget->setItem(0,1,nickname);
+    ui->userTableWidget->sortByColumn(0,Qt::AscendingOrder);
+    ui->messageBrowser->setTextColor(Qt::gray);
+    ui->messageBrowser->setCurrentFont(QFont("Times New Roman",10));
+    ui->messageBrowser->append(tr("%1(ID:%2)于%3加入！").arg(user->getNickname()).arg(QString::number(user->getID())).arg(time));
+    ui->userNumberLabel->setText(tr("在线人数：%1").arg(ui->userTableWidget->rowCount()));
 }
 
 // 新用户离开时的操作，私聊不需要，群聊部分修改
-void ChatWidget::participantLeft(QString userName,QString localHostName,QString time)
+void ChatWidget::participantLeft(int ID,QString time)
 {
-    int rowNum=ui->userTableWidget->findItems(localHostName,Qt::MatchExactly).first()->row();
-
+    int rowNum=ui->userTableWidget->findItems(QString::number(ID),Qt::MatchExactly).first()->row();
     ui->userTableWidget->removeRow(rowNum);
+    User * user=ChattingUsers->removeByID(ID);
     ui->messageBrowser->setTextColor(Qt::gray);
     ui->messageBrowser->setCurrentFont(QFont("Times New Roman",10));
-    ui->messageBrowser->append(tr("%1于%2离开！").arg(userName).arg(time));
+    ui->messageBrowser->append(tr("%1(ID:%2)于%3离开！").arg(user->getNickname()).arg(QString::number(ID)).arg(time));
     ui->userNumberLabel->setText(tr("在线人数：%1").arg(ui->userTableWidget->rowCount()));
 }
 
 
-void ChatWidget::hasPendingFile(QString userName,QString serverAddress,QString clientAddress,QString fileName)
+void ChatWidget::hasPendingFile(int ID,QString nickName,QString serverAddress,QString clientAddress,QString fileName)
 {
-    QString ipAddress=getIP();
+    QString ipAddress=Self->getIpAddress();
     if(ipAddress==clientAddress)
     {
-        int btn=QMessageBox::information(this,tr("接收文件"),tr("来自%1(%2)的文件:%3，是否接受？").arg(userName).arg(serverAddress).arg(fileName),QMessageBox::Yes,QMessageBox::No);
+        int btn=QMessageBox::information(this,tr("接收文件"),tr("来自%1(ID:%2)的文件:%3，是否接受？").arg(nickName).arg(ID).arg(fileName),QMessageBox::Yes,QMessageBox::No);
         if(btn==QMessageBox::Yes)
         {
             QString name=QFileDialog::getSaveFileName(0,tr("保存文件"),fileName);
@@ -199,39 +213,6 @@ void ChatWidget::hasPendingFile(QString userName,QString serverAddress,QString c
             sendMessage(MessageType::Refuse,serverAddress);
     }
 }
-
-QString ChatWidget::getIP()
-{
-    QList<QHostAddress>list=QNetworkInterface::allAddresses();
-    foreach(QHostAddress address,list)
-    {
-        if(address.protocol()==QAbstractSocket::IPv4Protocol)
-            return address.toString();
-    }
-    return 0;
-}
-
-QString ChatWidget::getUserName()
-{
-    QStringList envVariables;
-    envVariables<<"USERNAME.*"<<"USER.*"<<"USERDOMAIN.*"<<"HOSTNAME.*"<<"DOMAINNAME.*";
-    QStringList environment=QProcess::systemEnvironment();
-    foreach(QString string,envVariables)
-    {
-        int index=environment.indexOf(QRegExp(string));
-        if(index!=-1)
-        {
-            QStringList stringList=environment.at(index).split("="); // 完全搞不懂
-            if(stringList.size()==2)
-            {
-                return stringList.at(1);
-                break;
-            }
-        }
-    }
-    return "unknown";
-}
-
 QString ChatWidget::getMessage()
 {
     QString msg=ui->messageTextEdit->toHtml();
@@ -371,4 +352,18 @@ void ChatWidget::closeEvent(QCloseEvent *e)
 void ChatWidget::setRoomNum(int num)
 {
     room=num;
+}
+
+void ChatWidget::setSelf(User *user)
+{
+    Self->setID(user->getID());
+    Self->setNickname(user->getNickname());
+    Self->setIpAddress(user->getIpAddress());
+    Self->setStatus(user->getStatus());
+    emit Selfsetted();
+}
+
+void ChatWidget::BroadCastNewPtcp()
+{
+    sendMessage(MessageType::NewParticipant);
 }

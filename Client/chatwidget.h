@@ -4,6 +4,8 @@
 #include <QWidget>
 #include<QTextCharFormat>
 #include "global.h"
+#include "user.h"
+#include "userlist.h"
 class QUdpSocket;
 class TcpServer;
 
@@ -16,16 +18,16 @@ class ChatWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit ChatWidget(QWidget *parent = 0);
+    explicit ChatWidget(QWidget *parent = 0,User *user = NULL);
     ~ChatWidget();
-
+    void setSelf(User *);
     void setRoomNum(int);
 
 protected:
-    void newParticipant(QString userName,QString localHostName,QString ipAddress);
-    void participantLeft(QString userName,QString localHostName,QString time);
+    void newParticipant(User* user,QString time);
+    void participantLeft(int ID,QString time);
     void sendMessage(MessageType::MessageType type,QString serverAddress="");
-    void hasPendingFile(QString userName,QString serverAddress,QString clientAddress,QString fileName);
+    void hasPendingFile(int ID,QString nickName,QString serverAddress,QString clientAddress,QString fileName);
     bool saveFile(const QString& fileName);
     void closeEvent(QCloseEvent*);
 
@@ -40,9 +42,11 @@ private:
     QString fileName;
     TcpServer* server;
     QColor color;
-
+    UserList * ChattingUsers;  //在聊天室的用户名单
+    User * Self;    //用户自己，属性由主界面传递
     int room;
-
+signals:
+    void Selfsetted();
 
 
 private slots:
@@ -60,6 +64,7 @@ private slots:
     void on_saveToolBtn_clicked();
     void on_clearToolBtn_clicked();
     void on_exitButton_clicked();
+    void BroadCastNewPtcp();
 };
 
 #endif // CHATWIDGET_H

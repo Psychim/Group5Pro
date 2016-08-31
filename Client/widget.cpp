@@ -100,5 +100,7 @@ void Widget::initialize(User * user)
 
 void Widget::on_commandLinkButton_clicked()
 {
-   // ChatWidget
+    ChatWidget * Chatroom=new ChatWidget(this);
+    Chatroom->setSelf(Self);
+    Chatroom->show();
 }

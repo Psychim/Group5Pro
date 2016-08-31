@@ -32,7 +32,7 @@ private:
     ClientTcpSocket * tcpSocket;
     QUdpSocket * udpSocket;
     qint16 port;
-    User * Self;
+    User * Self;    //用户自己，在登录界面登录成功后分配内存空间并传递至主界面
     UserList *onlineUsers;
 private slots:
     void process(UserList *);

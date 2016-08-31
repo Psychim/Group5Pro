@@ -30,12 +30,12 @@
      </property>
      <column>
       <property name="text">
-       <string>用户名</string>
+       <string>ID</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>主机名</string>
+       <string>昵称</string>
       </property>
      </column>
      <column>

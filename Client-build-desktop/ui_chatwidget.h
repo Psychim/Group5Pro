@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'chatwidget.ui'
 **
-** Created: Wed Aug 31 16:37:00 2016
+** Created: Wed Aug 31 22:36:30 2016
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -206,9 +206,9 @@ public:
     {
         ChatWidget->setWindowTitle(QApplication::translate("ChatWidget", "\345\261\200\345\237\237\347\275\221\350\201\212\345\244\251\345\267\245\345\205\267", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem = userTableWidget->horizontalHeaderItem(0);
-        ___qtablewidgetitem->setText(QApplication::translate("ChatWidget", "\347\224\250\346\210\267\345\220\215", 0, QApplication::UnicodeUTF8));
+        ___qtablewidgetitem->setText(QApplication::translate("ChatWidget", "ID", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem1 = userTableWidget->horizontalHeaderItem(1);
-        ___qtablewidgetitem1->setText(QApplication::translate("ChatWidget", "\344\270\273\346\234\272\345\220\215", 0, QApplication::UnicodeUTF8));
+        ___qtablewidgetitem1->setText(QApplication::translate("ChatWidget", "\346\230\265\347\247\260", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem2 = userTableWidget->horizontalHeaderItem(2);
         ___qtablewidgetitem2->setText(QApplication::translate("ChatWidget", "IP\345\234\260\345\235\200", 0, QApplication::UnicodeUTF8));
         sizeComboBox->clear();
