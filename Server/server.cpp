@@ -137,6 +137,9 @@ void Server::TcpReadMessage(){
     case MessageType::NewParticipant:
         HandleNewPtcp(in);
         break;
+    case MessageType::ParticipantLeft:
+        HandlePtcpLeft(in);
+        break;
     case MessageType::CreateRoom:
         HandleCreateRoom(in);
         break;
@@ -357,7 +360,7 @@ void Server::Stop()
     if(ServerTcpSocket!=NULL)
         ServerTcpSocket->abort();
 }
-
+//三件事：将新加入用户加入响应的聊天室；返回聊天室用户名单给该用户；广播该用户加入的消息
 void Server::HandleNewPtcp(QDataStream &in)
 {
     int roomID;
@@ -365,9 +368,29 @@ void Server::HandleNewPtcp(QDataStream &in)
     in>>roomID>>ID;
     Room *room=ActiveRooms->searchByID(roomID);
     User *user=OnlineUsers->searchByID(ID);
-    room->NewPtcp(user);
+
     QByteArray buffer;
-    QDataStream
+    QDataStream out(&buffer,QIODevice::WriteOnly);
+    out<<(MessageSize)0;
+    out<<MessageType::NewParticipant;
+    out<<roomID;
+    for(int i=0;i<room->ChattingUsers.size();i++){
+        User *user=room->ChattingUsers[i];
+        out<<user->getID();
+    }
+    out.device()->seek(0);
+    out<<(MessageSize)(buffer.size()-sizeof(MessageSize));
+    ServerTcpSocket->write(buffer);
+
+    room->NewPtcp(user);
+
+    buffer.clear();
+    out<<MessageType::NewParticipant;
+    out<<roomID<<room->ChattingUsers.size()<<ID;
+    ServerUdpSocket->writeDatagram(buffer,QHostAddress::Broadcast,UDPPort);
+    ServerUdpSocket->waitForBytesWritten();
+    ServerUdpSocket->writeDatagram(buffer,QHostAddress::Broadcast,UDPPort+2);
+    ServerUdpSocket->waitForBytesWritten();
 }
 //接收创建者ID和房间名，创建新聊天室，并广播聊天室信息和创建者ID
 void Server::HandleCreateRoom(QDataStream & in)
@@ -381,4 +404,29 @@ void Server::HandleCreateRoom(QDataStream & in)
     out<<MessageType::CreateRoom;
     out<<room->getID()<<room->getName()<<room->ChattingUsers.size()<<ID;
     ServerUdpSocket->writeDatagram(buffer,QHostAddress::Broadcast,UDPPort);
+    ServerUdpSocket->waitForBytesWritten();
+}
+
+void Server::HandlePtcpLeft(QDataStream &in)
+{
+    int roomID,userID;
+    in>>roomID>>userID;
+    Room *room=ActiveRooms->searchByID(roomID);
+    room->PtcpLeft(userID);
+    QByteArray buffer;
+    QDataStream out(&buffer,QIODevice::WriteOnly);
+    out<<MessageType::ParticipantLeft;
+    out<<roomID<<room->ChattingUsers.size()<<userID;
+    ServerUdpSocket->writeDatagram(buffer,QHostAddress::Broadcast,UDPPort);
+    ServerUdpSocket->waitForBytesWritten();
+    ServerUdpSocket->writeDatagram(buffer,QHostAddress::Broadcast,UDPPort+2);
+    ServerUdpSocket->waitForBytesWritten();
+    if(room->ChattingUsers.size()==0){
+        ActiveRooms->DeleteRoomByID(roomID);
+        buffer.clear();
+        out<<MessageType::DeleteRoom;
+        out<<roomID;
+        ServerUdpSocket->writeDatagram(buffer,QHostAddress::Broadcast,UDPPort);
+        ServerUdpSocket->waitForBytesWritten();
+    }
 }

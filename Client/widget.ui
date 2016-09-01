@@ -93,6 +93,19 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
+        <widget class="QCommandLinkButton" name="commandLinkButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>新建房间</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QTableWidget" name="roomtableWidget">
          <column>
           <property name="text">
@@ -109,19 +122,6 @@
            <string>人数</string>
           </property>
          </column>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCommandLinkButton" name="commandLinkButton">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>新建房间</string>
-         </property>
         </widget>
        </item>
       </layout>

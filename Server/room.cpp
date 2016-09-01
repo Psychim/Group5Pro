@@ -36,3 +36,11 @@ QString Room::getName()
 {
     return roomName;
 }
+
+bool Room::PtcpLeft(int ID)
+{
+    if(ChattingUsers.removeByID(ID))
+        return true;
+    else return false;
+
+}

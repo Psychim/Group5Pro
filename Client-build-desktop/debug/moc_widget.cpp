@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'widget.h'
 **
-** Created: Thu Sep 1 10:15:27 2016
+** Created: Thu Sep 1 15:41:03 2016
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_Widget[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       6,   14, // methods
+      10,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -35,8 +35,12 @@ static const uint qt_meta_data_Widget[] = {
       33,   30,    7,    7, 0x09,
       54,    7,    7,    7, 0x08,
       73,    7,    7,    7, 0x08,
-     106,    7,    7,    7, 0x08,
-     124,    7,    7,    7, 0x08,
+     110,  106,    7,    7, 0x08,
+     145,    7,    7,    7, 0x08,
+     163,    7,    7,    7, 0x08,
+     194,    7,    7,    7, 0x08,
+     233,  231,    7,    7, 0x08,
+     257,    7,    7,    7, 0x08,
 
        0        // eod
 };
@@ -44,8 +48,11 @@ static const uint qt_meta_data_Widget[] = {
 static const char qt_meta_stringdata_Widget[] = {
     "Widget\0\0newParticipant(User*)\0Id\0"
     "participantLeft(int)\0process(UserList*)\0"
-    "doubleClicked(QTableWidgetItem*)\0"
+    "doubleClicked(QTableWidgetItem*)\0,,,\0"
+    "HandlenewRoom(int,QString,int,int)\0"
     "initialize(User*)\0on_commandLinkButton_clicked()\0"
+    "roomdoubleClicked(QTableWidgetItem*)\0"
+    ",\0UpdateRoomInfo(int,int)\0DeleteRoom(int)\0"
 };
 
 const QMetaObject Widget::staticMetaObject = {
@@ -81,11 +88,15 @@ int Widget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 1: participantLeft((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 2: process((*reinterpret_cast< UserList*(*)>(_a[1]))); break;
         case 3: doubleClicked((*reinterpret_cast< QTableWidgetItem*(*)>(_a[1]))); break;
-        case 4: initialize((*reinterpret_cast< User*(*)>(_a[1]))); break;
-        case 5: on_commandLinkButton_clicked(); break;
+        case 4: HandlenewRoom((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4]))); break;
+        case 5: initialize((*reinterpret_cast< User*(*)>(_a[1]))); break;
+        case 6: on_commandLinkButton_clicked(); break;
+        case 7: roomdoubleClicked((*reinterpret_cast< QTableWidgetItem*(*)>(_a[1]))); break;
+        case 8: UpdateRoomInfo((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 9: DeleteRoom((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 6;
+        _id -= 10;
     }
     return _id;
 }

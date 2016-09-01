@@ -11,6 +11,7 @@
 #include "global.h"
 #include"widget_p2p.h"
 #include "chatwidget.h"
+UserList* Widget::onlineUsers=NULL;
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
@@ -87,6 +88,7 @@ void Widget::initialize(User * user)
     connect(tcpSocket,SIGNAL(newPtcp(User*)),this,SLOT(newParticipant(User*)));
     connect(tcpSocket,SIGNAL(PtcpLeft(int)),this,SLOT(participantLeft(int)));
     connect(tcpSocket,SIGNAL(newRoom(int,QString,int,int)),this,SLOT(HandlenewRoom(int,QString,int,int)));
+    connect(tcpSocket,SIGNAL(UpdateUserNumber(int,int)),this,SLOT(UpdateRoomInfo(int,int)));
     Self=user;
     Self->setParent(this);
     ui->nickname->setText(Self->getNickname());
@@ -126,15 +128,15 @@ void Widget::HandlenewRoom(int roomID, QString roomName, int size, int userID)
     roomName_itm->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
     size_itm->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
     ui->roomtableWidget->insertRow(0);
-    ui->roomTableWidget->setItem(0,0,roomID_itm);
-    ui->roomTableWidget->setItem(0,1,roomName_itm);
-    ui->roomTableWidget->setItem(0,1,size_itm);
-    ui->roomTableWidget->sortByColumn(0,Qt::AscendingOrder);
+    ui->roomtableWidget->setItem(0,0,roomID_itm);
+    ui->roomtableWidget->setItem(0,1,roomName_itm);
+    ui->roomtableWidget->setItem(0,2,size_itm);
+    ui->roomtableWidget->sortByColumn(0,Qt::AscendingOrder);
     if(userID==Self->getID())
         joinRoom(roomID);
 }
 
-void Widget::roomdoubleClicked(QTableWidgetItem *,item)
+void Widget::roomdoubleClicked(QTableWidgetItem * item)
 {
     int row=item->row();
     QTableWidgetItem * itm_ID=ui->userTableWidget->item(row,0);
@@ -146,4 +148,17 @@ void Widget::joinRoom(int ID)
 {
     ChatWidget *w=new ChatWidget(this,Self,ID);
     w->show();
+}
+
+void Widget::UpdateRoomInfo(int room, int size)
+{
+    int row=ui->roomtableWidget->findItems(QString::number(room),Qt::MatchExactly).first()->row();
+    QTableWidgetItem *itm_Num=ui->roomtableWidget->item(row,2);
+    itm_Num->setText(QString::number(size));
+}
+
+void Widget::DeleteRoom(int room)
+{
+    int row=ui->roomtableWidget->findItems(QString::number(room),Qt::MatchExactly).first()->row();
+    ui->roomtableWidget->removeRow(row);
 }

@@ -9,9 +9,10 @@ class RoomList : public QObject
     Q_OBJECT
 public:
     explicit RoomList(QObject *parent = 0);
-    QList<Room *>::iterator InsertByID(Room *);
+    QList<Room*>::iterator InsertByID(Room *);
     Room * searchByID(int);
-    Room * NewRoom(QString,User *);
+    Room * NewRoom(QString);
+    void DeleteRoomByID(int);
 private:
     QList<Room *> rooms;
     int MinEmpty;

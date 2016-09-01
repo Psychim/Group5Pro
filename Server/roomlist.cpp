@@ -5,7 +5,8 @@ RoomList::RoomList(QObject *parent) :
 {
     MinEmpty=0;
 }
-QList<Room *>::iterator RoomList::insertByID(Room *room)
+
+QList<Room *>::iterator RoomList::InsertByID(Room *room)
 {
     if(room){
         room->setParent(this);
@@ -17,12 +18,13 @@ QList<Room *>::iterator RoomList::insertByID(Room *room)
             QList<Room *>::iterator end=rooms.end();
             while(ite!=end&&(*ite)->getID()<room->getID())
                 ite++;
-            if(ite!=end&&(*ite)->getID()==room->getID())
-                return rooms.end();
-            rooms.insert(ite,room);
+            if(ite!=end&&(*ite)->getID()==room->getID()){
+                rooms.insert(ite,room);
+                return ite-1;
+            }
         }
     }
-    return ite-1;
+    return rooms.end();
 }
 Room* RoomList::NewRoom(QString name)
 {
@@ -31,6 +33,7 @@ Room* RoomList::NewRoom(QString name)
     while(ite!=rooms.end()&&MinEmpty==(*ite)->getID()){
         MinEmpty++;
     }
+    return room;
 }
 
 Room * RoomList::searchByID(int ID)
@@ -52,4 +55,28 @@ Room * RoomList::searchByID(int ID)
         return rooms[r];
     }
     else return NULL;
+}
+
+void RoomList::DeleteRoomByID(int ID)
+{
+    if(rooms.size()==0) return;
+    int q=rooms.size()-1;
+    int p=0;
+    int r=(q+p)/2;
+    while(p!=q&&rooms[r]->getID()!=ID){
+        if(rooms[r]->getID()>ID){
+            q=r;
+        }
+        else{
+            p=r+1;
+        }
+        r=(p+q)/2;
+    }
+    if(rooms[r]->getID()==ID){
+        Room *tmp=rooms[r];
+        rooms.removeAt(r);
+        if(MinEmpty>tmp->getID())
+            MinEmpty=tmp->getID();
+        delete tmp;
+    }
 }

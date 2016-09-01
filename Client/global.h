@@ -16,7 +16,8 @@ namespace MessageType{
         FileName=0x0063,
         Refuse=0x0064,
         NewParticipant=0x0065,
-        CreateRoom=0x0071
+        CreateRoom=0x0071,
+        DeleteRoom=0x0072
     };
 }
 /*----------------------数据包格式----------------------*\

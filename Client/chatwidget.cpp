@@ -3,6 +3,7 @@
 #include"tcpserver.h"
 #include"tcpclient.h"
 #include "clienttcpsocket.h"
+#include "widget.h"
 #include<QFileDialog>
 #include<QtNetwork>
 #include<QHostInfo>
@@ -44,7 +45,7 @@ ChatWidget::~ChatWidget()
 }
 
 // 发送信息，在信息处理是，根据私聊和群聊来做不同修改
-//格式：<<type<<ID[<<nickName][<<MyIP][<<PartnerIP][<<Message]
+//格式：<<type<<room<<ID[<<nickName][<<MyIP][<<PartnerIP][<<Message]
 void ChatWidget::sendMessage(MessageType::MessageType type,QString serverAddress)
 {
     QByteArray data;
@@ -55,7 +56,7 @@ void ChatWidget::sendMessage(MessageType::MessageType type,QString serverAddress
         QMessageBox::critical(0,"发送数据失败","缺少用户信息",QMessageBox::Cancel);
         return;
     }
-    out<<type<<Self->getID(); // 在data的前面先加一个标志代表群聊，再加一个int类型的变量来标记聊天室(目前只有一个聊天室)
+    out<<type<<room<<Self->getID(); // 在data的前面先加一个标志代表群聊，再加一个int类型的变量来标记聊天室(目前只有一个聊天室)
     //out<<某个标志<<room<<type<<getUserName()<<localHostName;
     switch(type)
     {
@@ -68,14 +69,14 @@ void ChatWidget::sendMessage(MessageType::MessageType type,QString serverAddress
         out<<Self->getNickname()<<getMessage();
         ui->messageBrowser->verticalScrollBar()->setValue(ui->messageBrowser->verticalScrollBar()->maximum());
         break;}
-
-    case MessageType::NewParticipant:
+    //这部分不由自己广播，而是先通知服务器，再由服务器广播
+   /* case MessageType::NewParticipant:
         out<<Self->getNickname()<<Self->getIpAddress();
         break;
 
     case MessageType::ParticipantLeft:
         break;
-
+    */
     case MessageType::FileName:
     {
         int row=ui->userTableWidget->currentRow();
@@ -112,8 +113,9 @@ void ChatWidget::processPendingDatagrams()
         //if(sign==某个标志&&roomnum==room）
         //{
 
-        int messageType;
-        in>>messageType;
+        int messageType,roomIDrcved;
+        in>>messageType>>roomIDrcved;
+        if(roomIDrcved!=room)   return;     //不是本房间的消息则return
         int ID;
         QString nickName,ipAddress,message;
         QString time=QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
@@ -129,14 +131,16 @@ void ChatWidget::processPendingDatagrams()
             break;}
 
         case MessageType::NewParticipant:
-           { in>>ID>>nickName>>ipAddress;
-            User *user=new User(0,ID,nickName,ipAddress,User::Online);
+           {int size;
+            in>>size>>ID;
+            User *user=Widget::onlineUsers->searchByID(ID);
             newParticipant(user,time);
             break;
         }
 
         case MessageType::ParticipantLeft:
-           { in>>ID;
+           {int size;
+            in>>size>>ID;
             participantLeft(ID,time);
             break;}
 
@@ -186,6 +190,7 @@ void ChatWidget::participantLeft(int ID,QString time)
     int rowNum=ui->userTableWidget->findItems(QString::number(ID),Qt::MatchExactly).first()->row();
     ui->userTableWidget->removeRow(rowNum);
     User * user=ChattingUsers->removeByID(ID);
+    if(user==NULL)  return;
     ui->messageBrowser->setTextColor(Qt::gray);
     ui->messageBrowser->setCurrentFont(QFont("Times New Roman",10));
     ui->messageBrowser->append(tr("%1(ID:%2)于%3离开！").arg(user->getNickname()).arg(QString::number(ID)).arg(time));
@@ -346,7 +351,21 @@ void ChatWidget::on_exitButton_clicked()
 
 void ChatWidget::closeEvent(QCloseEvent *e)
 {
-    sendMessage(MessageType::ParticipantLeft);
+    QTcpSocket *tcpSocket=new QTcpSocket(this);
+    tcpSocket->connectToHost(ClientTcpSocket::ServerHost,ClientTcpSocket::TCPPort);
+    if(!tcpSocket->waitForConnected()){
+        QMessageBox::warning(this,tr("连接超时"),tr("连接服务器超时"));
+        return;
+    }
+    QByteArray buffer;
+    QDataStream out(&buffer,QIODevice::WriteOnly);
+    out.setVersion(VERSION);
+    out<<MessageType::ParticipantLeft;
+    out<<room<<Self->getID();
+    out.device()->seek(0);
+    out<<(MessageSize)(buffer.size()-sizeof(MessageSize));
+    tcpSocket->write(buffer);
+    tcpSocket->waitForBytesWritten();
     QWidget::closeEvent(e);
 }
 
@@ -371,6 +390,7 @@ void ChatWidget::NewPtcp()
     }
     QByteArray buffer;
     QDataStream out(&buffer,QIODevice::WriteOnly);
+    out.setVersion(VERSION);
     out<<(MessageSize)0;
     out<<MessageType::NewParticipant;
     out<<room<<Self->getID();
@@ -379,5 +399,30 @@ void ChatWidget::NewPtcp()
     tcpSocket->write(buffer);
     tcpSocket->waitForBytesWritten();
     tcpSocket->waitForReadyRead();
-
+    QDataStream in(tcpSocket);
+    in.setVersion(VERSION);
+    MessageSize bufferSize;
+    int type;
+    int roomIDrcved;
+    if(tcpSocket->bytesAvailable()<(int)sizeof(MessageSize)){
+       // emit InvalidMessage();
+        return;
+    }
+    in>>bufferSize;
+    if(bufferSize>tcpSocket->bytesAvailable()){
+       // emit InvalidMessage();
+        return;
+    }
+    in>>type;
+    if(type==MessageType::NewParticipant){
+        in>>roomIDrcved;
+        if(roomIDrcved==room){   //验证是否是自己的聊天室
+            while(!in.atEnd()){     //接收已经在聊天室的用户名单
+                int ID;
+                in>>ID;
+                User *user=Widget::onlineUsers->searchByID(ID);
+                newParticipant(user,"之前");
+            }
+        }
+    }
 }

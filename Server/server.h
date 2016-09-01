@@ -5,6 +5,7 @@
 #include"global.h"
 #include"user.h"
 #include"userlist.h"
+#include "roomlist.h"
 class Server : public QTcpServer
 {
     Q_OBJECT
@@ -28,6 +29,7 @@ private:
     void HandleUserLogin(QDataStream &);
     void HandleNewPtcp(QDataStream &);
     void HandleCreateRoom(QDataStream &);
+    void HandlePtcpLeft(QDataStream &);
     User *LoginQuery(QMap<QString,QString>);
     bool RegisterQuery(QMap<QString,QString>,QString *);
     void Respond(MessageType::MessageType);

@@ -30,6 +30,8 @@ signals:
     void newPtcp(User *);
     void PtcpLeft(int);
     void newRoom(int,QString,int,int);
+    void UpdateUserNumber(int,int);
+    void DeleteRoom(int);
 public slots:
     void ReadMessage();
     void UDPReadMessage();

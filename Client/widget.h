@@ -7,7 +7,6 @@
 #include "userlist.h"
 #include<QtNetwork>
 #include<QTableWidget>
-class QtcpSocket;
 
 namespace Ui {
     class Widget;
@@ -33,7 +32,8 @@ private:
     QUdpSocket * udpSocket;
     qint16 port;
     User * Self;    //用户自己，在登录界面登录成功后分配内存空间并传递至主界面，之后一直存在，直到程序结束
-    UserList *onlineUsers;
+public:
+    static UserList *onlineUsers;
 private slots:
     void process(UserList *);
     void doubleClicked(QTableWidgetItem *);
@@ -41,6 +41,8 @@ private slots:
     void initialize(User *);
     void on_commandLinkButton_clicked();
     void roomdoubleClicked(QTableWidgetItem*);
+    void UpdateRoomInfo(int ,int);
+    void DeleteRoom(int);
 };
 
 #endif // WIDGET_H

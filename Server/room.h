@@ -13,6 +13,7 @@ public:
     void setID(int);
     void setName(QString);
     bool NewPtcp(User *);
+    bool PtcpLeft(int);
 private:
     int roomID;
     QString roomName;

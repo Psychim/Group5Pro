@@ -166,6 +166,26 @@ void ClientTcpSocket::UDPReadMessage(){
             break;
         case MessageType::CreateRoom:
             ReceiveNewRoom(in);
+        case MessageType::NewParticipant:
+        {
+            int room,size,ID;
+            in>>room>>size>>ID;
+            emit UpdateUserNumber(room,size);
+        }
+        case MessageType::ParticipantLeft:
+        {
+            int room,size,ID;
+            in>>room>>size>>ID;
+            emit UpdateUserNumber(room,size);
+        }
+        case MessageType::DeleteRoom:
+        {
+            int room;
+            in>>room;
+            emit DeleteRoom(room);
+        }
+        default:
+            break;
         }
     }
 }
