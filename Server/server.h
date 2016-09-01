@@ -19,12 +19,15 @@ private:
     QSqlDatabase db;
     QTcpSocket *ServerTcpSocket;
     UserList *OnlineUsers;
+    RoomList *ActiveRooms;
     QUdpSocket *ServerUdpSocket;
     int TCPPort;
     int UDPPort;
 private:
     void HandleUserRegister(QDataStream &);
     void HandleUserLogin(QDataStream &);
+    void HandleNewPtcp(QDataStream &);
+    void HandleCreateRoom(QDataStream &);
     User *LoginQuery(QMap<QString,QString>);
     bool RegisterQuery(QMap<QString,QString>,QString *);
     void Respond(MessageType::MessageType);

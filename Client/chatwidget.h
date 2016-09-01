@@ -18,7 +18,7 @@ class ChatWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit ChatWidget(QWidget *parent = 0,User *user = NULL);
+    explicit ChatWidget(QWidget *parent = 0,User *user = NULL,int roomID=-1);
     ~ChatWidget();
     void setSelf(User *);
     void setRoomNum(int);
@@ -64,7 +64,7 @@ private slots:
     void on_saveToolBtn_clicked();
     void on_clearToolBtn_clicked();
     void on_exitButton_clicked();
-    void BroadCastNewPtcp();
+    void NewPtcp();
 };
 
 #endif // CHATWIDGET_H

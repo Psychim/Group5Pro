@@ -15,6 +15,7 @@ public:
     QString getlocalIP();
     void ReceiveUserList(QDataStream &);
     void ReceiveUpdate(QDataStream &);
+    void ReceiveNewRoom(QDataStream &);
 signals:
     void LoginSuccess(User *);
     void LoginFailed(QString);
@@ -28,6 +29,7 @@ signals:
     void ULReceived(UserList *);
     void newPtcp(User *);
     void PtcpLeft(int);
+    void newRoom(int,QString,int,int);
 public slots:
     void ReadMessage();
     void UDPReadMessage();
@@ -37,10 +39,12 @@ public slots:
     void HandleSendFailed();
 private:
     QDataStream in;
-    static QString ServerHost;
     QUdpSocket *udpsocket;
-    int TCPPort;
-    int UDPPort;
+
+public:
+    static int TCPPort;
+    static int UDPPort;
+    static QString ServerHost;
 };
 
 #endif // CLIENTTCPSOCKET_H

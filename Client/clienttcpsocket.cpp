@@ -4,11 +4,11 @@
 #include<QMessageBox>
 #include "userlist.h"
 QString ClientTcpSocket::ServerHost="";
+int ClientTcpSocket::TCPPort=6666;
+int ClientTcpSocket::UDPPort=25252;
 ClientTcpSocket::ClientTcpSocket(QObject *parent) :
     QTcpSocket(parent)
 {
-    TCPPort=6666;
-    UDPPort=25252;
     in.setDevice(this);
     in.setVersion(VERSION);
     udpsocket=new QUdpSocket(this);
@@ -164,6 +164,8 @@ void ClientTcpSocket::UDPReadMessage(){
         case MessageType::UserStatusUpdate:
             ReceiveUpdate(in);
             break;
+        case MessageType::CreateRoom:
+            ReceiveNewRoom(in);
         }
     }
 }
@@ -195,6 +197,15 @@ void ClientTcpSocket::ReceiveUpdate(QDataStream &in){
         break;
     }
 
+}
+
+void ClientTcpSocket::ReceiveNewRoom(QDataStream &in)
+{
+    //out<<type<<房间ID<<房间名<<房间人数<<创建者ID
+    int roomID,size,userID;
+    QString roomName;
+    in>>roomID>>roomName>>size>>userID;
+    emit newRoom(roomID,roomName,size,userID);
 }
 
 

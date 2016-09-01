@@ -23,7 +23,7 @@ class Widget : public QWidget
 public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
-
+    void joinRoom(int );
 protected slots:
     void newParticipant(User *);
     void participantLeft(int Id);
@@ -32,13 +32,15 @@ private:
     ClientTcpSocket * tcpSocket;
     QUdpSocket * udpSocket;
     qint16 port;
-    User * Self;    //用户自己，在登录界面登录成功后分配内存空间并传递至主界面
+    User * Self;    //用户自己，在登录界面登录成功后分配内存空间并传递至主界面，之后一直存在，直到程序结束
     UserList *onlineUsers;
 private slots:
     void process(UserList *);
     void doubleClicked(QTableWidgetItem *);
+    void HandlenewRoom(int,QString,int,int);
     void initialize(User *);
     void on_commandLinkButton_clicked();
+    void roomdoubleClicked(QTableWidgetItem*);
 };
 
 #endif // WIDGET_H

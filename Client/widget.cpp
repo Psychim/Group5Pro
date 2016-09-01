@@ -7,7 +7,8 @@
 #include <QDateTime>
 #include <QNetworkInterface>
 #include <QProcess>
-#include <global.h>
+#include <QInputDialog>
+#include "global.h"
 #include"widget_p2p.h"
 #include "chatwidget.h"
 Widget::Widget(QWidget *parent) :
@@ -16,6 +17,7 @@ Widget::Widget(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->userTableWidget,SIGNAL(itemDoubleClicked(QTableWidgetItem*)),this,SLOT(doubleClicked(QTableWidgetItem*)));
+    connect(ui->roomtableWidget,SIGNAL(itemDoubleClicked(QTableWidgetItem*)),this,SLOT(roomdoubleClicked(QTableWidgetItem*)));
     Self=NULL;
 }
 Widget::~Widget(){
@@ -84,6 +86,7 @@ void Widget::initialize(User * user)
     connect(tcpSocket,SIGNAL(ULReceived(UserList*)),this,SLOT(process(UserList*)));
     connect(tcpSocket,SIGNAL(newPtcp(User*)),this,SLOT(newParticipant(User*)));
     connect(tcpSocket,SIGNAL(PtcpLeft(int)),this,SLOT(participantLeft(int)));
+    connect(tcpSocket,SIGNAL(newRoom(int,QString,int,int)),this,SLOT(HandlenewRoom(int,QString,int,int)));
     Self=user;
     Self->setParent(this);
     ui->nickname->setText(Self->getNickname());
@@ -100,7 +103,47 @@ void Widget::initialize(User * user)
 
 void Widget::on_commandLinkButton_clicked()
 {
-    ChatWidget * Chatroom=new ChatWidget(this);
-    Chatroom->setSelf(Self);
-    Chatroom->show();
+    QString roomName;
+    if((roomName=QInputDialog::getText(this,tr("请输入房间名称"),tr("房间名称")))=="")
+        return;
+    QByteArray buffer;
+    QDataStream out(&buffer,QIODevice::WriteOnly);
+    out<<(MessageSize)0;
+    out<<MessageType::CreateRoom;
+    out<<Self->getID()<<roomName;
+    out.device()->seek(0);
+    out<<(MessageSize)(buffer.size()-sizeof(MessageSize));
+    tcpSocket->write(buffer);
+    tcpSocket->waitForBytesWritten();
+}
+
+void Widget::HandlenewRoom(int roomID, QString roomName, int size, int userID)
+{
+    QTableWidgetItem *roomID_itm=new QTableWidgetItem(QString::number(roomID));
+    QTableWidgetItem *roomName_itm=new QTableWidgetItem(roomName);
+    QTableWidgetItem *size_itm=new QTableWidgetItem(QString::number(size));
+    roomID_itm->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+    roomName_itm->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+    size_itm->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+    ui->roomtableWidget->insertRow(0);
+    ui->roomTableWidget->setItem(0,0,roomID_itm);
+    ui->roomTableWidget->setItem(0,1,roomName_itm);
+    ui->roomTableWidget->setItem(0,1,size_itm);
+    ui->roomTableWidget->sortByColumn(0,Qt::AscendingOrder);
+    if(userID==Self->getID())
+        joinRoom(roomID);
+}
+
+void Widget::roomdoubleClicked(QTableWidgetItem *,item)
+{
+    int row=item->row();
+    QTableWidgetItem * itm_ID=ui->userTableWidget->item(row,0);
+    int ID=itm_ID->text().toInt();
+    joinRoom(ID);
+}
+
+void Widget::joinRoom(int ID)
+{
+    ChatWidget *w=new ChatWidget(this,Self,ID);
+    w->show();
 }

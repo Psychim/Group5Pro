@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'chatwidget.ui'
 **
-** Created: Wed Aug 31 22:36:30 2016
+** Created: Thu Sep 1 10:15:08 2016
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -52,7 +52,7 @@ public:
     {
         if (ChatWidget->objectName().isEmpty())
             ChatWidget->setObjectName(QString::fromUtf8("ChatWidget"));
-        ChatWidget->resize(800, 450);
+        ChatWidget->resize(751, 450);
         gridLayout = new QGridLayout(ChatWidget);
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
@@ -63,15 +63,18 @@ public:
         gridLayout->addWidget(messageBrowser, 0, 0, 1, 9);
 
         userTableWidget = new QTableWidget(ChatWidget);
-        if (userTableWidget->columnCount() < 3)
-            userTableWidget->setColumnCount(3);
+        if (userTableWidget->columnCount() < 2)
+            userTableWidget->setColumnCount(2);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
         userTableWidget->setHorizontalHeaderItem(0, __qtablewidgetitem);
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
         userTableWidget->setHorizontalHeaderItem(1, __qtablewidgetitem1);
-        QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
-        userTableWidget->setHorizontalHeaderItem(2, __qtablewidgetitem2);
         userTableWidget->setObjectName(QString::fromUtf8("userTableWidget"));
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(userTableWidget->sizePolicy().hasHeightForWidth());
+        userTableWidget->setSizePolicy(sizePolicy);
         userTableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
         userTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
         userTableWidget->setShowGrid(false);
@@ -209,8 +212,6 @@ public:
         ___qtablewidgetitem->setText(QApplication::translate("ChatWidget", "ID", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem1 = userTableWidget->horizontalHeaderItem(1);
         ___qtablewidgetitem1->setText(QApplication::translate("ChatWidget", "\346\230\265\347\247\260", 0, QApplication::UnicodeUTF8));
-        QTableWidgetItem *___qtablewidgetitem2 = userTableWidget->horizontalHeaderItem(2);
-        ___qtablewidgetitem2->setText(QApplication::translate("ChatWidget", "IP\345\234\260\345\235\200", 0, QApplication::UnicodeUTF8));
         sizeComboBox->clear();
         sizeComboBox->insertItems(0, QStringList()
          << QApplication::translate("ChatWidget", "9", 0, QApplication::UnicodeUTF8)

@@ -9,6 +9,7 @@
 #include<QSqlError>
 #include<QSqlResult>
 #include"userlist.h"
+#include"roomlist.h"
 Server::Server(QObject *parent) :
     QTcpServer(parent)
 {
@@ -16,6 +17,7 @@ Server::Server(QObject *parent) :
     db.setDatabaseName("MainDB.db");
     ServerTcpSocket=NULL;
     OnlineUsers=new UserList(this);
+    ActiveRooms=new RoomList(this);
     ServerUdpSocket=new QUdpSocket(this);
     TCPPort=6666;
     UDPPort=25252;
@@ -24,6 +26,7 @@ Server::Server(QObject *parent) :
     connect(this,SIGNAL(UserStatusUpdate(User*)),this,SLOT(StatusBroadcast(User*)));
     connect(ServerTcpSocket,SIGNAL(disconnected()),ServerTcpSocket,SLOT(deleteLater()));
 }
+//查询正在登录的用户
 User * Server::LoginQuery(QMap<QString,QString> Info){
     if(!db.isOpen())
         return NULL;
@@ -45,7 +48,7 @@ User * Server::LoginQuery(QMap<QString,QString> Info){
     else
         return NULL;
 }
-
+//处理用户登录
 void Server::HandleUserLogin(QDataStream &in){
     QByteArray buffer;
     QDataStream out(&buffer,QIODevice::WriteOnly);
@@ -131,10 +134,18 @@ void Server::TcpReadMessage(){
     case MessageType::UserList:
         Respond(MessageType::UserList);
         break;
+    case MessageType::NewParticipant:
+        HandleNewPtcp(in);
+        break;
+    case MessageType::CreateRoom:
+        HandleCreateRoom(in);
+        break;
     case MessageType::UserStatusUpdate:
         int change;
         in>>change;
         switch(change){
+        //case User::Online: 用户上线会在处理登录部分进行处理
+
         case User::Offline:
         {
             int tmp_ID;
@@ -154,7 +165,7 @@ void Server::TcpReadMessage(){
         emit InvalidMessage();
     }
 }
-
+//处理用户注册
 void Server::HandleUserRegister(QDataStream &in)
 {
     QMap<QString,QString> userdata;
@@ -190,7 +201,7 @@ void Server::HandleUserRegister(QDataStream &in)
     out<<(MessageSize)(buffer.size()-sizeof(MessageSize));
     ServerTcpSocket->write(buffer);
 }
-
+//将新用户信息添加进数据库
 bool Server::RegisterQuery(QMap<QString, QString>Info,QString *errorinfo)
 {
     if(!db.isOpen())
@@ -226,7 +237,7 @@ void Server::Query(QString statement)
     query.exec(statement);
     qDebug()<<query.lastError();
 }
-
+//不需要在服务端处理数据的消息类型使用该函数回应消息
 void Server::Respond(MessageType::MessageType type)
 {
     QByteArray buffer;
@@ -257,7 +268,7 @@ void Server::HandleInvalidMessage()
 {
     Respond(MessageType::InvalidMessage);
 }
-
+//任意用户状态改变时进行广播
 void Server::StatusBroadcast(User *user)
 {
     QByteArray buffer;
@@ -275,6 +286,7 @@ void Server::StatusBroadcast(User *user)
     }
     ServerUdpSocket->writeDatagram(buffer,QHostAddress::Broadcast,25252);
 }
+//服务器初始化
 void Server::Init()
 {
     if(!listen(QHostAddress::Any,TCPPort)){
@@ -319,7 +331,7 @@ void Server::UdpReadMessage()
         }
     }
 }
-
+//获取本机IP
 QString Server::getlocalIP()
 {
     QList<QHostAddress> list = QNetworkInterface::allAddresses();
@@ -336,7 +348,7 @@ QString Server::getlocalIP()
     }
     return "";
 }
-
+//终止服务器的运行
 void Server::Stop()
 {
     close();
@@ -344,4 +356,29 @@ void Server::Stop()
     ServerUdpSocket->abort();
     if(ServerTcpSocket!=NULL)
         ServerTcpSocket->abort();
+}
+
+void Server::HandleNewPtcp(QDataStream &in)
+{
+    int roomID;
+    int ID;
+    in>>roomID>>ID;
+    Room *room=ActiveRooms->searchByID(roomID);
+    User *user=OnlineUsers->searchByID(ID);
+    room->NewPtcp(user);
+    QByteArray buffer;
+    QDataStream
+}
+//接收创建者ID和房间名，创建新聊天室，并广播聊天室信息和创建者ID
+void Server::HandleCreateRoom(QDataStream & in)
+{
+    int ID;
+    QString roomName;
+    in>>ID>>roomName;
+    Room *room=ActiveRooms->NewRoom(roomName);
+    QByteArray buffer;
+    QDataStream out(&buffer,QIODevice::WriteOnly);
+    out<<MessageType::CreateRoom;
+    out<<room->getID()<<room->getName()<<room->ChattingUsers.size()<<ID;
+    ServerUdpSocket->writeDatagram(buffer,QHostAddress::Broadcast,UDPPort);
 }

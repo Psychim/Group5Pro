@@ -21,7 +21,7 @@ Widget_p2p::Widget_p2p(QWidget *parent) :
     setWindowFlags(Qt::Window);
     ui->setupUi(this);
     Partner=new User(this);
-    Self=new User(this);
+    Self=NULL;
     udpSocket = new QUdpSocket(this);
        port = 25253;
        if(!udpSocket->bind(port, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint)){
@@ -377,8 +377,5 @@ void Widget_p2p::setPartner(User *user)
 
 void Widget_p2p::setSelf(User *user)
 {
-    Self->setID(user->getID());
-    Self->setIpAddress(user->getIpAddress());
-    Self->setNickname(user->getNickname());
-    Self->setStatus(user->getStatus());
+    Self=user;
 }

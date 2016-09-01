@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'chatwidget.h'
 **
-** Created: Wed Aug 31 22:47:01 2016
+** Created: Thu Sep 1 10:15:37 2016
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -67,7 +67,7 @@ static const char qt_meta_stringdata_ChatWidget[] = {
     "currentFormatChanged(QTextCharFormat)\0"
     "on_saveToolBtn_clicked()\0"
     "on_clearToolBtn_clicked()\0"
-    "on_exitButton_clicked()\0BroadCastNewPtcp()\0"
+    "on_exitButton_clicked()\0NewPtcp()\0"
 };
 
 const QMetaObject ChatWidget::staticMetaObject = {
@@ -114,7 +114,7 @@ int ChatWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 12: on_saveToolBtn_clicked(); break;
         case 13: on_clearToolBtn_clicked(); break;
         case 14: on_exitButton_clicked(); break;
-        case 15: BroadCastNewPtcp(); break;
+        case 15: NewPtcp(); break;
         default: ;
         }
         _id -= 16;

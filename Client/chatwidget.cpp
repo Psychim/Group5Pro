@@ -2,8 +2,9 @@
 #include "ui_chatwidget.h"
 #include"tcpserver.h"
 #include"tcpclient.h"
+#include "clienttcpsocket.h"
 #include<QFileDialog>
-#include<QUdpSocket>
+#include<QtNetwork>
 #include<QHostInfo>
 #include<QMessageBox>
 #include<QScrollBar>
@@ -14,7 +15,7 @@
 #include<QColorDialog>
 
 
-ChatWidget::ChatWidget(QWidget *parent,User *user) :
+ChatWidget::ChatWidget(QWidget *parent,User *user,int roomID) :
     QWidget(parent),
     ui(new Ui::ChatWidget)
 {
@@ -22,15 +23,15 @@ ChatWidget::ChatWidget(QWidget *parent,User *user) :
     ui->setupUi(this);
     udpSocket=new QUdpSocket(this);
     server=new TcpServer(this);
-    Self=new User(this);
-
+    Self=NULL;
     ChattingUsers = new UserList(this);
     port=25254;
+    room=roomID;
     udpSocket->bind(port,QUdpSocket::ShareAddress|QUdpSocket::ReuseAddressHint);
     connect(udpSocket,SIGNAL(readyRead()),this,SLOT(processPendingDatagrams()));
     connect(server,SIGNAL(sendFileName(QString)),this,SLOT(getFileName(QString)));
     connect(ui->messageTextEdit,SIGNAL(currentCharFormatChanged(QTextCharFormat)),this,SLOT(currentFormatChanged(QTextCharFormat)));
-    connect(this,SIGNAL(Selfsetted()),this,SLOT(BroadCastNewPtcp()));
+    connect(this,SIGNAL(Selfsetted()),this,SLOT(NewPtcp()));
     if(user){
         setSelf(user);
         emit Selfsetted();
@@ -203,7 +204,7 @@ void ChatWidget::hasPendingFile(int ID,QString nickName,QString serverAddress,QS
             QString name=QFileDialog::getSaveFileName(0,tr("保存文件"),fileName);
             if(!name.isEmpty())
             {
-                TcpClient* client=new TcpClient(this);
+                static TcpClient* client=new TcpClient(this);
                 client->setFileName(name);
                 client->setHostAddress(QHostAddress(serverAddress));
                 client->show();
@@ -356,14 +357,27 @@ void ChatWidget::setRoomNum(int num)
 
 void ChatWidget::setSelf(User *user)
 {
-    Self->setID(user->getID());
-    Self->setNickname(user->getNickname());
-    Self->setIpAddress(user->getIpAddress());
-    Self->setStatus(user->getStatus());
+    Self=user;
     emit Selfsetted();
 }
 
-void ChatWidget::BroadCastNewPtcp()
+void ChatWidget::NewPtcp()
 {
-    sendMessage(MessageType::NewParticipant);
+    static QTcpSocket *tcpSocket=new QTcpSocket(this);
+    tcpSocket->connectToHost(ClientTcpSocket::ServerHost,ClientTcpSocket::TCPPort);
+    if(!tcpSocket->waitForConnected()){
+        QMessageBox::warning(this,tr("连接超时"),tr("连接服务器超时"));
+        return;
+    }
+    QByteArray buffer;
+    QDataStream out(&buffer,QIODevice::WriteOnly);
+    out<<(MessageSize)0;
+    out<<MessageType::NewParticipant;
+    out<<room<<Self->getID();
+    out.device()->seek(0);
+    out<<(MessageSize)(buffer.size()-sizeof(MessageSize));
+    tcpSocket->write(buffer);
+    tcpSocket->waitForBytesWritten();
+    tcpSocket->waitForReadyRead();
+
 }

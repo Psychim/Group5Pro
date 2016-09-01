@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>751</width>
     <height>450</height>
    </rect>
   </property>
@@ -19,6 +19,12 @@
    </item>
    <item row="0" column="9" rowspan="3">
     <widget class="QTableWidget" name="userTableWidget">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="selectionMode">
       <enum>QAbstractItemView::SingleSelection</enum>
      </property>
@@ -36,11 +42,6 @@
      <column>
       <property name="text">
        <string>昵称</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>IP地址</string>
       </property>
      </column>
     </widget>
