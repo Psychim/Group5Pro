@@ -106,8 +106,8 @@
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>../chat/images/bold.png</normaloff>../chat/images/bold.png</iconset>
+      <iconset resource="IconSources.qrc">
+       <normaloff>:/new/icon/images/bold.png</normaloff>:/new/icon/images/bold.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -132,8 +132,8 @@
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>../chat/images/italic.png</normaloff>../chat/images/italic.png</iconset>
+      <iconset resource="IconSources.qrc">
+       <normaloff>:/new/icon/images/italic.png</normaloff>:/new/icon/images/italic.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -158,8 +158,8 @@
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>../chat/images/under.png</normaloff>../chat/images/under.png</iconset>
+      <iconset resource="IconSources.qrc">
+       <normaloff>:/new/icon/images/under.png</normaloff>:/new/icon/images/under.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -184,8 +184,8 @@
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>../chat/images/color.png</normaloff>../chat/images/color.png</iconset>
+      <iconset resource="IconSources.qrc">
+       <normaloff>:/new/icon/images/color.png</normaloff>:/new/icon/images/color.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -207,8 +207,8 @@
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>../chat/images/send.png</normaloff>../chat/images/send.png</iconset>
+      <iconset resource="IconSources.qrc">
+       <normaloff>:/new/icon/images/send.png</normaloff>:/new/icon/images/send.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -230,8 +230,8 @@
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>../chat/images/save.png</normaloff>../chat/images/save.png</iconset>
+      <iconset resource="IconSources.qrc">
+       <normaloff>:/new/icon/images/save.png</normaloff>:/new/icon/images/save.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -315,6 +315,8 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="IconSources.qrc"/>
+ </resources>
  <connections/>
 </ui>

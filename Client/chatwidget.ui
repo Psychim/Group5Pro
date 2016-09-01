@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>751</width>
+    <width>801</width>
     <height>450</height>
    </rect>
   </property>
@@ -103,8 +103,8 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>images/bold.png</normaloff>images/bold.png</iconset>
+      <iconset resource="IconSources.qrc">
+       <normaloff>:/new/icon/images/bold.png</normaloff>:/new/icon/images/bold.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -129,8 +129,8 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>images/italic.png</normaloff>images/italic.png</iconset>
+      <iconset resource="IconSources.qrc">
+       <normaloff>:/new/icon/images/italic.png</normaloff>:/new/icon/images/italic.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -155,8 +155,8 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>images/under.png</normaloff>images/under.png</iconset>
+      <iconset resource="IconSources.qrc">
+       <normaloff>:/new/icon/images/under.png</normaloff>:/new/icon/images/under.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -181,8 +181,8 @@
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>images/color.png</normaloff>images/color.png</iconset>
+      <iconset resource="IconSources.qrc">
+       <normaloff>:/new/icon/images/color.png</normaloff>:/new/icon/images/color.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -204,8 +204,8 @@
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>images/send.png</normaloff>images/send.png</iconset>
+      <iconset resource="IconSources.qrc">
+       <normaloff>:/new/icon/images/send.png</normaloff>:/new/icon/images/send.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -227,8 +227,8 @@
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>images/save.png</normaloff>images/save.png</iconset>
+      <iconset resource="IconSources.qrc">
+       <normaloff>:/new/icon/images/save.png</normaloff>:/new/icon/images/save.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -250,8 +250,8 @@
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>images/clear.png</normaloff>images/clear.png</iconset>
+      <iconset resource="IconSources.qrc">
+       <normaloff>:/new/icon/images/clear.png</normaloff>:/new/icon/images/clear.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -305,6 +305,8 @@
   <tabstop>clearToolBtn</tabstop>
   <tabstop>messageTextEdit</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="IconSources.qrc"/>
+ </resources>
  <connections/>
 </ui>

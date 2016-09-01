@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget_p2p.ui'
 **
-** Created: Wed Aug 31 16:37:00 2016
+** Created: Thu Sep 1 23:09:47 2016
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -76,7 +76,7 @@ public:
         boldToolBtn = new QToolButton(Widget_p2p);
         boldToolBtn->setObjectName(QString::fromUtf8("boldToolBtn"));
         QIcon icon;
-        icon.addFile(QString::fromUtf8("../chat/images/bold.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QString::fromUtf8(":/new/icon/images/bold.png"), QSize(), QIcon::Normal, QIcon::Off);
         boldToolBtn->setIcon(icon);
         boldToolBtn->setIconSize(QSize(22, 22));
         boldToolBtn->setCheckable(true);
@@ -87,7 +87,7 @@ public:
         italicToolBtn = new QToolButton(Widget_p2p);
         italicToolBtn->setObjectName(QString::fromUtf8("italicToolBtn"));
         QIcon icon1;
-        icon1.addFile(QString::fromUtf8("../chat/images/italic.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon1.addFile(QString::fromUtf8(":/new/icon/images/italic.png"), QSize(), QIcon::Normal, QIcon::Off);
         italicToolBtn->setIcon(icon1);
         italicToolBtn->setIconSize(QSize(22, 22));
         italicToolBtn->setCheckable(true);
@@ -98,7 +98,7 @@ public:
         underlineToolBtn = new QToolButton(Widget_p2p);
         underlineToolBtn->setObjectName(QString::fromUtf8("underlineToolBtn"));
         QIcon icon2;
-        icon2.addFile(QString::fromUtf8("../chat/images/under.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon2.addFile(QString::fromUtf8(":/new/icon/images/under.png"), QSize(), QIcon::Normal, QIcon::Off);
         underlineToolBtn->setIcon(icon2);
         underlineToolBtn->setIconSize(QSize(22, 22));
         underlineToolBtn->setCheckable(true);
@@ -109,7 +109,7 @@ public:
         colorToolBtn = new QToolButton(Widget_p2p);
         colorToolBtn->setObjectName(QString::fromUtf8("colorToolBtn"));
         QIcon icon3;
-        icon3.addFile(QString::fromUtf8("../chat/images/color.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon3.addFile(QString::fromUtf8(":/new/icon/images/color.png"), QSize(), QIcon::Normal, QIcon::Off);
         colorToolBtn->setIcon(icon3);
         colorToolBtn->setIconSize(QSize(22, 22));
         colorToolBtn->setAutoRaise(true);
@@ -119,7 +119,7 @@ public:
         sendToolBtn = new QToolButton(Widget_p2p);
         sendToolBtn->setObjectName(QString::fromUtf8("sendToolBtn"));
         QIcon icon4;
-        icon4.addFile(QString::fromUtf8("../chat/images/send.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon4.addFile(QString::fromUtf8(":/new/icon/images/send.png"), QSize(), QIcon::Normal, QIcon::Off);
         sendToolBtn->setIcon(icon4);
         sendToolBtn->setIconSize(QSize(22, 22));
         sendToolBtn->setAutoRaise(true);
@@ -129,7 +129,7 @@ public:
         saveToolBtn = new QToolButton(Widget_p2p);
         saveToolBtn->setObjectName(QString::fromUtf8("saveToolBtn"));
         QIcon icon5;
-        icon5.addFile(QString::fromUtf8("../chat/images/save.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon5.addFile(QString::fromUtf8(":/new/icon/images/save.png"), QSize(), QIcon::Normal, QIcon::Off);
         saveToolBtn->setIcon(icon5);
         saveToolBtn->setIconSize(QSize(22, 22));
         saveToolBtn->setAutoRaise(true);

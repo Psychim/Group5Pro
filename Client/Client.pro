@@ -36,3 +36,6 @@ FORMS += \
     registerdialog.ui \
     logindialog.ui \
     chatwidget.ui
+
+RESOURCES += \
+    IconSources.qrc

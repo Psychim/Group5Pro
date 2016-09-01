@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'chatwidget.ui'
 **
-** Created: Thu Sep 1 10:15:08 2016
+** Created: Thu Sep 1 23:12:32 2016
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -52,7 +52,7 @@ public:
     {
         if (ChatWidget->objectName().isEmpty())
             ChatWidget->setObjectName(QString::fromUtf8("ChatWidget"));
-        ChatWidget->resize(751, 450);
+        ChatWidget->resize(801, 450);
         gridLayout = new QGridLayout(ChatWidget);
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
@@ -95,7 +95,7 @@ public:
         boldToolBtn->setObjectName(QString::fromUtf8("boldToolBtn"));
         boldToolBtn->setEnabled(false);
         QIcon icon;
-        icon.addFile(QString::fromUtf8("images/bold.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QString::fromUtf8(":/new/icon/images/bold.png"), QSize(), QIcon::Normal, QIcon::Off);
         boldToolBtn->setIcon(icon);
         boldToolBtn->setIconSize(QSize(22, 22));
         boldToolBtn->setCheckable(true);
@@ -106,7 +106,7 @@ public:
         italicToolBtn = new QToolButton(ChatWidget);
         italicToolBtn->setObjectName(QString::fromUtf8("italicToolBtn"));
         QIcon icon1;
-        icon1.addFile(QString::fromUtf8("images/italic.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon1.addFile(QString::fromUtf8(":/new/icon/images/italic.png"), QSize(), QIcon::Normal, QIcon::Off);
         italicToolBtn->setIcon(icon1);
         italicToolBtn->setIconSize(QSize(22, 22));
         italicToolBtn->setCheckable(true);
@@ -117,7 +117,7 @@ public:
         underlineToolBtn = new QToolButton(ChatWidget);
         underlineToolBtn->setObjectName(QString::fromUtf8("underlineToolBtn"));
         QIcon icon2;
-        icon2.addFile(QString::fromUtf8("images/under.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon2.addFile(QString::fromUtf8(":/new/icon/images/under.png"), QSize(), QIcon::Normal, QIcon::Off);
         underlineToolBtn->setIcon(icon2);
         underlineToolBtn->setIconSize(QSize(22, 22));
         underlineToolBtn->setCheckable(true);
@@ -128,7 +128,7 @@ public:
         colorToolBtn = new QToolButton(ChatWidget);
         colorToolBtn->setObjectName(QString::fromUtf8("colorToolBtn"));
         QIcon icon3;
-        icon3.addFile(QString::fromUtf8("images/color.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon3.addFile(QString::fromUtf8(":/new/icon/images/color.png"), QSize(), QIcon::Normal, QIcon::Off);
         colorToolBtn->setIcon(icon3);
         colorToolBtn->setIconSize(QSize(22, 22));
         colorToolBtn->setAutoRaise(true);
@@ -138,7 +138,7 @@ public:
         sendToolBtn = new QToolButton(ChatWidget);
         sendToolBtn->setObjectName(QString::fromUtf8("sendToolBtn"));
         QIcon icon4;
-        icon4.addFile(QString::fromUtf8("images/send.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon4.addFile(QString::fromUtf8(":/new/icon/images/send.png"), QSize(), QIcon::Normal, QIcon::Off);
         sendToolBtn->setIcon(icon4);
         sendToolBtn->setIconSize(QSize(22, 22));
         sendToolBtn->setAutoRaise(true);
@@ -148,7 +148,7 @@ public:
         saveToolBtn = new QToolButton(ChatWidget);
         saveToolBtn->setObjectName(QString::fromUtf8("saveToolBtn"));
         QIcon icon5;
-        icon5.addFile(QString::fromUtf8("images/save.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon5.addFile(QString::fromUtf8(":/new/icon/images/save.png"), QSize(), QIcon::Normal, QIcon::Off);
         saveToolBtn->setIcon(icon5);
         saveToolBtn->setIconSize(QSize(22, 22));
         saveToolBtn->setAutoRaise(true);
@@ -158,7 +158,7 @@ public:
         clearToolBtn = new QToolButton(ChatWidget);
         clearToolBtn->setObjectName(QString::fromUtf8("clearToolBtn"));
         QIcon icon6;
-        icon6.addFile(QString::fromUtf8("images/clear.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon6.addFile(QString::fromUtf8(":/new/icon/images/clear.png"), QSize(), QIcon::Normal, QIcon::Off);
         clearToolBtn->setIcon(icon6);
         clearToolBtn->setIconSize(QSize(22, 22));
         clearToolBtn->setAutoRaise(true);

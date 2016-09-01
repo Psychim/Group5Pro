@@ -20,4 +20,5 @@ INPUT(
 ./debug\moc_logindialog.o
 ./debug\moc_clienttcpsocket.o
 ./debug\moc_chatwidget.o
+./debug\qrc_IconSources.o
 );
