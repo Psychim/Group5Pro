@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget.ui'
 **
-** Created: Thu Sep 1 21:46:30 2016
+** Created: Thu Sep 1 22:55:02 2016
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -87,12 +87,14 @@ public:
         verticalLayout_3->setContentsMargins(11, 11, 11, 11);
         verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
         userTableWidget = new QTableWidget(tab);
-        if (userTableWidget->columnCount() < 2)
-            userTableWidget->setColumnCount(2);
+        if (userTableWidget->columnCount() < 3)
+            userTableWidget->setColumnCount(3);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
         userTableWidget->setHorizontalHeaderItem(0, __qtablewidgetitem);
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
         userTableWidget->setHorizontalHeaderItem(1, __qtablewidgetitem1);
+        QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
+        userTableWidget->setHorizontalHeaderItem(2, __qtablewidgetitem2);
         userTableWidget->setObjectName(QString::fromUtf8("userTableWidget"));
         userTableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
         userTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -120,12 +122,12 @@ public:
         roomtableWidget = new QTableWidget(tab_2);
         if (roomtableWidget->columnCount() < 3)
             roomtableWidget->setColumnCount(3);
-        QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
-        roomtableWidget->setHorizontalHeaderItem(0, __qtablewidgetitem2);
         QTableWidgetItem *__qtablewidgetitem3 = new QTableWidgetItem();
-        roomtableWidget->setHorizontalHeaderItem(1, __qtablewidgetitem3);
+        roomtableWidget->setHorizontalHeaderItem(0, __qtablewidgetitem3);
         QTableWidgetItem *__qtablewidgetitem4 = new QTableWidgetItem();
-        roomtableWidget->setHorizontalHeaderItem(2, __qtablewidgetitem4);
+        roomtableWidget->setHorizontalHeaderItem(1, __qtablewidgetitem4);
+        QTableWidgetItem *__qtablewidgetitem5 = new QTableWidgetItem();
+        roomtableWidget->setHorizontalHeaderItem(2, __qtablewidgetitem5);
         roomtableWidget->setObjectName(QString::fromUtf8("roomtableWidget"));
 
         verticalLayout->addWidget(roomtableWidget);
@@ -155,14 +157,16 @@ public:
         ___qtablewidgetitem->setText(QApplication::translate("Widget", "ID", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem1 = userTableWidget->horizontalHeaderItem(1);
         ___qtablewidgetitem1->setText(QApplication::translate("Widget", "\347\224\250\346\210\267\345\220\215", 0, QApplication::UnicodeUTF8));
+        QTableWidgetItem *___qtablewidgetitem2 = userTableWidget->horizontalHeaderItem(2);
+        ___qtablewidgetitem2->setText(QApplication::translate("Widget", "\346\266\210\346\201\257\346\217\220\351\206\222", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("Widget", "\345\234\250\347\272\277\347\224\250\346\210\267", 0, QApplication::UnicodeUTF8));
         commandLinkButton->setText(QApplication::translate("Widget", "\346\226\260\345\273\272\346\210\277\351\227\264", 0, QApplication::UnicodeUTF8));
-        QTableWidgetItem *___qtablewidgetitem2 = roomtableWidget->horizontalHeaderItem(0);
-        ___qtablewidgetitem2->setText(QApplication::translate("Widget", "\346\210\277\351\227\264\345\217\267", 0, QApplication::UnicodeUTF8));
-        QTableWidgetItem *___qtablewidgetitem3 = roomtableWidget->horizontalHeaderItem(1);
-        ___qtablewidgetitem3->setText(QApplication::translate("Widget", "\346\210\277\351\227\264\345\220\215", 0, QApplication::UnicodeUTF8));
-        QTableWidgetItem *___qtablewidgetitem4 = roomtableWidget->horizontalHeaderItem(2);
-        ___qtablewidgetitem4->setText(QApplication::translate("Widget", "\344\272\272\346\225\260", 0, QApplication::UnicodeUTF8));
+        QTableWidgetItem *___qtablewidgetitem3 = roomtableWidget->horizontalHeaderItem(0);
+        ___qtablewidgetitem3->setText(QApplication::translate("Widget", "\346\210\277\351\227\264\345\217\267", 0, QApplication::UnicodeUTF8));
+        QTableWidgetItem *___qtablewidgetitem4 = roomtableWidget->horizontalHeaderItem(1);
+        ___qtablewidgetitem4->setText(QApplication::translate("Widget", "\346\210\277\351\227\264\345\220\215", 0, QApplication::UnicodeUTF8));
+        QTableWidgetItem *___qtablewidgetitem5 = roomtableWidget->horizontalHeaderItem(2);
+        ___qtablewidgetitem5->setText(QApplication::translate("Widget", "\344\272\272\346\225\260", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("Widget", "\347\276\244\350\201\212", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 

@@ -262,6 +262,11 @@ void Server::Respond(MessageType::MessageType type,QString str)
             out<<tmp->getID()<<tmp->getNickname()<<tmp->getIpAddress();
             out<<tmp->getStatus();
         }
+        out<<ActiveRooms->size();
+        for(int i=0;i<ActiveRooms->size();i++){
+            Room *tmp= (*ActiveRooms)[i];
+            out<<tmp->getID()<<tmp->getName()<<tmp->ChattingUsers.size();
+        }
         break;
     default:
         return;

@@ -26,6 +26,7 @@ public:
     void setPartnerNickname(QString);
     void readMessage(QByteArray);
     void setSelf(User *);
+    int getPartnerID();
 protected:
     //void newParticipant(QString userName,QString localHostName,QString ipAddress);
     void participantLeft(QString userName,QString time);
@@ -36,7 +37,7 @@ protected:
 
     //QString getUserName();
     QString getMessage();
-
+    void showEvent(QShowEvent *);
 private:
     Ui::Widget_p2p *ui;
     QUdpSocket* udpSocket;
@@ -46,6 +47,11 @@ private:
     QColor color;
     User * Partner;
     User * Self;
+    int MsgNotRcved;
+    bool isOpen;
+signals:
+    void newMessage(int,int);
+    void closed(Widget_p2p*);
 private slots:
     void processPendingDatagrams();
     void on_sendButton_clicked();

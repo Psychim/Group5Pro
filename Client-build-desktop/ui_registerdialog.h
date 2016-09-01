@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'registerdialog.ui'
 **
-** Created: Wed Aug 31 16:37:00 2016
+** Created: Thu Sep 1 22:05:35 2016
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -45,7 +45,7 @@ public:
     {
         if (RegisterDialog->objectName().isEmpty())
             RegisterDialog->setObjectName(QString::fromUtf8("RegisterDialog"));
-        RegisterDialog->resize(182, 167);
+        RegisterDialog->resize(182, 173);
         formLayout = new QFormLayout(RegisterDialog);
         formLayout->setObjectName(QString::fromUtf8("formLayout"));
         UsernameLineEdit = new QLineEdit(RegisterDialog);
@@ -133,7 +133,7 @@ public:
 
     void retranslateUi(QDialog *RegisterDialog)
     {
-        RegisterDialog->setWindowTitle(QApplication::translate("RegisterDialog", "Dialog", 0, QApplication::UnicodeUTF8));
+        RegisterDialog->setWindowTitle(QApplication::translate("RegisterDialog", "\346\263\250\345\206\214", 0, QApplication::UnicodeUTF8));
         NicknameLabel->setText(QApplication::translate("RegisterDialog", "\346\230\265\347\247\260", 0, QApplication::UnicodeUTF8));
         PasswordLabel->setText(QApplication::translate("RegisterDialog", "\345\257\206\347\240\201", 0, QApplication::UnicodeUTF8));
         PasswordCheckLabel->setText(QApplication::translate("RegisterDialog", "\345\257\206\347\240\201\351\252\214\350\257\201", 0, QApplication::UnicodeUTF8));

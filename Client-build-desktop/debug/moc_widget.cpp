@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'widget.h'
 **
-** Created: Thu Sep 1 21:47:40 2016
+** Created: Thu Sep 1 22:52:03 2016
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_Widget[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-      10,   14, // methods
+      12,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -41,6 +41,8 @@ static const uint qt_meta_data_Widget[] = {
      194,    7,    7,    7, 0x08,
      233,  231,    7,    7, 0x08,
      257,    7,    7,    7, 0x08,
+     273,  231,    7,    7, 0x08,
+     291,    7,    7,    7, 0x08,
 
        0        // eod
 };
@@ -53,6 +55,7 @@ static const char qt_meta_stringdata_Widget[] = {
     "initialize(User*)\0on_commandLinkButton_clicked()\0"
     "roomdoubleClicked(QTableWidgetItem*)\0"
     ",\0UpdateRoomInfo(int,int)\0DeleteRoom(int)\0"
+    "MsgPromt(int,int)\0KIllp2pWidget(Widget_p2p*)\0"
 };
 
 const QMetaObject Widget::staticMetaObject = {
@@ -94,9 +97,11 @@ int Widget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 7: roomdoubleClicked((*reinterpret_cast< QTableWidgetItem*(*)>(_a[1]))); break;
         case 8: UpdateRoomInfo((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         case 9: DeleteRoom((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 10: MsgPromt((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 11: KIllp2pWidget((*reinterpret_cast< Widget_p2p*(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 10;
+        _id -= 12;
     }
     return _id;
 }

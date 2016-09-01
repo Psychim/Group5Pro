@@ -13,6 +13,8 @@ public:
     Room * searchByID(int);
     Room * NewRoom(QString);
     void DeleteRoomByID(int);
+    Room * operator[](int);
+    int size();
 private:
     QList<Room *> rooms;
     int MinEmpty;

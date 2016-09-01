@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'widget_p2p.h'
 **
-** Created: Thu Sep 1 20:05:11 2016
+** Created: Thu Sep 1 22:52:00 2016
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,34 +23,39 @@ static const uint qt_meta_data_Widget_p2p[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-      14,   14, // methods
+      16,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       0,       // signalCount
+       2,       // signalCount
+
+ // signals: signature, parameters, type, tag, flags
+      14,   12,   11,   11, 0x05,
+      34,   11,   11,   11, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-      12,   11,   11,   11, 0x08,
-      38,   11,   11,   11, 0x08,
-      62,   11,   11,   11, 0x08,
-      83,   11,   11,   11, 0x08,
-     110,  108,   11,   11, 0x08,
-     157,  152,   11,   11, 0x08,
-     210,  202,   11,   11, 0x08,
-     239,  202,   11,   11, 0x08,
-     270,  202,   11,   11, 0x08,
-     304,   11,   11,   11, 0x08,
-     337,  330,   11,   11, 0x08,
-     375,   11,   11,   11, 0x08,
-     400,   11,   11,   11, 0x08,
-     426,   11,   11,   11, 0x08,
+      54,   11,   11,   11, 0x08,
+      80,   11,   11,   11, 0x08,
+     104,   11,   11,   11, 0x08,
+     125,   11,   11,   11, 0x08,
+     152,  150,   11,   11, 0x08,
+     199,  194,   11,   11, 0x08,
+     252,  244,   11,   11, 0x08,
+     281,  244,   11,   11, 0x08,
+     312,  244,   11,   11, 0x08,
+     346,   11,   11,   11, 0x08,
+     379,  372,   11,   11, 0x08,
+     417,   11,   11,   11, 0x08,
+     442,   11,   11,   11, 0x08,
+     468,   11,   11,   11, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_Widget_p2p[] = {
-    "Widget_p2p\0\0processPendingDatagrams()\0"
+    "Widget_p2p\0\0,\0newMessage(int,int)\0"
+    "closed(Widget_p2p*)\0processPendingDatagrams()\0"
     "on_sendButton_clicked()\0getFileName(QString)\0"
     "on_sendToolBtn_clicked()\0f\0"
     "on_fontComboBox_currentFontChanged(QFont)\0"
@@ -94,24 +99,40 @@ int Widget_p2p::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: processPendingDatagrams(); break;
-        case 1: on_sendButton_clicked(); break;
-        case 2: getFileName((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 3: on_sendToolBtn_clicked(); break;
-        case 4: on_fontComboBox_currentFontChanged((*reinterpret_cast< QFont(*)>(_a[1]))); break;
-        case 5: on_sizeComboBox_currentIndexChanged((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 6: on_boldToolBtn_clicked((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 7: on_italicToolBtn_clicked((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 8: on_underlineToolBtn_clicked((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 9: on_colorToolBtn_clicked(); break;
-        case 10: currentFormatChanged((*reinterpret_cast< const QTextCharFormat(*)>(_a[1]))); break;
-        case 11: on_saveToolBtn_clicked(); break;
-        case 12: on_clearToolBtn_clicked(); break;
-        case 13: on_exitButton_clicked(); break;
+        case 0: newMessage((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 1: closed((*reinterpret_cast< Widget_p2p*(*)>(_a[1]))); break;
+        case 2: processPendingDatagrams(); break;
+        case 3: on_sendButton_clicked(); break;
+        case 4: getFileName((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 5: on_sendToolBtn_clicked(); break;
+        case 6: on_fontComboBox_currentFontChanged((*reinterpret_cast< QFont(*)>(_a[1]))); break;
+        case 7: on_sizeComboBox_currentIndexChanged((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 8: on_boldToolBtn_clicked((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 9: on_italicToolBtn_clicked((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 10: on_underlineToolBtn_clicked((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 11: on_colorToolBtn_clicked(); break;
+        case 12: currentFormatChanged((*reinterpret_cast< const QTextCharFormat(*)>(_a[1]))); break;
+        case 13: on_saveToolBtn_clicked(); break;
+        case 14: on_clearToolBtn_clicked(); break;
+        case 15: on_exitButton_clicked(); break;
         default: ;
         }
-        _id -= 14;
+        _id -= 16;
     }
     return _id;
+}
+
+// SIGNAL 0
+void Widget_p2p::newMessage(int _t1, int _t2)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    QMetaObject::activate(this, &staticMetaObject, 0, _a);
+}
+
+// SIGNAL 1
+void Widget_p2p::closed(Widget_p2p * _t1)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 1, _a);
 }
 QT_END_MOC_NAMESPACE

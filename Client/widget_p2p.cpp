@@ -22,6 +22,8 @@ Widget_p2p::Widget_p2p(QWidget *parent) :
     ui->setupUi(this);
     Partner=new User(this);
     Self=NULL;
+    isOpen=false;
+    MsgNotRcved=0;
     udpSocket = new QUdpSocket(this);
        port = 25253;
        if(!udpSocket->bind(port, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint)){
@@ -119,6 +121,10 @@ void Widget_p2p::processPendingDatagrams()
             ui->messageBrowser->setCurrentFont(QFont("Times New Roman",12));
             ui->messageBrowser->append("[ " +userName+" ] "+ time);
             ui->messageBrowser->append(message);
+            if(isOpen==false){
+                MsgNotRcved++;
+                emit newMessage(PartnerID,MsgNotRcved);
+            }
             break;
 
         case MessageType::ParticipantLeft: // сп╢Щ╫Б╬Ж
@@ -329,10 +335,18 @@ void Widget_p2p::on_exitButton_clicked()
     sendMessage(MessageType::ParticipantLeft);
     close();
 }
+void Widget_p2p::showEvent(QShowEvent *e){
+    isOpen=true;
+    MsgNotRcved=0;
+    QWidget::showEvent(e);
+}
 
 void Widget_p2p::closeEvent(QCloseEvent *e)
 {
     sendMessage(MessageType::ParticipantLeft);
+    isOpen=false;
+    ui->messageBrowser->clear();
+    emit closed(this);
     QWidget::closeEvent(e);
 }
 
@@ -380,4 +394,9 @@ void Widget_p2p::setSelf(User *user)
 {
     Self=user;
 
+}
+
+int Widget_p2p::getPartnerID()
+{
+    return Partner->getID();
 }

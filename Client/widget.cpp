@@ -59,6 +59,11 @@ void Widget::newParticipant(User *user)
     ui->userTableWidget->setItem(0,1,nickname);
     ui->userTableWidget->sortByColumn(0,Qt::AscendingOrder);
     ui->userNumLabel->setText(tr("在线人数：%1").arg(ui->userTableWidget->rowCount()));
+    Widget_p2p * tmp=new Widget_p2p(this);
+    connect(tmp,SIGNAL(newMessage(int,int)),this,SLOT(MsgPromt(int,int)));
+    tmp->setPartner(user);
+    tmp->setSelf(Self);
+    ChattingList.append(tmp);
 }
 
 void Widget::participantLeft(int Id){
@@ -66,20 +71,36 @@ void Widget::participantLeft(int Id){
     ui->userTableWidget->removeRow(rowNum);
     onlineUsers->removeByID(Id);
     ui->userNumLabel->setText(tr("在线人数：%1").arg(ui->userTableWidget->rowCount()));
-
+    for(int i = 0;i<ChattingList.size();i++){
+        if(ChattingList[i]->getPartnerID()==Id){
+            Widget_p2p * tmp=ChattingList[i];
+            ChattingList.removeAt(i);
+            connect(tmp,SIGNAL(closed(Widget_p2p*)),this,SLOT(Killp2pWidget(Widget_p2p*)));
+        }
+    }
 }
 
 void Widget::doubleClicked(QTableWidgetItem * item)
 {
     int row=item->row();
     QTableWidgetItem * itm_ID=ui->userTableWidget->item(row,0);
+    QTableWidgetItem * Promt_itm=ui->userTableWidget->item(row,2);
+    if(Promt_itm)
+        Promt_itm->setText("");
     int ID=itm_ID->text().toInt();
-    User *user=onlineUsers->searchByID(ID);
+    for(int i=0;i<ChattingList.size();i++){
+        if(ChattingList[i]->getPartnerID()==ID){
+            ChattingList[i]->show();
+
+            break;
+        }
+    }
+    /*User *user=onlineUsers->searchByID(ID);
     Widget_p2p *w=new Widget_p2p(this);
     w->setPartner(user);
     w->setSelf(Self);
     //w->readmessage(QByteArray buffer);
-    w->show();
+    w->show();*/
 }
 
 void Widget::initialize(User * user)
@@ -172,4 +193,17 @@ void Widget::DeleteRoom(int room)
     if(itm==NULL)   return;
     int row=itm->row();
     ui->roomtableWidget->removeRow(row);
+}
+
+void Widget::MsgPromt(int partnerID, int Msgnum)
+{
+    QTableWidgetItem *itm=ui->userTableWidget->findItems(QString::number(partnerID),Qt::MatchExactly).first();
+    int row=itm->row();
+    QTableWidgetItem *Promt_itm=new QTableWidgetItem(tr("有新消息(%1)").arg(Msgnum));
+    ui->userTableWidget->setItem(row,2,Promt_itm);
+}
+
+void Widget::KIllp2pWidget(Widget_p2p * widget)
+{
+    delete widget;
 }

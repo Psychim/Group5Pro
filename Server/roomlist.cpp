@@ -83,3 +83,15 @@ void RoomList::DeleteRoomByID(int ID)
         delete tmp;
     }
 }
+
+Room * RoomList::operator[](int index)
+{
+    if(index>rooms.size()||index<0)
+        return NULL;
+    else return rooms[index];
+}
+
+int RoomList::size()
+{
+    return rooms.size();
+}

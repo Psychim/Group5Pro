@@ -208,6 +208,13 @@ void ClientTcpSocket::ReceiveUserList(QDataStream &in){
         users->insertByID(user);
     }
     emit ULReceived(users);
+    in>>num;
+    for(int i=0;i<num;i++){
+        int roomID,UsrNum;
+        QString roomName;
+        in>>roomID>>roomName>>UsrNum;
+        emit newRoom(roomID,roomName,UsrNum,-1);
+    }
 }
 
 void ClientTcpSocket::ReceiveUpdate(QDataStream &in){

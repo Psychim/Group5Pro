@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'logindialog.ui'
 **
-** Created: Wed Aug 31 16:37:00 2016
+** Created: Thu Sep 1 22:05:35 2016
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -131,7 +131,7 @@ public:
 
     void retranslateUi(QDialog *LoginDialog)
     {
-        LoginDialog->setWindowTitle(QApplication::translate("LoginDialog", "Dialog", 0, QApplication::UnicodeUTF8));
+        LoginDialog->setWindowTitle(QApplication::translate("LoginDialog", "\347\231\273\345\275\225", 0, QApplication::UnicodeUTF8));
         UsernameLabel->setText(QApplication::translate("LoginDialog", "\347\224\250\346\210\267\345\220\215", 0, QApplication::UnicodeUTF8));
         PasswordLabel->setText(QApplication::translate("LoginDialog", "\345\257\206  \347\240\201", 0, QApplication::UnicodeUTF8));
         StatusLabel->setText(QApplication::translate("LoginDialog", "\346\255\243\345\234\250\345\210\235\345\247\213\345\214\226...", 0, QApplication::UnicodeUTF8));
