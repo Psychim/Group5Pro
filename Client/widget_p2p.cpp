@@ -373,9 +373,11 @@ void Widget_p2p::setPartner(User *user)
     setPartnerID(user->getID());
     setPartnerNickname(user->getNickname());
     Partner->setStatus(user->getStatus());
+    setWindowTitle(tr("Óë%1(ID:%2)ÁÄÌìÖÐ").arg(user->getNickname()).arg(user->getID()));
 }
 
 void Widget_p2p::setSelf(User *user)
 {
     Self=user;
+
 }

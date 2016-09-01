@@ -3,37 +3,40 @@
 RoomList::RoomList(QObject *parent) :
     QObject(parent)
 {
-    MinEmpty=0;
+    MinEmpty=1;
 }
 
-QList<Room *>::iterator RoomList::InsertByID(Room *room)
+bool RoomList::InsertByID(Room *room)
 {
     if(room){
-        room->setParent(this);
+        //room->setParent(this);
         if(rooms.size()==0){
             rooms.append(room);
+            MinEmpty++;
         }
         else{
             QList<Room *>::iterator ite=rooms.begin();
             QList<Room *>::iterator end=rooms.end();
             while(ite!=end&&(*ite)->getID()<room->getID())
                 ite++;
-            if(ite!=end&&(*ite)->getID()==room->getID()){
-                rooms.insert(ite,room);
-                return ite-1;
+            if(ite!=end&&(*ite)->getID()==room->getID())
+                return false;
+            ite=rooms.insert(ite,room);
+            while(ite!=end&&(*ite)->getID()==MinEmpty){ //¸üÐÂMinEmpty
+                MinEmpty++;
+                ite++;
             }
         }
     }
-    return rooms.end();
+    return true;
 }
 Room* RoomList::NewRoom(QString name)
 {
     Room *room=new Room(this,MinEmpty,name);
-    QList<Room *>::Iterator ite=InsertByID(room);
-    while(ite!=rooms.end()&&MinEmpty==(*ite)->getID()){
-        MinEmpty++;
-    }
-    return room;
+    if(InsertByID(room))
+        return room;
+    else
+        return NULL;
 }
 
 Room * RoomList::searchByID(int ID)

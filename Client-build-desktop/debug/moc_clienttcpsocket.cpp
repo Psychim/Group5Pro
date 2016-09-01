@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'clienttcpsocket.h'
 **
-** Created: Thu Sep 1 15:41:10 2016
+** Created: Thu Sep 1 20:05:34 2016
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -39,21 +39,21 @@ static const uint qt_meta_data_ClientTcpSocket[] = {
      112,   16,   16,   16, 0x05,
      128,   16,   16,   16, 0x05,
      145,   16,   16,   16, 0x05,
-     158,   16,   16,   16, 0x05,
      171,   16,   16,   16, 0x05,
-     193,   16,   16,   16, 0x05,
-     208,   16,   16,   16, 0x05,
-     226,  222,   16,   16, 0x05,
-     257,  255,   16,   16, 0x05,
-     283,   16,   16,   16, 0x05,
+     184,   16,   16,   16, 0x05,
+     206,   16,   16,   16, 0x05,
+     221,   16,   16,   16, 0x05,
+     239,  235,   16,   16, 0x05,
+     270,  268,   16,   16, 0x05,
+     296,   16,   16,   16, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-     299,   16,   16,   16, 0x0a,
-     313,   16,   16,   16, 0x0a,
-     330,   16,   16,   16, 0x0a,
-     348,   16,   16,   16, 0x0a,
-     370,   16,   16,   16, 0x0a,
-     393,   16,   16,   16, 0x0a,
+     312,   16,   16,   16, 0x0a,
+     326,   16,   16,   16, 0x0a,
+     343,   16,   16,   16, 0x0a,
+     361,   16,   16,   16, 0x0a,
+     383,   16,   16,   16, 0x0a,
+     406,   16,   16,   16, 0x0a,
 
        0        // eod
 };
@@ -63,13 +63,14 @@ static const char qt_meta_stringdata_ClientTcpSocket[] = {
     "LoginFailed(QString)\0RegisterSuccess()\0"
     "RegisterFailed(QString)\0NoRespond()\0"
     "connectFailed()\0InvalidMessage()\0"
-    "SendFailed()\0IniSuccess()\0"
+    "ServerError(QDataStream&)\0IniSuccess()\0"
     "ULReceived(UserList*)\0newPtcp(User*)\0"
     "PtcpLeft(int)\0,,,\0newRoom(int,QString,int,int)\0"
     ",\0UpdateUserNumber(int,int)\0DeleteRoom(int)\0"
     "ReadMessage()\0UDPReadMessage()\0"
     "HandleNoRespond()\0HandleConnectFailed()\0"
-    "HandleInvalidMessage()\0HandleSendFailed()\0"
+    "HandleInvalidMessage()\0"
+    "HandleServerError(QDataStream&)\0"
 };
 
 const QMetaObject ClientTcpSocket::staticMetaObject = {
@@ -108,7 +109,7 @@ int ClientTcpSocket::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 4: NoRespond(); break;
         case 5: connectFailed(); break;
         case 6: InvalidMessage(); break;
-        case 7: SendFailed(); break;
+        case 7: ServerError((*reinterpret_cast< QDataStream(*)>(_a[1]))); break;
         case 8: IniSuccess(); break;
         case 9: ULReceived((*reinterpret_cast< UserList*(*)>(_a[1]))); break;
         case 10: newPtcp((*reinterpret_cast< User*(*)>(_a[1]))); break;
@@ -121,7 +122,7 @@ int ClientTcpSocket::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 17: HandleNoRespond(); break;
         case 18: HandleConnectFailed(); break;
         case 19: HandleInvalidMessage(); break;
-        case 20: HandleSendFailed(); break;
+        case 20: HandleServerError((*reinterpret_cast< QDataStream(*)>(_a[1]))); break;
         default: ;
         }
         _id -= 21;
@@ -175,9 +176,10 @@ void ClientTcpSocket::InvalidMessage()
 }
 
 // SIGNAL 7
-void ClientTcpSocket::SendFailed()
+void ClientTcpSocket::ServerError(QDataStream & _t1)
 {
-    QMetaObject::activate(this, &staticMetaObject, 7, 0);
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 7, _a);
 }
 
 // SIGNAL 8

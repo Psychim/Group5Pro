@@ -8,7 +8,7 @@ UserList::UserList(QObject *parent) :
 bool UserList::insertByID(User * user)
 {
     if(user){
-        user->setParent(this);
+        //user->setParent(this); 多个LIST存在时会导致user在不正确的时间点析构
         if(users.size()==0){
             users.append(user);
         }

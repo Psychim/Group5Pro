@@ -18,6 +18,7 @@ ClientTcpSocket::ClientTcpSocket(QObject *parent) :
     connect(this,SIGNAL(NoRespond()),this,SLOT(HandleNoRespond()));
     connect(this,SIGNAL(InvalidMessage()),this,SLOT(HandleInvalidMessage()));
     connect(udpsocket,SIGNAL(readyRead()),this,SLOT(UDPReadMessage()));
+    connect(this,SIGNAL(ServerError(QDataStream&)),this,SLOT(HandleServerError(QDataStream&)));
     if(ServerHost=="")
         findServer();
 }
@@ -41,7 +42,7 @@ void ClientTcpSocket::ReadMessage(){
     MessageSize bufferSize=0;
     int type;
     if(bytesAvailable()<(int)sizeof(MessageSize)){
-       // emit InvalidMessage();
+      // emit InvalidMessage();
         return;
     }
     in>>bufferSize;
@@ -79,8 +80,8 @@ void ClientTcpSocket::ReadMessage(){
     case MessageType::UserList:
         ReceiveUserList(in);
         break;
-    case MessageType::InvalidMessage:
-        emit SendFailed();
+    case MessageType::Error:
+        emit ServerError(in);
         break;
     default:
         emit InvalidMessage();
@@ -107,11 +108,13 @@ void ClientTcpSocket::WriteAndWait(QByteArray &buffer, int timeout){
 }
 
 void ClientTcpSocket::HandleInvalidMessage(){
-    QMessageBox::critical(0,"未接收到有效数据","未接收到有效数据",QMessageBox::Cancel);
+    QMessageBox::warning(0,"未接收到有效数据","未接收到有效数据");
 }
 
-void ClientTcpSocket::HandleSendFailed(){
-    QMessageBox::critical(0,"发送数据失败","发送数据失败",QMessageBox::Cancel);
+void ClientTcpSocket::HandleServerError(QDataStream &in){
+    QString ErrStr;
+    in>>ErrStr;
+    QMessageBox::warning(0,"警告",ErrStr);
 }
 
 void ClientTcpSocket::findServer(){
@@ -149,11 +152,11 @@ void ClientTcpSocket::UDPReadMessage(){
         QDataStream in(&buffer,QIODevice::ReadOnly);
         in.setVersion(VERSION);
         int type;
-        int flag;           //用于识别信息是否由服务端发出
         QString tmp;
         in>>type;
         switch(type){
         case MessageType::GetServer:
+        {   int flag;   //用于识别信息是否由服务端发出
             in>>flag;
             if(flag==1){
                 in>>tmp;
@@ -161,28 +164,33 @@ void ClientTcpSocket::UDPReadMessage(){
                 emit IniSuccess();
             }
             break;
+        }
         case MessageType::UserStatusUpdate:
             ReceiveUpdate(in);
             break;
         case MessageType::CreateRoom:
             ReceiveNewRoom(in);
+            break;
         case MessageType::NewParticipant:
         {
             int room,size,ID;
             in>>room>>size>>ID;
             emit UpdateUserNumber(room,size);
+            break;
         }
         case MessageType::ParticipantLeft:
         {
             int room,size,ID;
             in>>room>>size>>ID;
             emit UpdateUserNumber(room,size);
+            break;
         }
         case MessageType::DeleteRoom:
         {
             int room;
             in>>room;
             emit DeleteRoom(room);
+            break;
         }
         default:
             break;

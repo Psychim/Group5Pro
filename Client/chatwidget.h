@@ -18,7 +18,7 @@ class ChatWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit ChatWidget(QWidget *parent = 0,User *user = NULL,int roomID=-1);
+    explicit ChatWidget(QWidget *parent = 0,User *user = NULL,int roomID=-1,QString roomName="");
     ~ChatWidget();
     void setSelf(User *);
     void setRoomNum(int);
@@ -45,6 +45,7 @@ private:
     UserList * ChattingUsers;  //在聊天室的用户名单
     User * Self;    //用户自己，属性由主界面传递
     int room;
+    QString name;
 signals:
     void Selfsetted();
 

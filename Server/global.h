@@ -10,7 +10,7 @@ namespace MessageType{
         Register=0x0042,    //消息与注册有关
         UserList=0x0043,
         UserStatusUpdate=0x0044,
-        InvalidMessage=0x0051,   //服务端未接收到有效的数据时，返回这个标志给客户端
+        Error=0x0051,   //服务端未接收到有效的数据时，返回这个标志给客户端
         Message=0x0061,
         ParticipantLeft=0x0062,
         FileName=0x0063,

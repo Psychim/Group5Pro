@@ -24,7 +24,7 @@ signals:
     void NoRespond();
     void connectFailed();
     void InvalidMessage();
-    void SendFailed();
+    void ServerError(QDataStream &);
     void IniSuccess();
     void ULReceived(UserList *);
     void newPtcp(User *);
@@ -38,7 +38,7 @@ public slots:
     void HandleNoRespond();
     void HandleConnectFailed();
     void HandleInvalidMessage();
-    void HandleSendFailed();
+    void HandleServerError(QDataStream &);
 private:
     QDataStream in;
     QUdpSocket *udpsocket;

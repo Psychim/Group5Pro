@@ -22,7 +22,7 @@ class Widget : public QWidget
 public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
-    void joinRoom(int );
+    void joinRoom(int ,QString);
 protected slots:
     void newParticipant(User *);
     void participantLeft(int Id);

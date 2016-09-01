@@ -35,6 +35,7 @@ Widget::~Widget(){
     tcpSocket->waitForConnected();
     tcpSocket->write(buffer);
     tcpSocket->waitForBytesWritten();
+    tcpSocket->abort();
 }
 
 void Widget::process(UserList *users)
@@ -48,6 +49,7 @@ void Widget::process(UserList *users)
 void Widget::newParticipant(User *user)
 {
     onlineUsers->insertByID(user);
+    user->setParent(this);
     QTableWidgetItem *id=new QTableWidgetItem(QString::number(user->getID()));
     QTableWidgetItem *nickname=new QTableWidgetItem(user->getNickname());
     id->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
@@ -89,6 +91,7 @@ void Widget::initialize(User * user)
     connect(tcpSocket,SIGNAL(PtcpLeft(int)),this,SLOT(participantLeft(int)));
     connect(tcpSocket,SIGNAL(newRoom(int,QString,int,int)),this,SLOT(HandlenewRoom(int,QString,int,int)));
     connect(tcpSocket,SIGNAL(UpdateUserNumber(int,int)),this,SLOT(UpdateRoomInfo(int,int)));
+    connect(tcpSocket,SIGNAL(DeleteRoom(int)),this,SLOT(DeleteRoom(int)));
     Self=user;
     Self->setParent(this);
     ui->nickname->setText(Self->getNickname());
@@ -100,6 +103,8 @@ void Widget::initialize(User * user)
     out.device()->seek(0);
     out<<(MessageSize)(buffer.size()-sizeof(MessageSize));
     tcpSocket->WriteAndWait(buffer);
+    tcpSocket->abort();
+    setWindowTitle(tr("%1(ID:%2)").arg(Self->getNickname()).arg(Self->getID()));
     show();
 }
 
@@ -108,6 +113,8 @@ void Widget::on_commandLinkButton_clicked()
     QString roomName;
     if((roomName=QInputDialog::getText(this,tr("请输入房间名称"),tr("房间名称")))=="")
         return;
+    if(!(tcpSocket->state()==QAbstractSocket::ConnectedState))
+        tcpSocket->connectToServer();
     QByteArray buffer;
     QDataStream out(&buffer,QIODevice::WriteOnly);
     out<<(MessageSize)0;
@@ -117,6 +124,7 @@ void Widget::on_commandLinkButton_clicked()
     out<<(MessageSize)(buffer.size()-sizeof(MessageSize));
     tcpSocket->write(buffer);
     tcpSocket->waitForBytesWritten();
+    tcpSocket->abort();
 }
 
 void Widget::HandlenewRoom(int roomID, QString roomName, int size, int userID)
@@ -133,32 +141,35 @@ void Widget::HandlenewRoom(int roomID, QString roomName, int size, int userID)
     ui->roomtableWidget->setItem(0,2,size_itm);
     ui->roomtableWidget->sortByColumn(0,Qt::AscendingOrder);
     if(userID==Self->getID())
-        joinRoom(roomID);
+        joinRoom(roomID,roomName);
 }
 
 void Widget::roomdoubleClicked(QTableWidgetItem * item)
 {
     int row=item->row();
-    QTableWidgetItem * itm_ID=ui->userTableWidget->item(row,0);
+    QTableWidgetItem * itm_ID=ui->roomtableWidget->item(row,0);
+    QTableWidgetItem * itm_name=ui->roomtableWidget->item(row,1);
     int ID=itm_ID->text().toInt();
-    joinRoom(ID);
+    QString name=itm_name->text();
+    joinRoom(ID,name);
 }
 
-void Widget::joinRoom(int ID)
+void Widget::joinRoom(int ID,QString name)
 {
-    ChatWidget *w=new ChatWidget(this,Self,ID);
-    w->show();
+    ChatWidget *w=new ChatWidget(this,Self,ID,name);
 }
 
 void Widget::UpdateRoomInfo(int room, int size)
 {
     int row=ui->roomtableWidget->findItems(QString::number(room),Qt::MatchExactly).first()->row();
-    QTableWidgetItem *itm_Num=ui->roomtableWidget->item(row,2);
-    itm_Num->setText(QString::number(size));
+    QTableWidgetItem *size_itm=ui->roomtableWidget->item(row,2);
+    size_itm->setText(QString::number(size));
 }
 
 void Widget::DeleteRoom(int room)
 {
-    int row=ui->roomtableWidget->findItems(QString::number(room),Qt::MatchExactly).first()->row();
+    QTableWidgetItem *itm=ui->roomtableWidget->findItems(QString::number(room),Qt::MatchExactly).first();
+    if(itm==NULL)   return;
+    int row=itm->row();
     ui->roomtableWidget->removeRow(row);
 }

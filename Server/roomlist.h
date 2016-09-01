@@ -9,7 +9,7 @@ class RoomList : public QObject
     Q_OBJECT
 public:
     explicit RoomList(QObject *parent = 0);
-    QList<Room*>::iterator InsertByID(Room *);
+    bool InsertByID(Room *);
     Room * searchByID(int);
     Room * NewRoom(QString);
     void DeleteRoomByID(int);

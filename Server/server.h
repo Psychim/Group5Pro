@@ -32,15 +32,15 @@ private:
     void HandlePtcpLeft(QDataStream &);
     User *LoginQuery(QMap<QString,QString>);
     bool RegisterQuery(QMap<QString,QString>,QString *);
-    void Respond(MessageType::MessageType);
+    void Respond(MessageType::MessageType,QString = "");
 signals:
-    void InvalidMessage();
+    void Error(QString);
     void UserStatusUpdate(User *);
 public slots:
     void acceptConnection();
     void TcpReadMessage();
     void UdpReadMessage();
-    void HandleInvalidMessage();
+    void HandleError(QString);
     void StatusBroadcast(User *);
 };
 

@@ -8,7 +8,7 @@ UserList::UserList(QObject *parent) :
 bool UserList::insertByID(User * user)
 {
     if(user){
-        user->setParent(this);
+       // user->setParent(this);
         if(users.size()==0){
             users.append(user);
         }

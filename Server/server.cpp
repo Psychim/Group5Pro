@@ -21,10 +21,10 @@ Server::Server(QObject *parent) :
     ServerUdpSocket=new QUdpSocket(this);
     TCPPort=6666;
     UDPPort=25252;
-    connect(this,SIGNAL(InvalidMessage()),this,SLOT(HandleInvalidMessage()));
+    connect(this,SIGNAL(Error(QString)),this,SLOT(HandleError(QString)));
     connect(ServerUdpSocket,SIGNAL(readyRead()),this,SLOT(UdpReadMessage()));
     connect(this,SIGNAL(UserStatusUpdate(User*)),this,SLOT(StatusBroadcast(User*)));
-    connect(ServerTcpSocket,SIGNAL(disconnected()),ServerTcpSocket,SLOT(deleteLater()));
+
 }
 //查询正在登录的用户
 User * Server::LoginQuery(QMap<QString,QString> Info){
@@ -68,6 +68,7 @@ void Server::HandleUserLogin(QDataStream &in){
     if(Result){
         if(OnlineUsers->searchByID(Result->getID())==NULL){
             OnlineUsers->insertByID(Result);
+            Result->setParent(this);
             emit UserStatusUpdate(Result);
         }
         else {
@@ -107,7 +108,7 @@ bool Server::connectToDb(){
 void Server::acceptConnection(){
     ServerTcpSocket=nextPendingConnection();
     connect(ServerTcpSocket,SIGNAL(readyRead()),this,SLOT(TcpReadMessage()));
-
+    connect(ServerTcpSocket,SIGNAL(disconnected()),ServerTcpSocket,SLOT(deleteLater()));
 }
 void Server::TcpReadMessage(){
     QDataStream in(ServerTcpSocket);
@@ -115,12 +116,12 @@ void Server::TcpReadMessage(){
     MessageSize bufferSize=0;
     int type;
     if(ServerTcpSocket->bytesAvailable()<(int)sizeof(MessageSize)){
-        emit InvalidMessage();
+        emit Error(tr("无效的消息"));
         return;
     }
     in>>bufferSize;
     if(bufferSize>ServerTcpSocket->bytesAvailable()){
-        emit InvalidMessage();
+        emit Error(tr("无效的消息"));
         return;
     }
     in>>type;
@@ -135,8 +136,10 @@ void Server::TcpReadMessage(){
         Respond(MessageType::UserList);
         break;
     case MessageType::NewParticipant:
+    {
         HandleNewPtcp(in);
         break;
+    }
     case MessageType::ParticipantLeft:
         HandlePtcpLeft(in);
         break;
@@ -165,7 +168,7 @@ void Server::TcpReadMessage(){
         }
         break;
     default:
-        emit InvalidMessage();
+        emit Error(tr("无效的消息"));
     }
 }
 //处理用户注册
@@ -241,7 +244,7 @@ void Server::Query(QString statement)
     qDebug()<<query.lastError();
 }
 //不需要在服务端处理数据的消息类型使用该函数回应消息
-void Server::Respond(MessageType::MessageType type)
+void Server::Respond(MessageType::MessageType type,QString str)
 {
     QByteArray buffer;
     QDataStream out(&buffer,QIODevice::WriteOnly);
@@ -249,7 +252,8 @@ void Server::Respond(MessageType::MessageType type)
     out<<(MessageSize)0;
     out<<type;
     switch(type){
-    case MessageType::InvalidMessage:
+    case MessageType::Error:
+        out<<str;
         break;
     case MessageType::UserList:
         out<<OnlineUsers->size();
@@ -267,9 +271,9 @@ void Server::Respond(MessageType::MessageType type)
     ServerTcpSocket->write(buffer);
 }
 
-void Server::HandleInvalidMessage()
+void Server::HandleError(QString str)
 {
-    Respond(MessageType::InvalidMessage);
+    Respond(MessageType::Error,str);
 }
 //任意用户状态改变时进行广播
 void Server::StatusBroadcast(User *user)
@@ -360,7 +364,7 @@ void Server::Stop()
     if(ServerTcpSocket!=NULL)
         ServerTcpSocket->abort();
 }
-//三件事：将新加入用户加入响应的聊天室；返回聊天室用户名单给该用户；广播该用户加入的消息
+//三件事：返回聊天室用户名单给该用户；将新加入用户加入响应的聊天室；广播该用户加入的消息
 void Server::HandleNewPtcp(QDataStream &in)
 {
     int roomID;
@@ -368,10 +372,34 @@ void Server::HandleNewPtcp(QDataStream &in)
     in>>roomID>>ID;
     Room *room=ActiveRooms->searchByID(roomID);
     User *user=OnlineUsers->searchByID(ID);
-
     QByteArray buffer;
     QDataStream out(&buffer,QIODevice::WriteOnly);
+    out.setVersion(VERSION);
     out<<(MessageSize)0;
+    if(room==NULL){
+        out<<MessageType::Error;
+        out<<tr("房间不存在");
+        out.device()->seek(0);
+        out<<(MessageSize)(buffer.size()-sizeof(MessageSize));
+        ServerTcpSocket->write(buffer);
+        return;
+    }
+    if(user==NULL){
+        out<<MessageType::Error;
+        out<<tr("用户不存在或已下线");
+        out.device()->seek(0);
+        out<<(MessageSize)(buffer.size()-sizeof(MessageSize));
+        ServerTcpSocket->write(buffer);
+        return;
+    }
+    if(room->ChattingUsers.searchByID(ID)){
+        out<<MessageType::Error;
+        out<<tr("用户已加入聊天室");
+        out.device()->seek(0);
+        out<<(MessageSize)(buffer.size()-sizeof(MessageSize));
+        ServerTcpSocket->write(buffer);
+        return;
+    }
     out<<MessageType::NewParticipant;
     out<<roomID;
     for(int i=0;i<room->ChattingUsers.size();i++){
@@ -384,12 +412,14 @@ void Server::HandleNewPtcp(QDataStream &in)
 
     room->NewPtcp(user);
 
-    buffer.clear();
-    out<<MessageType::NewParticipant;
-    out<<roomID<<room->ChattingUsers.size()<<ID;
-    ServerUdpSocket->writeDatagram(buffer,QHostAddress::Broadcast,UDPPort);
+    QByteArray udpbuffer;
+    QDataStream udpout(&udpbuffer,QIODevice::WriteOnly);
+    udpout.setVersion(VERSION);
+    udpout<<MessageType::NewParticipant;
+    udpout<<roomID<<room->ChattingUsers.size()<<ID;
+    ServerUdpSocket->writeDatagram(udpbuffer,QHostAddress::Broadcast,UDPPort);
     ServerUdpSocket->waitForBytesWritten();
-    ServerUdpSocket->writeDatagram(buffer,QHostAddress::Broadcast,UDPPort+2);
+    ServerUdpSocket->writeDatagram(udpbuffer,QHostAddress::Broadcast,UDPPort+2);
     ServerUdpSocket->waitForBytesWritten();
 }
 //接收创建者ID和房间名，创建新聊天室，并广播聊天室信息和创建者ID
@@ -411,10 +441,15 @@ void Server::HandlePtcpLeft(QDataStream &in)
 {
     int roomID,userID;
     in>>roomID>>userID;
-    Room *room=ActiveRooms->searchByID(roomID);
-    room->PtcpLeft(userID);
     QByteArray buffer;
     QDataStream out(&buffer,QIODevice::WriteOnly);
+    out.setVersion(VERSION);
+    Room *room=ActiveRooms->searchByID(roomID);
+    if(room==NULL){
+        qDebug()<<tr("In HandlePtcpLeft: 未找到房间");
+        return;
+    }
+    room->PtcpLeft(userID);
     out<<MessageType::ParticipantLeft;
     out<<roomID<<room->ChattingUsers.size()<<userID;
     ServerUdpSocket->writeDatagram(buffer,QHostAddress::Broadcast,UDPPort);
@@ -423,10 +458,12 @@ void Server::HandlePtcpLeft(QDataStream &in)
     ServerUdpSocket->waitForBytesWritten();
     if(room->ChattingUsers.size()==0){
         ActiveRooms->DeleteRoomByID(roomID);
-        buffer.clear();
-        out<<MessageType::DeleteRoom;
-        out<<roomID;
-        ServerUdpSocket->writeDatagram(buffer,QHostAddress::Broadcast,UDPPort);
+        //buffer.clear();   会导致接下来写入的信息有问题，为什么？
+        QByteArray buffer2;
+        QDataStream out2(&buffer2,QIODevice::WriteOnly);
+        out2<<MessageType::DeleteRoom;
+        out2<<roomID;
+        ServerUdpSocket->writeDatagram(buffer2,QHostAddress::Broadcast,UDPPort);
         ServerUdpSocket->waitForBytesWritten();
     }
 }
