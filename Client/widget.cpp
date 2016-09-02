@@ -57,7 +57,7 @@ void Widget::newParticipant(User *user)
     ui->userTableWidget->insertRow(0);
     ui->userTableWidget->setItem(0,0,id);
     ui->userTableWidget->setItem(0,1,nickname);
-    ui->userTableWidget->sortByColumn(0,Qt::AscendingOrder);
+    //ui->userTableWidget->sortByColumn(0,Qt::AscendingOrder);
     ui->userNumLabel->setText(tr("在线人数：%1").arg(ui->userTableWidget->rowCount()));
     Widget_p2p * tmp=new Widget_p2p(this);
     connect(tmp,SIGNAL(newMessage(int,int)),this,SLOT(MsgPromt(int,int)));

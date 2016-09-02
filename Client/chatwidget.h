@@ -66,6 +66,7 @@ private slots:
     void on_clearToolBtn_clicked();
     void on_exitButton_clicked();
     void NewPtcp();
+    void on_messageTextEdit_cursorPositionChanged();
 };
 
 #endif // CHATWIDGET_H

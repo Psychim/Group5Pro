@@ -67,6 +67,7 @@ private slots:
     void on_saveToolBtn_clicked();
     void on_clearToolBtn_clicked();
     void on_exitButton_clicked();
+    void on_messageTextEdit_cursorPositionChanged();
 };
 
 #endif // WIDGET_P2P_H

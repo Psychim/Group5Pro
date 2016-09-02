@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'tcpclient.h'
 **
-** Created: Wed Aug 31 16:37:34 2016
+** Created: Fri Sep 2 09:20:13 2016
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_TcpClient[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       5,   14, // methods
+       6,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -36,15 +36,17 @@ static const uint qt_meta_data_TcpClient[] = {
       74,   10,   10,   10, 0x08,
       87,   10,   10,   10, 0x08,
      101,   10,   10,   10, 0x08,
+     144,   10,   10,   10, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_TcpClient[] = {
-    "TcpClient\0\0on_tcpClientCancleBtn_clicked()\0"
+    "TcpClient\0\0on_tcpClientCancelBtn_clicked()\0"
     "on_tcpClientCloseBtn_clicked()\0"
     "newConnect()\0readMessage()\0"
     "displayError(QAbstractSocket::SocketError)\0"
+    "on_tcpClientCancelBtm_clicked()\0"
 };
 
 const QMetaObject TcpClient::staticMetaObject = {
@@ -76,14 +78,15 @@ int TcpClient::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: on_tcpClientCancleBtn_clicked(); break;
+        case 0: on_tcpClientCancelBtn_clicked(); break;
         case 1: on_tcpClientCloseBtn_clicked(); break;
         case 2: newConnect(); break;
         case 3: readMessage(); break;
         case 4: displayError((*reinterpret_cast< QAbstractSocket::SocketError(*)>(_a[1]))); break;
+        case 5: on_tcpClientCancelBtn_clicked(); break;
         default: ;
         }
-        _id -= 5;
+        _id -= 6;
     }
     return _id;
 }

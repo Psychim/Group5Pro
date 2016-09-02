@@ -120,7 +120,7 @@ void TcpClient::on_tcpClientCloseBtn_clicked()
     close();
 }
 
-void TcpClient::on_tcpClientCancleBtn_clicked()
+void TcpClient::on_tcpClientCancelBtn_clicked()
 {
     tcpClient->abort();
     if(localFile->isOpen())

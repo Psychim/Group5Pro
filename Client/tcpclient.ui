@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>接收端</string>
   </property>
-  <widget class="QPushButton" name="tcpClientCancelBtm">
+  <widget class="QPushButton" name="tcpClientCancelBtn">
    <property name="geometry">
     <rect>
      <x>70</x>

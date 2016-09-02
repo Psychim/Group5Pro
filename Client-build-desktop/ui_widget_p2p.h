@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget_p2p.ui'
 **
-** Created: Thu Sep 1 23:09:47 2016
+** Created: Fri Sep 2 10:10:09 2016
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -148,6 +148,9 @@ public:
 
         messageTextEdit = new QTextEdit(Widget_p2p);
         messageTextEdit->setObjectName(QString::fromUtf8("messageTextEdit"));
+        messageTextEdit->setAutoFormatting(QTextEdit::AutoNone);
+        messageTextEdit->setUndoRedoEnabled(false);
+        messageTextEdit->setLineWrapMode(QTextEdit::WidgetWidth);
 
         gridLayout->addWidget(messageTextEdit, 3, 0, 1, 11);
 

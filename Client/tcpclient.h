@@ -44,12 +44,13 @@ private:
     QTime time;
 
 private slots:
-    void on_tcpClientCancleBtn_clicked();
+    void on_tcpClientCancelBtn_clicked();
     void on_tcpClientCloseBtn_clicked();
 
     void newConnect();
     void readMessage();
     void displayError(QAbstractSocket::SocketError);
+    void on_tcpClientCancelBtm_clicked();
 };
 
 #endif // TCPCLIENT_H

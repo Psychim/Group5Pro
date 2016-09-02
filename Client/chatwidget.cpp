@@ -178,7 +178,7 @@ void ChatWidget::newParticipant(User *user,QString time)
     ui->userTableWidget->insertRow(0);
     ui->userTableWidget->setItem(0,0,id);
     ui->userTableWidget->setItem(0,1,nickname);
-    ui->userTableWidget->sortByColumn(0,Qt::AscendingOrder);
+    //ui->userTableWidget->sortByColumn(0,Qt::AscendingOrder);
     ui->messageBrowser->setTextColor(Qt::gray);
     ui->messageBrowser->setCurrentFont(QFont("Times New Roman",10));
     ui->messageBrowser->append(tr("%1(ID:%2)于%3加入！").arg(user->getNickname()).arg(QString::number(user->getID())).arg(time));
@@ -253,36 +253,51 @@ void ChatWidget::on_sendToolBtn_clicked()
 
 void ChatWidget::on_fontComboBox_currentFontChanged(QFont f)
 {
+ //   QTextCursor cursor=ui->messageTextEdit->textCursor();
+ //   ui->messageTextEdit->selectAll();
     ui->messageTextEdit->setCurrentFont(f);
+//    ui->messageTextEdit->setTextCursor(cursor);
     ui->messageTextEdit->setFocus();
 }
 
 void ChatWidget::on_sizeComboBox_currentIndexChanged(QString size)
 {
+  //  QTextCursor cursor=ui->messageTextEdit->textCursor();
+  //  ui->messageTextEdit->selectAll();
     ui->messageTextEdit->setFontPointSize(size.toDouble());
+ //   ui->messageTextEdit->setTextCursor(cursor);
     ui->messageTextEdit->setFocus();
 }
 
 void ChatWidget::on_boldToolBtn_clicked(bool checked)
 {
+  //  QTextCursor cursor=ui->messageTextEdit->textCursor();
+ //   ui->messageTextEdit->selectAll();
     if(checked)
     {
         ui->messageTextEdit->setFontWeight(QFont::Bold);
     }
     else
         ui->messageTextEdit->setFontWeight(QFont::Normal);
+//   ui->messageTextEdit->setTextCursor(cursor);
     ui->messageTextEdit->setFocus();
 }
 
 void ChatWidget::on_italicToolBtn_clicked(bool checked)
 {
+  //  QTextCursor cursor=ui->messageTextEdit->textCursor();
+  //  ui->messageTextEdit->selectAll();
     ui->messageTextEdit->setFontItalic(checked);
+ //  ui->messageTextEdit->setTextCursor(cursor);
     ui->messageTextEdit->setFocus();
 }
 
 void ChatWidget::on_underlineToolBtn_clicked(bool checked)
 {
+  // QTextCursor cursor=ui->messageTextEdit->textCursor();
+ //  ui->messageTextEdit->selectAll();
    ui->messageTextEdit->setFontUnderline(checked);
+ //  ui->messageTextEdit->setTextCursor(cursor);
    ui->messageTextEdit->setFocus();
 }
 
@@ -291,26 +306,20 @@ void ChatWidget::on_colorToolBtn_clicked()
     color=QColorDialog::getColor(color,this);
     if(color.isValid())
     {
+    //    QTextCursor cursor=ui->messageTextEdit->textCursor();
+    //    ui->messageTextEdit->selectAll();
         ui->messageTextEdit->setTextColor(color);
+   //     ui->messageTextEdit->setTextCursor(cursor);
         ui->messageTextEdit->setFocus();
     }
 }
 
 void ChatWidget::currentFormatChanged(const QTextCharFormat &format)
 {
-    ui->fontComboBox->setCurrentFont(format.font());
-    if(format.fontPointSize()<9)
-    {
-        ui->sizeComboBox->setCurrentIndex(3);
-    }
-    else
-    {
-        ui->sizeComboBox->setCurrentIndex(ui->sizeComboBox->findText(QString::number(format.fontPointSize())));
-    }
-    ui->boldToolBtn->setChecked(format.font().bold());
-    ui->italicToolBtn->setChecked(format.font().italic());
-    ui->underlineToolBtn->setChecked(format.font().underline());
-    color=format.foreground().color();
+    QTextCursor cursor=ui->messageTextEdit->textCursor();
+    ui->messageTextEdit->selectAll();
+    ui->messageTextEdit->setCurrentCharFormat(format);
+    ui->messageTextEdit->setTextCursor(cursor);
 }
 
 void ChatWidget::on_saveToolBtn_clicked()
@@ -432,7 +441,7 @@ void ChatWidget::NewPtcp()
                     newParticipant(user,"之前");
                 }
             }
-            setWindowTitle(tr("聊天室%1：%2 - %3(ID:%4)").arg(room).arg(name).arg(Self->getNickname().arg(Self->getID())));
+            setWindowTitle(tr("聊天室%1：%2 - %3(ID:%4)").arg(room).arg(name).arg(Self->getNickname()).arg(Self->getID()));
         show();
         break;
     }
@@ -443,4 +452,17 @@ void ChatWidget::NewPtcp()
         deleteLater();
     }
     tcpSocket->abort();
+}
+
+void ChatWidget::on_messageTextEdit_cursorPositionChanged()
+{
+    ui->messageTextEdit->setCurrentFont(ui->fontComboBox->currentFont());
+    ui->messageTextEdit->setFontPointSize(ui->sizeComboBox->currentText().toDouble());
+    ui->messageTextEdit->setFontUnderline(ui->underlineToolBtn->isChecked());
+    ui->messageTextEdit->setFontItalic(ui->italicToolBtn->isChecked());
+    if(ui->boldToolBtn->isChecked())
+        ui->messageTextEdit->setFontWeight(QFont::Bold);
+    else
+        ui->messageTextEdit->setFontWeight(QFont::Normal);
+    ui->messageTextEdit->setTextColor(color);
 }
