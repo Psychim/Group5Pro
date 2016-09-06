@@ -17,7 +17,7 @@ void CamThread::run()
     while (flag)
     {
         emit ImageProducted(vd->GetFrame());
-        this->msleep(40);
+        this->msleep(1000/30);
     }
 }
 void CamThread::stop()

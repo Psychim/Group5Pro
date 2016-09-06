@@ -22,8 +22,6 @@ public:
     QMutex mutex;
 signals:
     void ImageProducted(QImage);
-public slots:
-    
 };
 
 #endif // CAMTHREAD_H

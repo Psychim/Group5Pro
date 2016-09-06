@@ -6,6 +6,7 @@
 #include "global.h"
 #include "user.h"
 #include "camthread.h"
+#include"imgsktthread.h"
 class QUdpSocket;
 class TcpServer;
 
@@ -28,10 +29,12 @@ public:
     void readMessage(QByteArray);
     void setSelf(User *);
     int getPartnerID();
+    void VideoRequestReceived(int);
 protected:
     //void newParticipant(QString userName,QString localHostName,QString ipAddress);
     void participantLeft(QString userName,QString time);
     void sendMessage(MessageType::MessageType type,QString serverAddress="");
+    void sendMessage(MessageType::MessageType type,int step);
     void hasPendingFile(QString userName,QString serverAddress,QString clientAddress,QString fileName);
     bool saveFile(const QString& fileName);
     void closeEvent(QCloseEvent*);
@@ -52,6 +55,7 @@ private:
     bool isOpen;
     bool VideoOpened;
     CamThread *cm;
+    ImgSktThread *imgskt;
 signals:
     void newMessage(int,int);
     void closed(Widget_p2p*);

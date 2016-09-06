@@ -1,5 +1,8 @@
 #include "widget_p2p.h"
 #include "ui_widget_p2p.h"
+#include "global.h"
+#include "tcpserver.h"
+#include "tcpclient.h"
 #include <QUdpSocket>
 #include <QHostInfo>
 #include <QMessageBox>
@@ -7,11 +10,8 @@
 #include <QDateTime>
 #include <QNetworkInterface>
 #include <QProcess>
-#include "global.h"
-#include "tcpserver.h"
-#include "tcpclient.h"
 #include <QFileDialog>
-
+#include<QInputDialog>
 #include <QColorDialog>
 
 Widget_p2p::Widget_p2p(QWidget *parent) :
@@ -41,6 +41,7 @@ Widget_p2p::Widget_p2p(QWidget *parent) :
    ui->MyVideo->hide();
    VideoOpened=false;
    cm=NULL;
+   imgskt=NULL;
 }
 
 Widget_p2p::~Widget_p2p()
@@ -55,7 +56,6 @@ void Widget_p2p::sendMessage(MessageType::MessageType type, QString serverAddres
     QByteArray data;
     QDataStream out(&data, QIODevice::WriteOnly);
     out.setVersion(VERSION);
-    //QString localHostName = QHostInfo::localHostName();
     QString address = Self->getIpAddress();
     QString userName=Self->getNickname();
     QString time = QDateTime::currentDateTime()
@@ -98,6 +98,21 @@ void Widget_p2p::sendMessage(MessageType::MessageType type, QString serverAddres
     udpSocket->writeDatagram(data,QHostAddress::Broadcast, port); // 单播无法解决端口冲突问题，故广播
     udpSocket->waitForBytesWritten();
 }
+void Widget_p2p::sendMessage(MessageType::MessageType type,int step){
+    QByteArray data;
+    QDataStream out(&data, QIODevice::WriteOnly);
+    out.setVersion(VERSION);
+    out<<type<<Self->getNickname()<<Self->getID()<<Partner->getID();
+    switch(type){
+    case MessageType::Video:
+        out<<step;
+        break;
+    default:
+        break;
+    }
+    udpSocket->writeDatagram(data,QHostAddress::Broadcast, port); // 单播无法解决端口冲突问题，故广播
+    udpSocket->waitForBytesWritten();
+}
 
 void Widget_p2p::processPendingDatagrams()
 {
@@ -109,11 +124,12 @@ void Widget_p2p::processPendingDatagrams()
         QDataStream in(&datagram, QIODevice::ReadOnly);
         in.setVersion(VERSION);
         int messageType;
-        in >> messageType;
-        QString userName,ipAddress,message;
         int PartnerID,SelfID;
+        QString userName,ipAddress,message;
         QString time = QDateTime::currentDateTime()
                 .toString("yyyy-MM-dd hh:mm:ss");
+        in >> messageType;
+
         in >> userName >>PartnerID>>SelfID;
         if(PartnerID!=Partner->getID()||SelfID!=Self->getID())
             return;
@@ -152,6 +168,12 @@ void Widget_p2p::processPendingDatagrams()
             {
                 server->refused();
             }
+            break;
+        }
+        case MessageType::Video:{
+            int step;
+            in>>step;
+            VideoRequestReceived(step);
             break;
         }
         }
@@ -339,13 +361,7 @@ void Widget_p2p::closeEvent(QCloseEvent *e)
     sendMessage(MessageType::ParticipantLeft);
     isOpen=false;
     ui->messageBrowser->clear();
-    cm->terminate();
-    cm->wait();
-    cm->stop();
-    ui->PartnerVideo->hide();
-    ui->MyVideo->hide();
-    ui->OpenVideoButton->setText(tr("视频对话"));
-    VideoOpened=false;
+    on_OpenVideoButton_clicked();
     emit closed(this);
     QWidget::closeEvent(e);
 }
@@ -418,14 +434,15 @@ void Widget_p2p::on_OpenVideoButton_clicked()
 {
     if(cm==NULL){
         cm=new CamThread(this);
-        //connect(cm,SIGNAL(ImageProducted(QImage)),this,SendImage(QImage));
-       connect(cm,SIGNAL(ImageProducted(QImage)),ui->MyVideo,SLOT(ShowImage(QImage)));
+        connect(cm,SIGNAL(ImageProducted(QImage)),ui->MyVideo,SLOT(ShowImage(QImage)));
     }
     if(!VideoOpened){
         VideoOpened=true;
         ui->PartnerVideo->show();
         ui->MyVideo->show();
         ui->OpenVideoButton->setText(tr("结束视频"));
+        ui->PartnerVideo->setText(tr("正在等待对方接受..."));
+        sendMessage(MessageType::Video,0);
         cm->start();
     }
     else{
@@ -436,5 +453,59 @@ void Widget_p2p::on_OpenVideoButton_clicked()
         cm->terminate();
         cm->wait();
         cm->stop();
+        delete cm;
+        cm=NULL;
+    //    imgskt->terminate();
+    //    imgskt->wait();
+        imgskt->stop();
+        delete imgskt;
+        imgskt=NULL;
+    }
+}
+
+void Widget_p2p::VideoRequestReceived(int step)
+{
+    if(step==0){
+        int ok=QMessageBox::question(0,tr("视频对话请求"),tr("%1(ID:%2)发来视频对话请求，接受吗？").arg(Partner->getNickname()).arg(Partner->getID()),QMessageBox::Yes,QMessageBox::No);
+        if(ok==QMessageBox::Yes){
+            sendMessage(MessageType::Video,1);
+            VideoOpened=true;
+            ui->PartnerVideo->show();
+            ui->MyVideo->show();
+            ui->OpenVideoButton->setText(tr("结束视频"));
+            if(cm==NULL){
+                cm=new CamThread(this);
+            }
+            cm->start();
+            if(imgskt==NULL){
+                imgskt=new ImgSktThread(this);
+                imgskt->setPartner(Partner);
+                imgskt->setSelf(Self);
+            }
+            imgskt->start();
+            connect(cm,SIGNAL(ImageProducted(QImage)),ui->MyVideo,SLOT(ShowImage(QImage)));
+            connect(cm,SIGNAL(ImageProducted(QImage)),imgskt,SLOT(SendImage(QImage)));
+            connect(imgskt,SIGNAL(ImageReceived(QImage)),ui->PartnerVideo,SLOT(ShowImage(QImage)));
+
+        }
+        else{
+            sendMessage(MessageType::Video,2);
+        }
+    }
+    else if(step==1){
+        if(imgskt==NULL){
+            imgskt=new ImgSktThread(this);
+            imgskt->setPartner(Partner);
+            imgskt->setSelf(Self);
+        }
+       // imgskt->start();
+        connect(cm,SIGNAL(ImageProducted(QImage)),imgskt,SLOT(SendImage(QImage)));
+        connect(imgskt,SIGNAL(ImageReceived(QImage)),ui->PartnerVideo,SLOT(ShowImage(QImage)));
+    }
+    else if(step==2){
+        ui->messageBrowser->setTextColor(Qt::red);
+        ui->messageBrowser->setCurrentFont(QFont("Times New Roman", 10));
+        ui->messageBrowser->append(tr("对方拒绝了视频对话请求！"));
+        on_OpenVideoButton_clicked();
     }
 }

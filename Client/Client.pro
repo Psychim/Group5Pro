@@ -20,7 +20,8 @@ HEADERS += \
     chatwidget.h \
     videodevice.h \
     camthread.h \
-    videolabel.h
+    videolabel.h \
+    imgsktthread.h
 
 SOURCES += \
     widget_p2p.cpp \
@@ -36,7 +37,8 @@ SOURCES += \
     chatwidget.cpp \
     videodevice.cpp \
     camthread.cpp \
-    videolabel.cpp
+    videolabel.cpp \
+    imgsktthread.cpp
 
 FORMS += \
     widget_p2p.ui \
