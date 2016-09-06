@@ -10,6 +10,9 @@ INPUT(
 ./release\logindialog.o
 ./release\clienttcpsocket.o
 ./release\chatwidget.o
+./release\videodevice.o
+./release\camthread.o
+./release\videolabel.o
 ./release\moc_widget_p2p.o
 ./release\moc_widget.o
 ./release\moc_userlist.o
@@ -20,5 +23,8 @@ INPUT(
 ./release\moc_logindialog.o
 ./release\moc_clienttcpsocket.o
 ./release\moc_chatwidget.o
+./release\moc_videodevice.o
+./release\moc_camthread.o
+./release\moc_videolabel.o
 ./release\qrc_IconSources.o
 );

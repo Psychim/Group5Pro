@@ -19,7 +19,8 @@ HEADERS += \
     clienttcpsocket.h \
     chatwidget.h \
     videodevice.h \
-    camthread.h
+    camthread.h \
+    videolabel.h
 
 SOURCES += \
     widget_p2p.cpp \
@@ -34,7 +35,8 @@ SOURCES += \
     clienttcpsocket.cpp \
     chatwidget.cpp \
     videodevice.cpp \
-    camthread.cpp
+    camthread.cpp \
+    videolabel.cpp
 
 FORMS += \
     widget_p2p.ui \

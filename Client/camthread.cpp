@@ -4,25 +4,26 @@ CamThread::CamThread(QObject *parent) :
 {
     this->flag=false;
     vd=NULL;
+    mutex=new QMutex;
 }
 void CamThread::run()
 {
     vd=new VideoDevice(this);
     vd->OpenCamera();
     this->flag=true;
-    mutex.lock();
+    mutex->lock();
     while (flag)
     {
-        mutex.unlock();
+        mutex->unlock();
         emit ImageProducted(vd->GetFrame());
         this->msleep(40);
     }
 }
 void CamThread::stop()
 {
-    mutex.lock();
+    mutex->lock();
     this->flag = false;
     wait(1000);
-    vd->CloseDev();
-    mutex.unlock();
+    vd->CloseCamera();
+    mutex->unlock();
 }

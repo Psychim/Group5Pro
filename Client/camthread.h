@@ -4,7 +4,7 @@
 #include <QThread>
 #include<videodevice.h>
 #include<QByteArray>
-#include<QBuffer>]
+#include<QBuffer>
 #include<QMutex>
 #include<QImage>
 #include<cv.h>
@@ -19,7 +19,7 @@ public:
 
     VideoDevice *vd;
     bool flag;
-    QMutex mutex;
+    QMutex *mutex;
 signals:
     void ImageProducted(QImage);
 public slots:

@@ -10,6 +10,9 @@ INPUT(
 ./debug\logindialog.o
 ./debug\clienttcpsocket.o
 ./debug\chatwidget.o
+./debug\videodevice.o
+./debug\camthread.o
+./debug\videolabel.o
 ./debug\moc_widget_p2p.o
 ./debug\moc_widget.o
 ./debug\moc_userlist.o
@@ -20,5 +23,8 @@ INPUT(
 ./debug\moc_logindialog.o
 ./debug\moc_clienttcpsocket.o
 ./debug\moc_chatwidget.o
+./debug\moc_videodevice.o
+./debug\moc_camthread.o
+./debug\moc_videolabel.o
 ./debug\qrc_IconSources.o
 );

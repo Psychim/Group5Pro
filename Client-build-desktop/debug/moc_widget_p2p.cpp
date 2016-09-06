@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'widget_p2p.h'
 **
-** Created: Fri Sep 2 10:51:09 2016
+** Created: Tue Sep 6 10:50:09 2016
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_Widget_p2p[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-      17,   14, // methods
+      18,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -50,6 +50,7 @@ static const uint qt_meta_data_Widget_p2p[] = {
      442,   11,   11,   11, 0x08,
      468,   11,   11,   11, 0x08,
      492,   11,   11,   11, 0x08,
+     535,   11,   11,   11, 0x08,
 
        0        // eod
 };
@@ -70,6 +71,7 @@ static const char qt_meta_stringdata_Widget_p2p[] = {
     "on_clearToolBtn_clicked()\0"
     "on_exitButton_clicked()\0"
     "on_messageTextEdit_cursorPositionChanged()\0"
+    "on_OpenVideoButton_clicked()\0"
 };
 
 const QMetaObject Widget_p2p::staticMetaObject = {
@@ -118,9 +120,10 @@ int Widget_p2p::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 14: on_clearToolBtn_clicked(); break;
         case 15: on_exitButton_clicked(); break;
         case 16: on_messageTextEdit_cursorPositionChanged(); break;
+        case 17: on_OpenVideoButton_clicked(); break;
         default: ;
         }
-        _id -= 17;
+        _id -= 18;
     }
     return _id;
 }

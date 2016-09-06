@@ -11,7 +11,7 @@ void VideoDevice::OpenCamera()
 
 void VideoDevice::CloseCamera()
 {
-    cvReleaseCapture(cp);
+    cvReleaseCapture(&cp);
 }
 
 QImage VideoDevice::GetFrame()

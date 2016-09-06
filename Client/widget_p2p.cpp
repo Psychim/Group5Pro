@@ -25,18 +25,22 @@ Widget_p2p::Widget_p2p(QWidget *parent) :
     isOpen=false;
     MsgNotRcved=0;
     udpSocket = new QUdpSocket(this);
-       port = 25253;
-       if(!udpSocket->bind(port, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint)){
-             QMessageBox::warning(0, tr("警告"), tr("无法绑定端口"), QMessageBox::Ok);
-       }
-       connect(udpSocket, SIGNAL(readyRead()), this, SLOT(processPendingDatagrams()));
-       //sendMessage(NewParticipant);
+    port = 25253;
+    if(!udpSocket->bind(port, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint)){
+        QMessageBox::warning(0, tr("警告"), tr("无法绑定端口"), QMessageBox::Ok);
+    }
+    connect(udpSocket, SIGNAL(readyRead()), this, SLOT(processPendingDatagrams()));
+   //sendMessage(NewParticipant);
 
-       server = new TcpServer(this);
-       connect(server, SIGNAL(sendFileName(QString)), this, SLOT(getFileName(QString)));
-
-       connect(ui->messageTextEdit, SIGNAL(currentCharFormatChanged(QTextCharFormat)),
+   server = new TcpServer(this);
+   connect(server, SIGNAL(sendFileName(QString)), this, SLOT(getFileName(QString)));
+   connect(ui->messageTextEdit, SIGNAL(currentCharFormatChanged(QTextCharFormat)),
                this, SLOT(currentFormatChanged(const QTextCharFormat)));
+   //视频对话部分
+   ui->PartnerVideo->hide();
+   ui->MyVideo->hide();
+   VideoOpened=false;
+   cm=NULL;
 }
 
 Widget_p2p::~Widget_p2p()
@@ -163,26 +167,6 @@ void Widget_p2p::participantLeft(QString userName,QString time)
     ui->messageBrowser->append(tr("%1 于 %2 离开！").arg(userName).arg(time));
     //ui->userNumLabel->setText(tr("在线人数：%1").arg(ui->userTableWidget->rowCount()));
 }
-
-/*QString Widget_p2p::getUserName()
-{
-    QStringList envVariables;
-    envVariables << "USERNAME.*" << "USER.*" << "USERDOMAIN.*"
-                 << "HOSTNAME.*" << "DOMAINNAME.*";
-    QStringList environment = QProcess::systemEnvironment();
-    foreach (QString string, envVariables) {
-        int index = environment.indexOf(QRegExp(string));
-        if (index != -1) {
-            QStringList stringList = environment.at(index).split('=');
-            if (stringList.size() == 2) {
-                return stringList.at(1);
-                break;
-            }
-        }
-    }
-    return "unknown";
-}*/
-
 QString Widget_p2p::getMessage()
 {
     QString msg = ui->messageTextEdit->toHtml();
@@ -418,4 +402,25 @@ void Widget_p2p::on_messageTextEdit_cursorPositionChanged()
     else
         ui->messageTextEdit->setFontWeight(QFont::Normal);
     ui->messageTextEdit->setTextColor(color);
+}
+
+void Widget_p2p::on_OpenVideoButton_clicked()
+{
+    if(cm==NULL){
+        cm=new CamThread(this);
+        //connect(cm,SIGNAL(ImageProducted(QImage)),this,SendImage(QImage));
+        connect(cm,SIGNAL(ImageProducted(QImage)),ui->MyVideo,SLOT(ShowImage(QImage)));
+    }
+    if(!VideoOpened){
+        VideoOpened=true;
+        ui->PartnerVideo->show();
+        ui->MyVideo->show();
+        ui->OpenVideoButton->setText(tr("结束视频"));
+        cm->run();
+    }
+    else{
+        VideoOpened=false;
+        ui->OpenVideoButton->setText(tr("视频对话"));
+        cm->stop();
+    }
 }

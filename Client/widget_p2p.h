@@ -5,6 +5,7 @@
 #include<QTextCharFormat>
 #include "global.h"
 #include "user.h"
+#include "camthread.h"
 class QUdpSocket;
 class TcpServer;
 
@@ -49,6 +50,8 @@ private:
     User * Self;
     int MsgNotRcved;
     bool isOpen;
+    bool VideoOpened;
+    CamThread *cm;
 signals:
     void newMessage(int,int);
     void closed(Widget_p2p*);
@@ -68,6 +71,7 @@ private slots:
     void on_clearToolBtn_clicked();
     void on_exitButton_clicked();
     void on_messageTextEdit_cursorPositionChanged();
+    void on_OpenVideoButton_clicked();
 };
 
 #endif // WIDGET_P2P_H
