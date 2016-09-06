@@ -77,7 +77,7 @@ void ImgSktThread::SendImage(QImage image)
     else{
         out<<0<<Self->getID()<<Partner->getID();
     }
-    image.save(&buffer,"jpg",-1);
+    image.save(&buffer,"jpg");
     out<<imagebuffer;
     udpsocket->writeDatagram(datagram,QHostAddress::Broadcast,port);
 }
