@@ -1,6 +1,10 @@
 
 QT       += core gui\
             network
+INCLUDEPATH +=F:\OpenCV2.1\include\opencv \
+    F:/OpenCV2.1/include
+
+LIBS +=F:/OpenCV2.1/lib/*
 
 HEADERS += \
     widget_p2p.h \
@@ -13,7 +17,9 @@ HEADERS += \
     logindialog.h \
     global.h \
     clienttcpsocket.h \
-    chatwidget.h
+    chatwidget.h \
+    videodevice.h \
+    camthread.h
 
 SOURCES += \
     widget_p2p.cpp \
@@ -26,7 +32,9 @@ SOURCES += \
     main.cpp \
     logindialog.cpp \
     clienttcpsocket.cpp \
-    chatwidget.cpp
+    chatwidget.cpp \
+    videodevice.cpp \
+    camthread.cpp
 
 FORMS += \
     widget_p2p.ui \
