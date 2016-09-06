@@ -2,6 +2,7 @@
 VideoDevice::VideoDevice(QObject *parent) :
     QObject(parent)
 {
+
 }
 
 void VideoDevice::OpenCamera()

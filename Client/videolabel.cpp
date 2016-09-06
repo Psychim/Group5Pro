@@ -7,5 +7,7 @@ VideoLabel::VideoLabel(QWidget *parent) :
 
 void VideoLabel::ShowImage(QImage image)
 {
+    image.scaledToWidth(width());
+    image.scaledToHeight(height());
     setPixmap(QPixmap::fromImage(image));
 }

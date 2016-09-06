@@ -19,7 +19,7 @@ public:
 
     VideoDevice *vd;
     bool flag;
-    QMutex *mutex;
+    QMutex mutex;
 signals:
     void ImageProducted(QImage);
 public slots:

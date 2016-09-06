@@ -328,6 +328,9 @@ void Widget_p2p::on_exitButton_clicked()
 void Widget_p2p::showEvent(QShowEvent *e){
     isOpen=true;
     MsgNotRcved=0;
+    if(VideoOpened){
+
+    }
     QWidget::showEvent(e);
 }
 
@@ -336,6 +339,13 @@ void Widget_p2p::closeEvent(QCloseEvent *e)
     sendMessage(MessageType::ParticipantLeft);
     isOpen=false;
     ui->messageBrowser->clear();
+    cm->terminate();
+    cm->wait();
+    cm->stop();
+    ui->PartnerVideo->hide();
+    ui->MyVideo->hide();
+    ui->OpenVideoButton->setText(tr("视频对话"));
+    VideoOpened=false;
     emit closed(this);
     QWidget::closeEvent(e);
 }
@@ -409,18 +419,22 @@ void Widget_p2p::on_OpenVideoButton_clicked()
     if(cm==NULL){
         cm=new CamThread(this);
         //connect(cm,SIGNAL(ImageProducted(QImage)),this,SendImage(QImage));
-        connect(cm,SIGNAL(ImageProducted(QImage)),ui->MyVideo,SLOT(ShowImage(QImage)));
+       connect(cm,SIGNAL(ImageProducted(QImage)),ui->MyVideo,SLOT(ShowImage(QImage)));
     }
     if(!VideoOpened){
         VideoOpened=true;
         ui->PartnerVideo->show();
         ui->MyVideo->show();
         ui->OpenVideoButton->setText(tr("结束视频"));
-        cm->run();
+        cm->start();
     }
     else{
         VideoOpened=false;
         ui->OpenVideoButton->setText(tr("视频对话"));
+        ui->PartnerVideo->hide();
+        ui->MyVideo->hide();
+        cm->terminate();
+        cm->wait();
         cm->stop();
     }
 }
