@@ -22,20 +22,7 @@ Widget::Widget(QWidget *parent) :
     Self=NULL;
 }
 Widget::~Widget(){
-    QByteArray buffer;
-    QDataStream out(&buffer,QIODevice::WriteOnly);
-    out<<(MessageSize)0;
-    out<<MessageType::UserStatusUpdate;
-    out<<User::Offline;
-    out<<Self->getID();
-    out.device()->seek(0);
-    out<<(MessageSize)(buffer.size()-sizeof(MessageSize));
-    tcpSocket->abort();
-    tcpSocket->connectToServer();
-    tcpSocket->waitForConnected();
-    tcpSocket->write(buffer);
-    tcpSocket->waitForBytesWritten();
-    tcpSocket->abort();
+
 }
 
 void Widget::process(UserList *users)
@@ -206,4 +193,23 @@ void Widget::MsgPromt(int partnerID, int Msgnum)
 void Widget::KIllp2pWidget(Widget_p2p * widget)
 {
     delete widget;
+}
+
+void Widget::closeEvent(QCloseEvent *e)
+{
+    QByteArray buffer;
+    QDataStream out(&buffer,QIODevice::WriteOnly);
+    out<<(MessageSize)0;
+    out<<MessageType::UserStatusUpdate;
+    out<<User::Offline;
+    out<<Self->getID();
+    out.device()->seek(0);
+    out<<(MessageSize)(buffer.size()-sizeof(MessageSize));
+    tcpSocket->abort();
+    tcpSocket->connectToServer();
+    tcpSocket->waitForConnected();
+    tcpSocket->write(buffer);
+    tcpSocket->waitForBytesWritten();
+    tcpSocket->abort();
+    QWidget::closeEvent(e);
 }

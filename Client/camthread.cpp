@@ -7,24 +7,31 @@ CamThread::CamThread(QObject *parent) :
     //没有这两条语句就会黑屏，为什么？
      vd->OpenCamera();
      vd->GetFrame();
+
 }
+CamThread::~CamThread(){
+    vd->CloseCamera();
+    delete vd;
+}
+
 void CamThread::run()
 {
     mutex.lock();
     vd->OpenCamera();
     this->flag=true;
+    QImage image;
     mutex.unlock();
     while (flag)
     {
-        emit ImageProducted(vd->GetFrame());
-        this->msleep(1000/30);
+        if(vd->isOpen())
+            image=vd->GetFrame();
+        emit ImageProducted(image);
+
     }
 }
 void CamThread::stop()
 {
-    mutex.lock();
+  //  mutex.lock();
     this->flag = false;
-    wait(1000);
-    vd->CloseCamera();
-    mutex.unlock();
+   // mutex.unlock();
 }

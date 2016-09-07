@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget_p2p.ui'
 **
-** Created: Tue Sep 6 10:49:20 2016
+** Created: Wed Sep 7 11:12:20 2016
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -145,8 +145,8 @@ public:
 
         PartnerVideo = new VideoLabel(Widget_p2p);
         PartnerVideo->setObjectName(QString::fromUtf8("PartnerVideo"));
-        PartnerVideo->setMinimumSize(QSize(180, 180));
-        PartnerVideo->setMaximumSize(QSize(180, 180));
+        PartnerVideo->setMinimumSize(QSize(160, 120));
+        PartnerVideo->setMaximumSize(QSize(160, 120));
 
         horizontalLayout->addWidget(PartnerVideo);
 
@@ -277,8 +277,8 @@ public:
         sizePolicy3.setVerticalStretch(0);
         sizePolicy3.setHeightForWidth(MyVideo->sizePolicy().hasHeightForWidth());
         MyVideo->setSizePolicy(sizePolicy3);
-        MyVideo->setMinimumSize(QSize(150, 150));
-        MyVideo->setMaximumSize(QSize(150, 150));
+        MyVideo->setMinimumSize(QSize(64, 48));
+        MyVideo->setMaximumSize(QSize(64, 48));
 
         horizontalLayout_4->addWidget(MyVideo);
 
@@ -316,24 +316,6 @@ public:
 
         gridLayout->addWidget(OpenVideoButton, 0, 0, 1, 1);
 
-        messageBrowser->raise();
-        fontComboBox->raise();
-        messageTextEdit->raise();
-        PartnerVideo->raise();
-        exitButton->raise();
-        sendButton->raise();
-        sizeComboBox->raise();
-        boldToolBtn->raise();
-        label_2->raise();
-        italicToolBtn->raise();
-        underlineToolBtn->raise();
-        nickname->raise();
-        colorToolBtn->raise();
-        sendToolBtn->raise();
-        saveToolBtn->raise();
-        clearToolBtn->raise();
-        MyVideo->raise();
-        sendButton->raise();
         OpenVideoButton->raise();
 
         retranslateUi(Widget_p2p);

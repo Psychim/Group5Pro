@@ -34,6 +34,8 @@ private:
     qint16 port;
     User * Self;    //用户自己，在登录界面登录成功后分配内存空间并传递至主界面，之后一直存在，直到程序结束
     QList<Widget_p2p *> ChattingList;
+protected:
+    void closeEvent(QCloseEvent *);
 public:
     static UserList *onlineUsers;
 private slots:

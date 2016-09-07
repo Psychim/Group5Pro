@@ -6,6 +6,7 @@
 #include"user.h"
 #include"clienttcpsocket.h"
 #include "registerdialog.h"
+#include"widget.h"
 namespace Ui {
     class LoginDialog;
 }

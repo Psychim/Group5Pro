@@ -153,14 +153,14 @@
       <widget class="VideoLabel" name="PartnerVideo">
        <property name="minimumSize">
         <size>
-         <width>180</width>
-         <height>180</height>
+         <width>160</width>
+         <height>120</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>180</width>
-         <height>180</height>
+         <width>160</width>
+         <height>120</height>
         </size>
        </property>
        <property name="text">
@@ -499,14 +499,14 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>150</width>
-         <height>150</height>
+         <width>64</width>
+         <height>48</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>150</width>
-         <height>150</height>
+         <width>64</width>
+         <height>48</height>
         </size>
        </property>
        <property name="text">
@@ -573,26 +573,8 @@
     </widget>
    </item>
   </layout>
-  <zorder>messageBrowser</zorder>
-  <zorder>fontComboBox</zorder>
-  <zorder>messageTextEdit</zorder>
-  <zorder>PartnerVideo</zorder>
   <zorder></zorder>
-  <zorder>exitButton</zorder>
-  <zorder>sendButton</zorder>
-  <zorder>sizeComboBox</zorder>
-  <zorder>boldToolBtn</zorder>
-  <zorder>label_2</zorder>
-  <zorder>italicToolBtn</zorder>
-  <zorder>underlineToolBtn</zorder>
-  <zorder>nickname</zorder>
-  <zorder>colorToolBtn</zorder>
-  <zorder>sendToolBtn</zorder>
-  <zorder>saveToolBtn</zorder>
-  <zorder>clearToolBtn</zorder>
-  <zorder>MyVideo</zorder>
   <zorder></zorder>
-  <zorder>sendButton</zorder>
   <zorder></zorder>
   <zorder></zorder>
   <zorder>OpenVideoButton</zorder>

@@ -15,13 +15,15 @@ class CamThread : public QThread
 public:
     explicit CamThread(QObject *parent=0);
     void run();
-    void stop();
+    ~CamThread();
 
     VideoDevice *vd;
     bool flag;
     QMutex mutex;
 signals:
     void ImageProducted(QImage);
+public slots:
+    void stop();
 };
 
 #endif // CAMTHREAD_H

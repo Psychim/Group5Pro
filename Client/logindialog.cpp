@@ -53,6 +53,8 @@ void LoginDialog::HandleLoginSuccess(User * user)
 {
     ui->StatusLabel->setText(tr("µÇÂ¼³É¹¦"));
     tcpSocket->abort();
+    Widget *MainWidget=new Widget;
+    connect(this,SIGNAL(LoginSuccess(User*)),MainWidget,SLOT(initialize(User*)));
     emit LoginSuccess(user);
     close();
 }

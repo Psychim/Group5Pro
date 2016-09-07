@@ -10,7 +10,7 @@ public:
     explicit VideoLabel(QWidget *parent = 0);
 
 signals:
-
+    void ImageFreshed();
 public slots:
     void ShowImage(QImage);
 };

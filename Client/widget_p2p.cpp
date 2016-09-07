@@ -11,9 +11,8 @@
 #include <QNetworkInterface>
 #include <QProcess>
 #include <QFileDialog>
-#include<QInputDialog>
 #include <QColorDialog>
-
+#include<QTimer>
 Widget_p2p::Widget_p2p(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget_p2p)
@@ -47,6 +46,7 @@ Widget_p2p::Widget_p2p(QWidget *parent) :
 Widget_p2p::~Widget_p2p()
 {
     delete ui;
+    delete cm;
     qDebug()<<1;
 }
 
@@ -361,7 +361,8 @@ void Widget_p2p::closeEvent(QCloseEvent *e)
     sendMessage(MessageType::ParticipantLeft);
     isOpen=false;
     ui->messageBrowser->clear();
-    on_OpenVideoButton_clicked();
+    if(VideoOpened)
+        on_OpenVideoButton_clicked();
     emit closed(this);
     QWidget::closeEvent(e);
 }
@@ -435,9 +436,11 @@ void Widget_p2p::on_OpenVideoButton_clicked()
     if(cm==NULL){
         cm=new CamThread(this);
         connect(cm,SIGNAL(ImageProducted(QImage)),ui->MyVideo,SLOT(ShowImage(QImage)));
+
     }
     if(!VideoOpened){
         VideoOpened=true;
+    //    ui->PartnerVideo->setWindowFlags(Qt::Window);
         ui->PartnerVideo->show();
         ui->MyVideo->show();
         ui->OpenVideoButton->setText(tr("结束视频"));
@@ -447,19 +450,25 @@ void Widget_p2p::on_OpenVideoButton_clicked()
     }
     else{
         VideoOpened=false;
+        if(imgskt!=NULL){
+            delete imgskt;
+            imgskt=NULL;
+        }
+        //停止cm会导致ShowImage()里的scaledToWidth(width())出错
+
+        if(cm!=NULL){
+            cm->terminate();
+            cm->wait();
+         //   cm->stop();
+        //    delete cm;
+        //    cm==NULL;
+        }
         ui->OpenVideoButton->setText(tr("视频对话"));
+        ui->PartnerVideo->clear();
         ui->PartnerVideo->hide();
+        ui->MyVideo->clear();
         ui->MyVideo->hide();
-        cm->terminate();
-        cm->wait();
-        cm->stop();
-        delete cm;
-        cm=NULL;
-    //    imgskt->terminate();
-    //    imgskt->wait();
-        imgskt->stop();
-        delete imgskt;
-        imgskt=NULL;
+        QTimer::singleShot(500,cm,SLOT(stop()));
     }
 }
 
@@ -482,7 +491,7 @@ void Widget_p2p::VideoRequestReceived(int step)
                 imgskt->setPartner(Partner);
                 imgskt->setSelf(Self);
             }
-            imgskt->start();
+      //      imgskt->start();      不需要，用新的线程反而会卡
             connect(cm,SIGNAL(ImageProducted(QImage)),ui->MyVideo,SLOT(ShowImage(QImage)));
             connect(cm,SIGNAL(ImageProducted(QImage)),imgskt,SLOT(SendImage(QImage)));
             connect(imgskt,SIGNAL(ImageReceived(QImage)),ui->PartnerVideo,SLOT(ShowImage(QImage)));
@@ -498,7 +507,7 @@ void Widget_p2p::VideoRequestReceived(int step)
             imgskt->setPartner(Partner);
             imgskt->setSelf(Self);
         }
-       // imgskt->start();
+       //      imgskt->start();      不需要，用新的线程反而会卡
         connect(cm,SIGNAL(ImageProducted(QImage)),imgskt,SLOT(SendImage(QImage)));
         connect(imgskt,SIGNAL(ImageReceived(QImage)),ui->PartnerVideo,SLOT(ShowImage(QImage)));
     }

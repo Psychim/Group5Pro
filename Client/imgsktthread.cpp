@@ -15,12 +15,12 @@ ImgSktThread::ImgSktThread(QObject *parent) :
 
 void ImgSktThread::run()
 {
-  /*  mutex.lock();
+    mutex.lock();
     flag=true;
     mutex.unlock();
     while(flag){
-        udpsocket->waitForReadyRead(500);
-    }*/
+        udpsocket->waitForReadyRead(1000/30);
+    }
 }
 
 void ImgSktThread::stop()
@@ -59,7 +59,7 @@ void ImgSktThread::ReadImage()
         }
         in>>imagebuffer;
         QImage image;
-        image.loadFromData(imagebuffer,"jpg");
+        image.loadFromData(imagebuffer,"JPG");
         emit ImageReceived(image);
     }
 }
@@ -77,7 +77,9 @@ void ImgSktThread::SendImage(QImage image)
     else{
         out<<0<<Self->getID()<<Partner->getID();
     }
-    image.save(&buffer,"jpg");
+    image=image.scaledToHeight(240);
+    image=image.scaledToWidth(180);
+    image.save(&buffer,"JPG");
     out<<imagebuffer;
     udpsocket->writeDatagram(datagram,QHostAddress::Broadcast,port);
 }

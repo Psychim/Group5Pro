@@ -11,15 +11,17 @@ class VideoDevice : public QObject
 public:
     explicit VideoDevice(QObject *parent = 0);
     void OpenCamera();
-    void CloseCamera();
+    ~VideoDevice();
     QImage GetFrame();
+    bool isOpen();
 private:
     CvCapture *cp;
     IplImage *frame;
+    bool Opened;
 signals:
 
 public slots:
-
+    void CloseCamera();
 };
 
 #endif // VIDEODEVICE_H
