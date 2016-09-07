@@ -6,7 +6,10 @@ CamThread::CamThread(QObject *parent) :
     vd=new VideoDevice(this);
     //没有这两条语句就会黑屏，为什么？
      vd->OpenCamera();
-     vd->GetFrame();
+     for(int i=0;i<5;i++){
+         vd->GetFrame();
+         msleep(10);
+     }
 
 }
 CamThread::~CamThread(){

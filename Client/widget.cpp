@@ -82,12 +82,6 @@ void Widget::doubleClicked(QTableWidgetItem * item)
             break;
         }
     }
-    /*User *user=onlineUsers->searchByID(ID);
-    Widget_p2p *w=new Widget_p2p(this);
-    w->setPartner(user);
-    w->setSelf(Self);
-    //w->readmessage(QByteArray buffer);
-    w->show();*/
 }
 
 void Widget::initialize(User * user)

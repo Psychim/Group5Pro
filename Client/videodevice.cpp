@@ -3,6 +3,7 @@ VideoDevice::VideoDevice(QObject *parent) :
     QObject(parent)
 {
     Opened=false;
+
 }
 VideoDevice::~VideoDevice(){
     if(Opened)
@@ -11,7 +12,7 @@ VideoDevice::~VideoDevice(){
 
 void VideoDevice::OpenCamera()
 {
-    cp=cvCreateCameraCapture(0);
+    cp=cvCreateCameraCapture(-1);
     Opened=true;
 }
 

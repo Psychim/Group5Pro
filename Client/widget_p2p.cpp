@@ -516,12 +516,14 @@ void Widget_p2p::VideoRequestReceived(int step)
         ui->messageBrowser->setTextColor(Qt::red);
         ui->messageBrowser->setCurrentFont(QFont("Times New Roman", 10));
         ui->messageBrowser->append(tr("对方拒绝了视频对话请求！"));
-        on_OpenVideoButton_clicked();
+        if(VideoOpened)
+            on_OpenVideoButton_clicked();
     }
     else if(step==3){       //对方关闭了视频对话
         ui->messageBrowser->setTextColor(Qt::red);
         ui->messageBrowser->setCurrentFont(QFont("Times New Roman", 10));
         ui->messageBrowser->append(tr("对方关闭了视频对话"));
-        on_OpenVideoButton_clicked();
+        if(VideoOpened)
+            on_OpenVideoButton_clicked();
     }
 }
