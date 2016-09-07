@@ -33,5 +33,6 @@ void CamThread::stop()
 {
   //  mutex.lock();
     this->flag = false;
+    vd->CloseCamera();
    // mutex.unlock();
 }
