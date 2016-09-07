@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'logindialog.ui'
 **
-** Created: Thu Sep 1 22:05:35 2016
+** Created: Wed Sep 7 16:10:10 2016
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -52,6 +52,7 @@ public:
         LoginDialog->setSizePolicy(sizePolicy);
         LoginDialog->setMinimumSize(QSize(300, 200));
         LoginDialog->setMaximumSize(QSize(300, 200));
+        LoginDialog->setStyleSheet(QString::fromUtf8("color: qconicalgradient(cx:0.5, cy:0.5, angle:0, stop:0 rgba(35, 40, 3, 255), stop:0.16 rgba(136, 106, 22, 255), stop:0.225 rgba(166, 140, 41, 255), stop:0.285 rgba(204, 181, 74, 255), stop:0.345 rgba(235, 219, 102, 255), stop:0.415 rgba(245, 236, 112, 255), stop:0.52 rgba(209, 190, 76, 255), stop:0.57 rgba(187, 156, 51, 255), stop:0.635 rgba(168, 142, 42, 255), stop:0.695 rgba(202, 174, 68, 255), stop:0.75 rgba(218, 202, 86, 255), stop:0.815 rgba(208, 187, 73, 255), stop:0.88 rgba(187, 156, 51, 255), stop:0.935 rgba(137, 108, 26, 255), stop:1 rgba(35, 40, 3, 255));"));
         verticalLayout = new QVBoxLayout(LoginDialog);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
@@ -133,7 +134,9 @@ public:
     {
         LoginDialog->setWindowTitle(QApplication::translate("LoginDialog", "\347\231\273\345\275\225", 0, QApplication::UnicodeUTF8));
         UsernameLabel->setText(QApplication::translate("LoginDialog", "\347\224\250\346\210\267\345\220\215", 0, QApplication::UnicodeUTF8));
+        UsernameLineEdit->setPlaceholderText(QApplication::translate("LoginDialog", "\347\224\250\346\210\267\345\220\215", 0, QApplication::UnicodeUTF8));
         PasswordLabel->setText(QApplication::translate("LoginDialog", "\345\257\206  \347\240\201", 0, QApplication::UnicodeUTF8));
+        PasswordLineEdit->setPlaceholderText(QApplication::translate("LoginDialog", "\345\257\206\347\240\201", 0, QApplication::UnicodeUTF8));
         StatusLabel->setText(QApplication::translate("LoginDialog", "\346\255\243\345\234\250\345\210\235\345\247\213\345\214\226...", 0, QApplication::UnicodeUTF8));
         LoginButton->setText(QApplication::translate("LoginDialog", "\347\231\273\345\275\225", 0, QApplication::UnicodeUTF8));
         RegisterButton->setText(QApplication::translate("LoginDialog", "\346\263\250\345\206\214", 0, QApplication::UnicodeUTF8));

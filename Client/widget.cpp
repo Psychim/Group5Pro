@@ -175,7 +175,7 @@ void Widget::DeleteRoom(int room)
     int row=itm->row();
     ui->roomtableWidget->removeRow(row);
 }
-
+//ÏûÏ¢ÌáÐÑ
 void Widget::MsgPromt(int partnerID, int Msgnum)
 {
     QTableWidgetItem *itm=ui->userTableWidget->findItems(QString::number(partnerID),Qt::MatchExactly).first();

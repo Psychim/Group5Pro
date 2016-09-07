@@ -47,7 +47,6 @@ Widget_p2p::~Widget_p2p()
 {
     delete ui;
     delete cm;
-    qDebug()<<1;
 }
 
 

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget_p2p.ui'
 **
-** Created: Wed Sep 7 11:12:20 2016
+** Created: Wed Sep 7 15:59:08 2016
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -46,6 +46,8 @@ public:
     QLabel *label;
     QSpacerItem *verticalSpacer_3;
     QSpacerItem *verticalSpacer_4;
+    QSpacerItem *verticalSpacer_5;
+    QSpacerItem *verticalSpacer_6;
     VideoLabel *PartnerVideo;
     QHBoxLayout *horizontalLayout_2;
     QFontComboBox *fontComboBox;
@@ -73,7 +75,7 @@ public:
             Widget_p2p->setObjectName(QString::fromUtf8("Widget_p2p"));
         Widget_p2p->resize(650, 450);
         Widget_p2p->setMinimumSize(QSize(650, 450));
-        Widget_p2p->setMaximumSize(QSize(650, 450));
+        Widget_p2p->setMaximumSize(QSize(16777215, 16777215));
         gridLayout = new QGridLayout(Widget_p2p);
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
@@ -140,13 +142,21 @@ public:
 
         formLayout->setItem(0, QFormLayout::FieldRole, verticalSpacer_4);
 
+        verticalSpacer_5 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        formLayout->setItem(4, QFormLayout::LabelRole, verticalSpacer_5);
+
+        verticalSpacer_6 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        formLayout->setItem(4, QFormLayout::FieldRole, verticalSpacer_6);
+
 
         horizontalLayout->addLayout(formLayout);
 
         PartnerVideo = new VideoLabel(Widget_p2p);
         PartnerVideo->setObjectName(QString::fromUtf8("PartnerVideo"));
         PartnerVideo->setMinimumSize(QSize(160, 120));
-        PartnerVideo->setMaximumSize(QSize(160, 120));
+        PartnerVideo->setMaximumSize(QSize(640, 480));
 
         horizontalLayout->addWidget(PartnerVideo);
 
