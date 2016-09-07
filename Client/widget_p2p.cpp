@@ -469,12 +469,13 @@ void Widget_p2p::on_OpenVideoButton_clicked()
         ui->MyVideo->clear();
         ui->MyVideo->hide();
         QTimer::singleShot(500,cm,SLOT(stop()));
+        sendMessage(MessageType::Video,3);
     }
 }
 
 void Widget_p2p::VideoRequestReceived(int step)
 {
-    if(step==0){
+    if(step==0){    //对方发来了视频对话请求
         int ok=QMessageBox::question(0,tr("视频对话请求"),tr("%1(ID:%2)发来视频对话请求，接受吗？").arg(Partner->getNickname()).arg(Partner->getID()),QMessageBox::Yes,QMessageBox::No);
         if(ok==QMessageBox::Yes){
             sendMessage(MessageType::Video,1);
@@ -495,13 +496,13 @@ void Widget_p2p::VideoRequestReceived(int step)
             connect(cm,SIGNAL(ImageProducted(QImage)),ui->MyVideo,SLOT(ShowImage(QImage)));
             connect(cm,SIGNAL(ImageProducted(QImage)),imgskt,SLOT(SendImage(QImage)));
             connect(imgskt,SIGNAL(ImageReceived(QImage)),ui->PartnerVideo,SLOT(ShowImage(QImage)));
-
+            show();
         }
         else{
             sendMessage(MessageType::Video,2);
         }
     }
-    else if(step==1){
+    else if(step==1){       //对方接受了请求
         if(imgskt==NULL){
             imgskt=new ImgSktThread(this);
             imgskt->setPartner(Partner);
@@ -511,10 +512,16 @@ void Widget_p2p::VideoRequestReceived(int step)
         connect(cm,SIGNAL(ImageProducted(QImage)),imgskt,SLOT(SendImage(QImage)));
         connect(imgskt,SIGNAL(ImageReceived(QImage)),ui->PartnerVideo,SLOT(ShowImage(QImage)));
     }
-    else if(step==2){
+    else if(step==2){       //对方拒绝了请求
         ui->messageBrowser->setTextColor(Qt::red);
         ui->messageBrowser->setCurrentFont(QFont("Times New Roman", 10));
         ui->messageBrowser->append(tr("对方拒绝了视频对话请求！"));
+        on_OpenVideoButton_clicked();
+    }
+    else if(step==3){       //对方关闭了视频对话
+        ui->messageBrowser->setTextColor(Qt::red);
+        ui->messageBrowser->setCurrentFont(QFont("Times New Roman", 10));
+        ui->messageBrowser->append(tr("对方关闭了视频对话"));
         on_OpenVideoButton_clicked();
     }
 }
