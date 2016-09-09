@@ -1,12 +1,11 @@
 
 QT       += core gui\
             network
-INCLUDEPATH +=F:\OpenCV2.1\include\opencv \
-    F:/OpenCV2.1/include \
-    F:\Group5Pro\Client\libs\DShow\include
-LIBS +=-LF:/OpenCV2.1/lib/ -lcv210 -lcvaux210 -lcxcore210 -lhighgui210 -lml210 -lopencv_ffmpeg210
-LIBS +=-LF:\videoInput\compiledLib\vs2012 -lvideoInput -lvideoInputD
-LIBS += -LF:\videoInput\videoInputSrcAndDemos\libs\DShow\lib -lddraw -ldxguid -lole32 -loleaut32 -lstrmbasd -lstrmiids -luuid
+INCLUDEPATH +=..\OpenCV2.1\include\opencv \
+    ..\videoInput\libs\DShow\include
+LIBS +=-L..\OpenCV2.1\lib\ -lcv210 -lcvaux210 -lcxcore210 -lhighgui210 -lml210 -lopencv_ffmpeg210
+#LIBS +=-LF:\videoInput\compiledLib\vs2012 -lvideoInput -lvideoInputD
+LIBS += -L..\videoInput\libs\DShow\lib -lddraw -ldxguid -lole32 -loleaut32 -lstrmbasd -lstrmiids -luuid
 HEADERS += \
     widget_p2p.h \
     widget.h \
@@ -23,7 +22,7 @@ HEADERS += \
     camthread.h \
     videolabel.h \
     imgsktthread.h \
-    libs/videoInput/videoInput.h
+    videoInput.h
 
 SOURCES += \
     widget_p2p.cpp \
@@ -41,7 +40,7 @@ SOURCES += \
     camthread.cpp \
     videolabel.cpp \
     imgsktthread.cpp \
-    libs/videoInput/videoInput.cpp
+    videoInput.cpp
 
 FORMS += \
     widget_p2p.ui \

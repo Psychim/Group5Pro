@@ -7,8 +7,6 @@
 #include<QBuffer>
 #include<QMutex>
 #include<QImage>
-#include<cv.h>
-#include<highgui.h>
 class CamThread : public QThread
 {
     Q_OBJECT

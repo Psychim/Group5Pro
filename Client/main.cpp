@@ -7,12 +7,12 @@
 #include"widget.h"
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    a.setStyle(new QCleanlooksStyle);
+    QApplication app(argc, argv);
+    app.setStyle(new QCleanlooksStyle);
     QTextCodec::setCodecForTr(QTextCodec::codecForLocale());
     QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
     LoginDialog w;
     w.show();
-    int ret=a.exec();
+    int ret=app.exec();
     return ret;
 }

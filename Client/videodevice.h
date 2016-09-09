@@ -4,7 +4,7 @@
 #include<cv.h>
 #include<highgui.h>
 #include<QImage>
-#include"libs/videoInput/videoInput.h"
+#include"videoInput.h"
 class VideoDevice : public QObject
 {
     Q_OBJECT

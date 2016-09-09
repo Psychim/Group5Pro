@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'camthread.h'
 **
-** Created: Fri Sep 9 16:14:27 2016
+** Created: Fri Sep 9 16:46:36 2016
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.3)
 **
 ** WARNING! All changes made in this file will be lost!

@@ -1,4 +1,5 @@
 #include "videodevice.h"
+#include<QDebug>
 VideoDevice::VideoDevice(QObject *parent) :
     QObject(parent)
 {
@@ -39,6 +40,7 @@ void VideoDevice::CloseCamera()
 QImage VideoDevice::GetFrame()
 {
     if(vi->isFrameNew(runningDevice)){
+        qDebug()<<" succeed to get frame";
         vi->getPixels(runningDevice,buffer,true,true);
         QImage image((const uchar *)buffer,width,height,QImage::Format_RGB888);
         return image;
