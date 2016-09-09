@@ -5,27 +5,29 @@ VideoDevice::VideoDevice(QObject *parent) :
 {
     Opened=false;
     devicenum=videoInput::listDevices();
-    vi=new videoInput;
+    vi=NULL;
     buffer=NULL;
+
 }
 VideoDevice::~VideoDevice(){
-    delete buffer;
-    delete vi;
+    CloseCamera();
 }
 
 bool VideoDevice::OpenCamera()
 {
-    if(Opened) return false;
-   // cp=cvCreateCameraCapture(-1);
+    if(Opened) return true;
+    vi=new videoInput;
     for(runningDevice=0;runningDevice<devicenum;runningDevice++){
         if(vi->setupDevice(runningDevice)){
             Opened=true;
             width=vi->getWidth(runningDevice);
             height=vi->getHeight(runningDevice);
-            buffer=new unsigned char[vi->getSize(runningDevice)];
+            if(buffer)  delete buffer;
+                buffer=new unsigned char[vi->getSize(runningDevice)];
             break;
         }
     }
+    Opened=true;
     return Opened;
 
 }
@@ -34,6 +36,8 @@ void VideoDevice::CloseCamera()
 {
     vi->stopDevice(runningDevice);
     delete buffer;
+    delete vi;
+    buffer=NULL;
     Opened=false;
 }
 
