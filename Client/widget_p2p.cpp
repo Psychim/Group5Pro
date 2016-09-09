@@ -467,6 +467,7 @@ void Widget_p2p::on_OpenVideoButton_clicked()
         ui->PartnerVideo->hide();
         ui->MyVideo->clear();
         ui->MyVideo->hide();
+        //立即关闭摄像头会在ShowImage()函数中出错，故等待一段时间
         QTimer::singleShot(500,cm,SLOT(stop()));
         sendMessage(MessageType::Video,3);
     }

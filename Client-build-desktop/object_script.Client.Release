@@ -14,6 +14,7 @@ INPUT(
 ./release\camthread.o
 ./release\videolabel.o
 ./release\imgsktthread.o
+./release\videoInput.o
 ./release\moc_widget_p2p.o
 ./release\moc_widget.o
 ./release\moc_userlist.o

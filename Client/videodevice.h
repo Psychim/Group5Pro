@@ -1,23 +1,28 @@
 #ifndef VIDEODEVICE_H
 #define VIDEODEVICE_H
-
 #include <QObject>
 #include<cv.h>
 #include<highgui.h>
 #include<QImage>
+#include"libs/videoInput/videoInput.h"
 class VideoDevice : public QObject
 {
     Q_OBJECT
 public:
     explicit VideoDevice(QObject *parent = 0);
-    void OpenCamera();
+    bool OpenCamera();
     ~VideoDevice();
     QImage GetFrame();
     bool isOpen();
+    int width;
+    int height;
 private:
     CvCapture *cp;
-    IplImage *frame;
+    unsigned char *buffer;
     bool Opened;
+    int devicenum;
+    int runningDevice;
+    videoInput *vi;
 signals:
 
 public slots:

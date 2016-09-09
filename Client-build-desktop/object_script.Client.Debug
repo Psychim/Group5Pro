@@ -14,6 +14,7 @@ INPUT(
 ./debug\camthread.o
 ./debug\videolabel.o
 ./debug\imgsktthread.o
+./debug\videoInput.o
 ./debug\moc_widget_p2p.o
 ./debug\moc_widget.o
 ./debug\moc_userlist.o
