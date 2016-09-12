@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>300</width>
-    <height>200</height>
+    <width>500</width>
+    <height>400</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,132 +18,254 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>300</width>
-    <height>200</height>
+    <width>500</width>
+    <height>400</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>300</width>
-    <height>200</height>
+    <width>500</width>
+    <height>400</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>登录</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">color: qconicalgradient(cx:0.5, cy:0.5, angle:0, stop:0 rgba(35, 40, 3, 255), stop:0.16 rgba(136, 106, 22, 255), stop:0.225 rgba(166, 140, 41, 255), stop:0.285 rgba(204, 181, 74, 255), stop:0.345 rgba(235, 219, 102, 255), stop:0.415 rgba(245, 236, 112, 255), stop:0.52 rgba(209, 190, 76, 255), stop:0.57 rgba(187, 156, 51, 255), stop:0.635 rgba(168, 142, 42, 255), stop:0.695 rgba(202, 174, 68, 255), stop:0.75 rgba(218, 202, 86, 255), stop:0.815 rgba(208, 187, 73, 255), stop:0.88 rgba(187, 156, 51, 255), stop:0.935 rgba(137, 108, 26, 255), stop:1 rgba(35, 40, 3, 255));</string>
+   <string notr="true">QDialog{
+	
+	
+	
+	background-color: rgb(238, 238, 238);
+	
+}</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="leftMargin">
-    <number>50</number>
+  <widget class="QPushButton" name="RegisterButton">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>340</y>
+     <width>91</width>
+     <height>30</height>
+    </rect>
    </property>
-   <property name="rightMargin">
-    <number>50</number>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
    </property>
-   <item>
-    <layout class="QFormLayout" name="formLayout">
-     <property name="formAlignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-     <item row="0" column="0">
-      <widget class="QLabel" name="UsernameLabel">
-       <property name="text">
-        <string>用户名</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="UsernameLineEdit">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="placeholderText">
-        <string>用户名</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QFormLayout" name="formLayout_2">
-     <property name="labelAlignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-     <property name="formAlignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-     <item row="0" column="0">
-      <widget class="QLabel" name="PasswordLabel">
-       <property name="text">
-        <string>密  码</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="PasswordLineEdit">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="echoMode">
-        <enum>QLineEdit::Password</enum>
-       </property>
-       <property name="placeholderText">
-        <string>密码</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <widget class="QLabel" name="StatusLabel">
-     <property name="text">
-      <string>正在初始化...</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QPushButton" name="LoginButton">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>登录</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="RegisterButton">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>注册</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-  </layout>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{border-radius:10px;
+font: 9pt &quot;Consolas&quot;;
+	background-color: rgb(170, 170, 255);
+}
+QPushButton:hover{
+background-color:rgba(100,255,100,100);
+border-color:rgba(255,225,255,200);
+color:rgba(0,0,0,200);
+}
+QPushButton:pressed{
+background-color:rgba(100,255,100,200);
+border-color:rgba(255,225,255,30);
+border-style:inset;
+color:rgba(0,0,0,100);
+}</string>
+   </property>
+   <property name="text">
+    <string>Register</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="LoginButton">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>340</y>
+     <width>91</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{border-radius:10px;
+font: 9pt &quot;Consolas&quot;;
+	background-color: rgb(170, 170, 255);
+}
+QPushButton:hover{
+background-color:rgba(100,255,100,100);
+border-color:rgba(255,225,255,200);
+color:rgba(0,0,0,200);
+}
+QPushButton:pressed{
+background-color:rgba(100,255,100,200);
+border-color:rgba(255,225,255,30);
+border-style:inset;
+color:rgba(0,0,0,100);
+}
+</string>
+   </property>
+   <property name="text">
+    <string>Login</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="StatusLabel">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>230</y>
+     <width>161</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel{
+	rgb(7, 7, 7)
+border-radius:10px;
+font: 9pt &quot;Consolas&quot;;
+}</string>
+   </property>
+   <property name="text">
+    <string>Waiting..</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="UsernameLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>270</y>
+     <width>171</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);
+border-radius:10px;
+font: 9pt &quot;Consolas&quot;;</string>
+   </property>
+   <property name="placeholderText">
+    <string>User Name</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="PasswordLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>270</y>
+     <width>171</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-radius:10px;
+font: 9pt &quot;Consolas&quot;;</string>
+   </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Password</enum>
+   </property>
+   <property name="placeholderText">
+    <string>Passcode</string>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="listWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>30</y>
+     <width>501</width>
+     <height>200</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/new/icon/images/FqUdUKG3OWBOdEHBVrM4HQ9VqiBc.jpg);</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frame">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>501</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>0</y>
+      <width>30</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="IconSources.qrc">
+      <normaloff>:/new/icon/images/close.png</normaloff>:/new/icon/images/close.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>0</y>
+      <width>31</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="IconSources.qrc">
+      <normaloff>:/new/icon/images/minmin.png</normaloff>:/new/icon/images/minmin.png</iconset>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>72</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Chat</string>
+    </property>
+   </widget>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="IconSources.qrc"/>
+ </resources>
  <connections/>
 </ui>

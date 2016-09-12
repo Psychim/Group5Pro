@@ -1,11 +1,14 @@
 #include "logindialog.h"
 #include "ui_logindialog.h"
 #include"global.h"
+#include <QShowEvent>
+#include <QMouseEvent>
 LoginDialog::LoginDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::LoginDialog)
 {
     ui->setupUi(this);
+    this->setWindowFlags(Qt::FramelessWindowHint);
     tcpSocket=new ClientTcpSocket(this);
     connect(tcpSocket,SIGNAL(LoginSuccess(User*)),this,SLOT(HandleLoginSuccess(User*)));
     connect(tcpSocket,SIGNAL(LoginFailed(QString)),this,SLOT(HandleLoginFailed(QString)));
@@ -15,6 +18,17 @@ LoginDialog::LoginDialog(QWidget *parent) :
 LoginDialog::~LoginDialog()
 {
     delete ui;
+}
+
+void LoginDialog::mouseMoveEvent(QMouseEvent *event){
+    if(event->buttons()&Qt::LeftButton)
+    {
+        if(event->y()<=ui->frame->height())
+        {QPoint temp;
+        temp=event->globalPos()-offset;
+        move(temp);
+        }
+    }
 }
 
 void LoginDialog::on_LoginButton_clicked()
@@ -63,4 +77,14 @@ void LoginDialog::DialogInit()
 {
     ui->StatusLabel->setText(tr("请输入用户名和密码"));
     ui->LoginButton->setEnabled(true);
+}
+
+void LoginDialog::on_pushButton_2_clicked()
+{
+    showMinimized();
+}
+
+void LoginDialog::on_pushButton_clicked()
+{
+    close();
 }

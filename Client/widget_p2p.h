@@ -7,6 +7,15 @@
 #include "user.h"
 #include "camthread.h"
 #include"imgsktthread.h"
+#include <QAudioInput>
+#include <QAudioOutput>
+#include <QByteArray>
+#include "cg729encoder.h"
+#include "cg729decoder.h"
+#include "cudpthread.h"
+#include <QThread>
+#include <QMouseEvent>
+#include <QPoint>
 class QUdpSocket;
 class TcpServer;
 
@@ -30,6 +39,13 @@ public:
     void setSelf(User *);
     int getPartnerID();
     void VideoRequestReceived(int);
+
+public slots:
+
+    // 此处是与音频传输相关的槽
+    void slotSendData();
+    void slotReadData(const QByteArray &byte_array);
+
 protected:
     //void newParticipant(QString userName,QString localHostName,QString ipAddress);
     void participantLeft(QString userName,QString time);
@@ -38,7 +54,7 @@ protected:
     void hasPendingFile(QString userName,QString serverAddress,QString clientAddress,QString fileName);
     bool saveFile(const QString& fileName);
     void closeEvent(QCloseEvent*);
-
+    void mouseMoveEvent(QMouseEvent *);
     //QString getUserName();
     QString getMessage();
     void showEvent(QShowEvent *);
@@ -56,9 +72,31 @@ private:
     bool VideoOpened;
     CamThread *cm;
     ImgSktThread *imgskt;
+    QPoint offset;
+    // 此处是与编码音频有关的变量
+    CG729Encoder cg729Encoder;
+    QAudioInput* audioInput;
+    QIODevice * streamIn;
+
+    // 此处是与解码音频有关的变量
+    CG729Decoder cg729Decoder;
+    QAudioOutput* audioOutput;
+    QIODevice * streamOut;
+
+    //记录数据的变量
+    QByteArray tempBuffer;
+    QByteArray tempframe;
+
+    // 线程
+    QThread * udpThreadFather;
+    CUdpThread* udpThread;
+
 signals:
     void newMessage(int,int);
     void closed(Widget_p2p*);
+    void signalSendData(const QByteArray &byte_array); // 与音频传输相关
+    void stopVoice();
+
 private slots:
     void processPendingDatagrams();
     void on_sendButton_clicked();
@@ -76,6 +114,11 @@ private slots:
     void on_exitButton_clicked();
     void on_messageTextEdit_cursorPositionChanged();
     void on_OpenVideoButton_clicked();
+
+    void on_pushButton_clicked();
+    void on_pushButton_2_clicked();
+
+    void stopThread();
 };
 
 #endif // WIDGET_P2P_H

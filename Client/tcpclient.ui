@@ -22,6 +22,24 @@
      <height>23</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{border-radius:10px;
+font: 9pt &quot;Consolas&quot;;
+	background-color: rgb(170, 170, 255);
+}
+QPushButton:hover{
+background-color:rgba(100,255,100,100);
+border-color:rgba(255,225,255,200);
+color:rgba(0,0,0,200);
+}
+QPushButton:pressed{
+background-color:rgba(100,255,100,200);
+border-color:rgba(255,225,255,30);
+border-style:inset;
+color:rgba(0,0,0,100);
+}
+</string>
+   </property>
    <property name="text">
     <string>取消</string>
    </property>
@@ -34,6 +52,24 @@
      <width>75</width>
      <height>23</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{border-radius:10px;
+font: 9pt &quot;Consolas&quot;;
+	background-color: rgb(170, 170, 255);
+}
+QPushButton:hover{
+background-color:rgba(100,255,100,100);
+border-color:rgba(255,225,255,200);
+color:rgba(0,0,0,200);
+}
+QPushButton:pressed{
+background-color:rgba(100,255,100,200);
+border-color:rgba(255,225,255,30);
+border-style:inset;
+color:rgba(0,0,0,100);
+}
+</string>
    </property>
    <property name="text">
     <string>关闭</string>

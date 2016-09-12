@@ -7,6 +7,8 @@
 #include"clienttcpsocket.h"
 #include "registerdialog.h"
 #include"widget.h"
+#include <QPoint>
+#include <QMouseEvent>
 namespace Ui {
     class LoginDialog;
 }
@@ -25,12 +27,18 @@ public slots:
     void HandleLoginFailed(QString);
     void HandleLoginSuccess(User *);
     void DialogInit();
+protected:
+    void mouseMoveEvent(QMouseEvent *);
+
 private:
     Ui::LoginDialog *ui;
     ClientTcpSocket *tcpSocket;
+    QPoint offset;
 signals:
     void LoginSuccess(User *);
 private slots:
+    void on_pushButton_2_clicked();
+    void on_pushButton_clicked();
 };
 
 #endif // DIALOG_H

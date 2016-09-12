@@ -13,12 +13,25 @@
 #include <QFileDialog>
 #include <QColorDialog>
 #include<QTimer>
+#include <QAudioInput>
+#include <QAudioOutput>
+#include <QByteArray>
+#include "cg729encoder.h"
+#include "cg729decoder.h"
+#include "cudpthread.h"
+#include <QThread>
+
+// 一个与音频聊天相关的变量
+const int BUFFER_SIZE = 1024*64;
+
 Widget_p2p::Widget_p2p(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget_p2p)
 {
-    setWindowFlags(Qt::Window);
+   // this->setWindowFlags();
+    setWindowFlags(Qt::Window|Qt::FramelessWindowHint);
     ui->setupUi(this);
+
     Partner=new User(this);
     Self=NULL;
     isOpen=false;
@@ -41,14 +54,70 @@ Widget_p2p::Widget_p2p(QWidget *parent) :
    VideoOpened=false;
    cm=NULL;
    imgskt=NULL;
+
+   // 音频对话部分
+   //设置采样格式
+   QAudioFormat audioFormat;
+   //设置采样率
+   audioFormat.setSampleRate(8000);
+   //设置通道数
+   audioFormat.setChannelCount(1);
+   //设置采样大小，一般为8位或16位
+   audioFormat.setSampleSize(16);
+   //设置编码方式
+   audioFormat.setCodec("audio/pcm");
+   //设置字节序
+   audioFormat.setByteOrder(QAudioFormat::LittleEndian);
+   //设置样本数据类型
+   audioFormat.setSampleType(QAudioFormat::UnSignedInt);
+
+   //获取设备信息
+   QAudioDeviceInfo info = QAudioDeviceInfo::defaultInputDevice();
+   if (!info.isFormatSupported(audioFormat))
+   {
+       qDebug()<<"default format not supported try to use nearest";
+       audioFormat = info.nearestFormat(audioFormat);
+   }
+
+   info = QAudioDeviceInfo::defaultOutputDevice();
+   if (!info.isFormatSupported(audioFormat)) {
+       qDebug()<<"default format not supported try to use nearest";
+       audioFormat = info.nearestFormat(audioFormat);
+   }
+
+   audioInput = new QAudioInput(audioFormat, this);
+   //将麦克风的音频数据传输到输入设备
+   streamIn = audioInput->start();
+
+   //当输入设备检测到数据时，调用槽函数slotSendData
+   connect(streamIn, SIGNAL(readyRead()),this, SLOT(slotSendData()));
+
+   audioOutput = new QAudioOutput(audioFormat, this);
+   //将音频数据传输到输出设备，再由输出设备写入到扬声器
+   streamOut = audioOutput->start();
+
+   // 以下部分是与音频传输有关的，开启音频传输的线程
+
 }
 
 Widget_p2p::~Widget_p2p()
 {
     delete ui;
     delete cm;
+    delete udpThreadFather;
 }
 
+
+void Widget_p2p::mouseMoveEvent(QMouseEvent *event){
+    if(event->buttons()&Qt::LeftButton)
+    {
+        if(event->y()<=ui->frame->height())
+        {QPoint temp;
+        temp=event->globalPos()-offset;
+        move(temp);
+        }
+    }
+}
 
 void Widget_p2p::sendMessage(MessageType::MessageType type, QString serverAddress)
 {
@@ -389,6 +458,7 @@ void Widget_p2p::setPartnerID(int ID)
 {
     Partner->setID(ID);
     ui->id->setText(QString::number(ID));
+
 }
 
 void Widget_p2p::setPartnerNickname(QString nickname)
@@ -432,6 +502,7 @@ void Widget_p2p::on_messageTextEdit_cursorPositionChanged()
 
 void Widget_p2p::on_OpenVideoButton_clicked()
 {
+    udpThread=new CUdpThread();
     if(cm==NULL){
         cm=new CamThread(this);
         connect(cm,SIGNAL(ImageProducted(QImage)),ui->MyVideo,SLOT(ShowImage(QImage)));
@@ -446,6 +517,21 @@ void Widget_p2p::on_OpenVideoButton_clicked()
         ui->PartnerVideo->setText(tr("正在等待对方接受..."));
         sendMessage(MessageType::Video,0);
         cm->start();
+
+
+
+        udpThreadFather=new QThread();
+        udpThread->moveToThread(udpThreadFather);
+        connect(udpThreadFather,SIGNAL(started()),udpThread,SLOT(run()));
+
+        udpThreadFather->start();
+
+        connect(this,SIGNAL(signalSendData(const QByteArray &)),udpThread,SLOT(slotSendData(const QByteArray &)));
+        connect(udpThread,SIGNAL(signalSendData(const QByteArray &)),this,SLOT(slotReadData(const QByteArray &)));
+
+
+        udpThread->setIpAddress(Partner->getIpAddress());
+
     }
     else{
         VideoOpened=false;
@@ -458,10 +544,22 @@ void Widget_p2p::on_OpenVideoButton_clicked()
         if(cm!=NULL){
             cm->terminate();
             cm->wait();
+
          //   cm->stop();
         //    delete cm;
         //    cm==NULL;
         }
+
+
+        connect(this,SIGNAL(stopVoice()),udpThread,SLOT(stopSocket()));
+        connect(udpThread,SIGNAL(stopThread()),this,SLOT(stopThread()));
+        emit stopVoice();
+        // 结束音频聊天线程
+        //delete udpThread;
+        //udpThreadFather->terminate();
+        //udpThreadFather->wait();
+        // 音频聊天线程已结束
+
         ui->OpenVideoButton->setText(tr("视频对话"));
         ui->PartnerVideo->clear();
         ui->PartnerVideo->hide();
@@ -525,4 +623,100 @@ void Widget_p2p::VideoRequestReceived(int step)
         if(VideoOpened)
             on_OpenVideoButton_clicked();
     }
+}
+
+
+
+// 以下是与音频相关
+
+void Widget_p2p::slotSendData()
+{
+
+    short srcAudio[L_FRAME]={0};
+    unsigned char dstAudio[L_FRAME_COMPRESSED]={'\0'};
+    if (!audioInput)
+    {
+        qDebug() << "AudioInput Error";
+        return;
+    }
+
+    QByteArray dataBuffer(BUFFER_SIZE,0);
+    qint64 len1 = audioInput->bytesReady();
+
+    if (len1 > BUFFER_SIZE)
+    {
+        qDebug()<<"BUFFER_SIZE too small";
+        return;
+    }
+    qint64 len2 = streamIn->read(dataBuffer.data(), len1);
+
+    tempBuffer.append(dataBuffer.data(),len2);
+
+    for(int i=0;i<tempBuffer.length()/(L_FRAME*2);i++)
+    {
+        //char转short
+        memcpy(srcAudio,tempBuffer.data()+i*L_FRAME*2,L_FRAME*2);
+        //编码
+        cg729Encoder.encode(srcAudio, dstAudio);
+        QByteArray frame;
+        //reinterpret_cast用于强制转换，这里将unsigned char *转换为const char *
+        frame.append(reinterpret_cast<const char*>(dstAudio),L_FRAME_COMPRESSED);
+        emit signalSendData(frame);
+    }
+    tempBuffer.clear();
+}
+
+
+void Widget_p2p::slotReadData(const QByteArray &byte_array)
+{
+
+    for(int i=0;i<byte_array.length()/L_FRAME_COMPRESSED;i++)
+    {
+        unsigned char srcAudio[L_FRAME_COMPRESSED]={'\0'};
+        short dstAudio[L_FRAME]={0};
+        memcpy(srcAudio,(unsigned char*)byte_array.data()+i * L_FRAME_COMPRESSED,L_FRAME_COMPRESSED);
+        //G729解码
+        cg729Decoder.decode(srcAudio,dstAudio,0);
+        //short转char
+        tempframe.append((char *)dstAudio,L_FRAME * 2);
+
+        if(audioOutput&&audioOutput->state()!=QAudio::StoppedState&&
+                audioOutput->state()!=QAudio::SuspendedState)
+        {
+              int chunks = audioOutput->bytesFree()/audioOutput->periodSize();
+              while (chunks)
+              {
+                  if (tempframe.length() >= audioOutput->periodSize())
+                  {
+                      //写入到扬声器
+                      streamOut->write(tempframe.data(),audioOutput->periodSize());
+                      tempframe = tempframe.mid(audioOutput->periodSize());
+                  }
+                  else
+                  {
+                      //写入到扬声器
+                      streamOut->write(tempframe);
+                      tempframe.clear();
+                      break;
+                  }
+                  --chunks;
+              }
+         }
+    }
+}
+
+void Widget_p2p::on_pushButton_clicked()
+{
+    showMinimized();
+}
+
+void Widget_p2p::on_pushButton_2_clicked()
+{
+    close();
+}
+
+void Widget_p2p::stopThread()
+{
+    udpThreadFather->terminate();
+    udpThreadFather->wait();
 }

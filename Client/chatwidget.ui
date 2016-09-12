@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>801</width>
+    <width>929</width>
     <height>450</height>
    </rect>
   </property>
@@ -17,7 +17,7 @@
    <item row="0" column="0" colspan="9">
     <widget class="QTextBrowser" name="messageBrowser"/>
    </item>
-   <item row="0" column="9" rowspan="3">
+   <item row="0" column="9" rowspan="3" colspan="2">
     <widget class="QTableWidget" name="userTableWidget">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
@@ -267,24 +267,30 @@
    <item row="2" column="0" colspan="9">
     <widget class="QTextEdit" name="messageTextEdit"/>
    </item>
-   <item row="3" column="1">
+   <item row="3" column="5" colspan="2">
+    <widget class="QLabel" name="userNumberLabel">
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="9">
     <widget class="QPushButton" name="sendButton">
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
      <property name="text">
       <string>发送</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="9">
+   <item row="3" column="10">
     <widget class="QPushButton" name="exitButton">
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
      <property name="text">
       <string>退出</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="5" colspan="2">
-    <widget class="QLabel" name="userNumberLabel">
-     <property name="text">
-      <string>TextLabel</string>
      </property>
     </widget>
    </item>

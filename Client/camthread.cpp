@@ -7,10 +7,10 @@ CamThread::CamThread(QObject *parent) :
     //没有这两条语句就会黑屏，为什么？
      vd->OpenCamera();
      QImage image;
-     do{
+  //   do{
          image=vd->GetFrame();
          msleep(1000/30);
-     }while(image.allGray());
+  //   }while(image.allGray());
 
 }
 CamThread::~CamThread(){

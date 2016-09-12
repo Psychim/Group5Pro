@@ -16,7 +16,9 @@ Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
 {
+    this->setWindowFlags(Qt::FramelessWindowHint);
     ui->setupUi(this);
+
     connect(ui->userTableWidget,SIGNAL(itemDoubleClicked(QTableWidgetItem*)),this,SLOT(doubleClicked(QTableWidgetItem*)));
     connect(ui->roomtableWidget,SIGNAL(itemDoubleClicked(QTableWidgetItem*)),this,SLOT(roomdoubleClicked(QTableWidgetItem*)));
     Self=NULL;
@@ -30,6 +32,17 @@ void Widget::process(UserList *users)
     while(!users->isEmpty()){
         newParticipant((*users)[0]);
         users->removeAt(0);
+    }
+}
+
+void Widget::mouseMoveEvent(QMouseEvent *event){
+    if(event->buttons()&Qt::LeftButton)
+    {
+        if(event->y()<=ui->frame->height())
+        {QPoint temp;
+        temp=event->globalPos()-offset;
+        move(temp);
+        }
     }
 }
 
@@ -206,4 +219,14 @@ void Widget::closeEvent(QCloseEvent *e)
     tcpSocket->waitForBytesWritten();
     tcpSocket->abort();
     QWidget::closeEvent(e);
+}
+
+void Widget::on_pushButton_clicked()
+{
+    showMinimized();
+}
+
+void Widget::on_pushButton_2_clicked()
+{
+    close();
 }

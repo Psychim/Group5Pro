@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'chatwidget.ui'
 **
-** Created: Thu Sep 1 23:12:32 2016
+** Created: Mon Sep 12 15:27:04 2016
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -44,15 +44,15 @@ public:
     QToolButton *saveToolBtn;
     QToolButton *clearToolBtn;
     QTextEdit *messageTextEdit;
+    QLabel *userNumberLabel;
     QPushButton *sendButton;
     QPushButton *exitButton;
-    QLabel *userNumberLabel;
 
     void setupUi(QWidget *ChatWidget)
     {
         if (ChatWidget->objectName().isEmpty())
             ChatWidget->setObjectName(QString::fromUtf8("ChatWidget"));
-        ChatWidget->resize(801, 450);
+        ChatWidget->resize(929, 450);
         gridLayout = new QGridLayout(ChatWidget);
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
@@ -79,7 +79,7 @@ public:
         userTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
         userTableWidget->setShowGrid(false);
 
-        gridLayout->addWidget(userTableWidget, 0, 9, 3, 1);
+        gridLayout->addWidget(userTableWidget, 0, 9, 3, 2);
 
         fontComboBox = new QFontComboBox(ChatWidget);
         fontComboBox->setObjectName(QString::fromUtf8("fontComboBox"));
@@ -170,20 +170,22 @@ public:
 
         gridLayout->addWidget(messageTextEdit, 2, 0, 1, 9);
 
-        sendButton = new QPushButton(ChatWidget);
-        sendButton->setObjectName(QString::fromUtf8("sendButton"));
-
-        gridLayout->addWidget(sendButton, 3, 1, 1, 1);
-
-        exitButton = new QPushButton(ChatWidget);
-        exitButton->setObjectName(QString::fromUtf8("exitButton"));
-
-        gridLayout->addWidget(exitButton, 3, 9, 1, 1);
-
         userNumberLabel = new QLabel(ChatWidget);
         userNumberLabel->setObjectName(QString::fromUtf8("userNumberLabel"));
 
         gridLayout->addWidget(userNumberLabel, 3, 5, 1, 2);
+
+        sendButton = new QPushButton(ChatWidget);
+        sendButton->setObjectName(QString::fromUtf8("sendButton"));
+        sendButton->setStyleSheet(QString::fromUtf8(""));
+
+        gridLayout->addWidget(sendButton, 3, 9, 1, 1);
+
+        exitButton = new QPushButton(ChatWidget);
+        exitButton->setObjectName(QString::fromUtf8("exitButton"));
+        exitButton->setStyleSheet(QString::fromUtf8(""));
+
+        gridLayout->addWidget(exitButton, 3, 10, 1, 1);
 
         QWidget::setTabOrder(userTableWidget, fontComboBox);
         QWidget::setTabOrder(fontComboBox, sizeComboBox);
@@ -250,9 +252,9 @@ public:
         clearToolBtn->setToolTip(QApplication::translate("ChatWidget", "\346\270\205\347\251\272\350\201\212\345\244\251\350\256\260\345\275\225", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
         clearToolBtn->setText(QApplication::translate("ChatWidget", "...", 0, QApplication::UnicodeUTF8));
+        userNumberLabel->setText(QApplication::translate("ChatWidget", "TextLabel", 0, QApplication::UnicodeUTF8));
         sendButton->setText(QApplication::translate("ChatWidget", "\345\217\221\351\200\201", 0, QApplication::UnicodeUTF8));
         exitButton->setText(QApplication::translate("ChatWidget", "\351\200\200\345\207\272", 0, QApplication::UnicodeUTF8));
-        userNumberLabel->setText(QApplication::translate("ChatWidget", "TextLabel", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

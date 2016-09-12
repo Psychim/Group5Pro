@@ -13,6 +13,8 @@ VideoDevice::~VideoDevice(){
 void VideoDevice::OpenCamera()
 {
     cp=cvCreateCameraCapture(-1);
+    cvSetCaptureProperty(cp,CV_CAP_PROP_FRAME_WIDTH,640);
+    cvSetCaptureProperty(cp,CV_CAP_PROP_FRAME_HEIGHT,480);
     Opened=true;
 }
 

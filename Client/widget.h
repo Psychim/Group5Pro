@@ -8,6 +8,8 @@
 #include "widget_p2p.h"
 #include<QtNetwork>
 #include<QTableWidget>
+#include<QMouseEvent>
+#include <QPoint>
 
 namespace Ui {
     class Widget;
@@ -34,8 +36,10 @@ private:
     qint16 port;
     User * Self;    //用户自己，在登录界面登录成功后分配内存空间并传递至主界面，之后一直存在，直到程序结束
     QList<Widget_p2p *> ChattingList;
+    QPoint offset;
 protected:
     void closeEvent(QCloseEvent *);
+    void mouseMoveEvent(QMouseEvent *);
 public:
     static UserList *onlineUsers;
 private slots:
@@ -49,6 +53,8 @@ private slots:
     void DeleteRoom(int);
     void MsgPromt(int,int);
     void KIllp2pWidget(Widget_p2p*);
+    void on_pushButton_clicked();
+    void on_pushButton_2_clicked();
 };
 
 #endif // WIDGET_H

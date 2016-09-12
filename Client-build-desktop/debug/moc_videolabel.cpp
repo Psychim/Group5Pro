@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'videolabel.h'
 **
-** Created: Wed Sep 7 10:52:36 2016
+** Created: Thu Sep 8 09:21:01 2016
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.3)
 **
 ** WARNING! All changes made in this file will be lost!

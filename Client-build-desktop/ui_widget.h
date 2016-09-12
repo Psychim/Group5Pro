@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget.ui'
 **
-** Created: Thu Sep 1 22:55:02 2016
+** Created: Mon Sep 12 10:49:02 2016
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -15,9 +15,10 @@
 #include <QtGui/QApplication>
 #include <QtGui/QButtonGroup>
 #include <QtGui/QCommandLinkButton>
-#include <QtGui/QGridLayout>
+#include <QtGui/QFrame>
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
+#include <QtGui/QPushButton>
 #include <QtGui/QTabWidget>
 #include <QtGui/QTableWidget>
 #include <QtGui/QVBoxLayout>
@@ -28,11 +29,14 @@ QT_BEGIN_NAMESPACE
 class Ui_Widget
 {
 public:
-    QGridLayout *gridLayout;
+    QVBoxLayout *verticalLayout_2;
+    QFrame *frame;
+    QLabel *label_3;
+    QPushButton *pushButton;
+    QPushButton *pushButton_2;
     QLabel *label;
-    QLabel *label_2;
-    QLabel *userNumLabel;
     QLabel *nickname;
+    QLabel *label_2;
     QLabel *idlabel;
     QTabWidget *tabWidget;
     QWidget *tab;
@@ -42,44 +46,77 @@ public:
     QVBoxLayout *verticalLayout;
     QCommandLinkButton *commandLinkButton;
     QTableWidget *roomtableWidget;
+    QLabel *userNumLabel;
 
     void setupUi(QWidget *Widget)
     {
         if (Widget->objectName().isEmpty())
             Widget->setObjectName(QString::fromUtf8("Widget"));
         Widget->setWindowModality(Qt::NonModal);
-        Widget->resize(343, 572);
-        gridLayout = new QGridLayout(Widget);
-        gridLayout->setSpacing(6);
-        gridLayout->setContentsMargins(11, 11, 11, 11);
-        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+        Widget->resize(350, 572);
+        Widget->setStyleSheet(QString::fromUtf8("QWidget{\n"
+"	\n"
+"	\n"
+"}\n"
+""));
+        verticalLayout_2 = new QVBoxLayout(Widget);
+        verticalLayout_2->setSpacing(6);
+        verticalLayout_2->setContentsMargins(0, 0, 0, 0);
+        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        frame = new QFrame(Widget);
+        frame->setObjectName(QString::fromUtf8("frame"));
+        frame->setMinimumSize(QSize(351, 30));
+        frame->setMaximumSize(QSize(351, 30));
+        frame->setFrameShape(QFrame::StyledPanel);
+        frame->setFrameShadow(QFrame::Raised);
+        label_3 = new QLabel(frame);
+        label_3->setObjectName(QString::fromUtf8("label_3"));
+        label_3->setGeometry(QRect(10, 10, 91, 16));
+        pushButton = new QPushButton(frame);
+        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+        pushButton->setGeometry(QRect(290, 0, 30, 30));
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/new/icon/images/minmin.png"), QSize(), QIcon::Normal, QIcon::Off);
+        pushButton->setIcon(icon);
+        pushButton_2 = new QPushButton(frame);
+        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
+        pushButton_2->setGeometry(QRect(320, 0, 30, 30));
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8(":/new/icon/images/close.png"), QSize(), QIcon::Normal, QIcon::Off);
+        pushButton_2->setIcon(icon1);
+
+        verticalLayout_2->addWidget(frame);
+
         label = new QLabel(Widget);
         label->setObjectName(QString::fromUtf8("label"));
 
-        gridLayout->addWidget(label, 0, 0, 1, 1);
-
-        label_2 = new QLabel(Widget);
-        label_2->setObjectName(QString::fromUtf8("label_2"));
-
-        gridLayout->addWidget(label_2, 1, 0, 1, 1);
-
-        userNumLabel = new QLabel(Widget);
-        userNumLabel->setObjectName(QString::fromUtf8("userNumLabel"));
-
-        gridLayout->addWidget(userNumLabel, 3, 0, 1, 1);
+        verticalLayout_2->addWidget(label);
 
         nickname = new QLabel(Widget);
         nickname->setObjectName(QString::fromUtf8("nickname"));
 
-        gridLayout->addWidget(nickname, 0, 1, 1, 1);
+        verticalLayout_2->addWidget(nickname);
+
+        label_2 = new QLabel(Widget);
+        label_2->setObjectName(QString::fromUtf8("label_2"));
+
+        verticalLayout_2->addWidget(label_2);
 
         idlabel = new QLabel(Widget);
         idlabel->setObjectName(QString::fromUtf8("idlabel"));
+        idlabel->setEnabled(true);
+        idlabel->setStyleSheet(QString::fromUtf8(""));
 
-        gridLayout->addWidget(idlabel, 1, 1, 1, 1);
+        verticalLayout_2->addWidget(idlabel);
 
         tabWidget = new QTabWidget(Widget);
         tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
+        tabWidget->setStyleSheet(QString::fromUtf8("QTabWidget{border-radius:10px;\n"
+"	\n"
+"	color: rgb(255, 255, 255);\n"
+"}\n"
+"\n"
+""));
         tab = new QWidget();
         tab->setObjectName(QString::fromUtf8("tab"));
         verticalLayout_3 = new QVBoxLayout(tab);
@@ -96,6 +133,8 @@ public:
         QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
         userTableWidget->setHorizontalHeaderItem(2, __qtablewidgetitem2);
         userTableWidget->setObjectName(QString::fromUtf8("userTableWidget"));
+        userTableWidget->setStyleSheet(QString::fromUtf8("background-image: url(:/new/icon/images/1354184767490.jpg);\n"
+"color: rgb(255, 255, 255);"));
         userTableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
         userTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
         userTableWidget->setShowGrid(false);
@@ -116,6 +155,21 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(commandLinkButton->sizePolicy().hasHeightForWidth());
         commandLinkButton->setSizePolicy(sizePolicy);
+        commandLinkButton->setStyleSheet(QString::fromUtf8("QCommandLinkButton{border-radius:10px;\n"
+"\n"
+"}\n"
+"QPushButton:hover{\n"
+"background-color:rgba(100,255,100,100);\n"
+"border-color:rgba(255,225,255,200);\n"
+"color:rgba(0,0,0,200);\n"
+"}\n"
+"QPushButton:pressed{\n"
+"background-color:rgba(100,255,100,200);\n"
+"border-color:rgba(255,225,255,30);\n"
+"border-style:inset;\n"
+"color:rgba(0,0,0,100);\n"
+"}\n"
+""));
 
         verticalLayout->addWidget(commandLinkButton);
 
@@ -129,12 +183,18 @@ public:
         QTableWidgetItem *__qtablewidgetitem5 = new QTableWidgetItem();
         roomtableWidget->setHorizontalHeaderItem(2, __qtablewidgetitem5);
         roomtableWidget->setObjectName(QString::fromUtf8("roomtableWidget"));
+        roomtableWidget->setStyleSheet(QString::fromUtf8("border-image: url(:/new/icon/images/1354184767490.jpg);"));
 
         verticalLayout->addWidget(roomtableWidget);
 
         tabWidget->addTab(tab_2, QString());
 
-        gridLayout->addWidget(tabWidget, 2, 0, 1, 5);
+        verticalLayout_2->addWidget(tabWidget);
+
+        userNumLabel = new QLabel(Widget);
+        userNumLabel->setObjectName(QString::fromUtf8("userNumLabel"));
+
+        verticalLayout_2->addWidget(userNumLabel);
 
 
         retranslateUi(Widget);
@@ -148,10 +208,12 @@ public:
     void retranslateUi(QWidget *Widget)
     {
         Widget->setWindowTitle(QApplication::translate("Widget", "\345\261\200\345\237\237\347\275\221\350\201\212\345\244\251\345\267\245\345\205\267", 0, QApplication::UnicodeUTF8));
+        label_3->setText(QApplication::translate("Widget", "Easy Chat", 0, QApplication::UnicodeUTF8));
+        pushButton->setText(QString());
+        pushButton_2->setText(QString());
         label->setText(QApplication::translate("Widget", "\346\230\265\347\247\260\357\274\232", 0, QApplication::UnicodeUTF8));
-        label_2->setText(QApplication::translate("Widget", "ID:", 0, QApplication::UnicodeUTF8));
-        userNumLabel->setText(QApplication::translate("Widget", "\345\234\250\347\272\277\344\272\272\346\225\260", 0, QApplication::UnicodeUTF8));
         nickname->setText(QApplication::translate("Widget", "\346\230\265\347\247\260", 0, QApplication::UnicodeUTF8));
+        label_2->setText(QApplication::translate("Widget", "ID:", 0, QApplication::UnicodeUTF8));
         idlabel->setText(QApplication::translate("Widget", "ID", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem = userTableWidget->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("Widget", "ID", 0, QApplication::UnicodeUTF8));
@@ -168,6 +230,7 @@ public:
         QTableWidgetItem *___qtablewidgetitem5 = roomtableWidget->horizontalHeaderItem(2);
         ___qtablewidgetitem5->setText(QApplication::translate("Widget", "\344\272\272\346\225\260", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("Widget", "\347\276\244\350\201\212", 0, QApplication::UnicodeUTF8));
+        userNumLabel->setText(QApplication::translate("Widget", "\345\234\250\347\272\277\344\272\272\346\225\260", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

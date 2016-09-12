@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'logindialog.h'
 **
-** Created: Wed Sep 7 09:46:55 2016
+** Created: Mon Sep 12 14:56:11 2016
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_LoginDialog[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       6,   14, // methods
+       8,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -39,6 +39,8 @@ static const uint qt_meta_data_LoginDialog[] = {
       86,   12,   12,   12, 0x0a,
      113,   12,   12,   12, 0x0a,
      139,   12,   12,   12, 0x0a,
+     152,   12,   12,   12, 0x08,
+     178,   12,   12,   12, 0x08,
 
        0        // eod
 };
@@ -49,6 +51,8 @@ static const char qt_meta_stringdata_LoginDialog[] = {
     "on_RegisterButton_clicked()\0"
     "HandleLoginFailed(QString)\0"
     "HandleLoginSuccess(User*)\0DialogInit()\0"
+    "on_pushButton_2_clicked()\0"
+    "on_pushButton_clicked()\0"
 };
 
 const QMetaObject LoginDialog::staticMetaObject = {
@@ -86,9 +90,11 @@ int LoginDialog::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 3: HandleLoginFailed((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 4: HandleLoginSuccess((*reinterpret_cast< User*(*)>(_a[1]))); break;
         case 5: DialogInit(); break;
+        case 6: on_pushButton_2_clicked(); break;
+        case 7: on_pushButton_clicked(); break;
         default: ;
         }
-        _id -= 6;
+        _id -= 8;
     }
     return _id;
 }

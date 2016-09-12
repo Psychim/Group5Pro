@@ -1,10 +1,12 @@
 
 QT       += core gui\
             network
+QT       += multimedia
 INCLUDEPATH +=F:\OpenCV2.1\include\opencv \
     F:/OpenCV2.1/include
 
 LIBS +=F:/OpenCV2.1/lib/*
+LIBS+=-LF:\va_g729a -lva_g729a
 
 HEADERS += \
     widget_p2p.h \
@@ -21,7 +23,11 @@ HEADERS += \
     videodevice.h \
     camthread.h \
     videolabel.h \
-    imgsktthread.h
+    imgsktthread.h \
+    cg729decoder.h \
+    cg729encoder.h \
+    cudpthread.h \
+    va_g729a.h
 
 SOURCES += \
     widget_p2p.cpp \
@@ -38,7 +44,10 @@ SOURCES += \
     videodevice.cpp \
     camthread.cpp \
     videolabel.cpp \
-    imgsktthread.cpp
+    imgsktthread.cpp \
+    cg729decoder.cpp \
+    cg729encoder.cpp \
+    cudpthread.cpp
 
 FORMS += \
     widget_p2p.ui \

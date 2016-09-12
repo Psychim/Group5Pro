@@ -14,6 +14,9 @@ INPUT(
 ./release\camthread.o
 ./release\videolabel.o
 ./release\imgsktthread.o
+./release\cg729decoder.o
+./release\cg729encoder.o
+./release\cudpthread.o
 ./release\moc_widget_p2p.o
 ./release\moc_widget.o
 ./release\moc_userlist.o
@@ -28,5 +31,6 @@ INPUT(
 ./release\moc_camthread.o
 ./release\moc_videolabel.o
 ./release\moc_imgsktthread.o
+./release\moc_cudpthread.o
 ./release\qrc_IconSources.o
 );

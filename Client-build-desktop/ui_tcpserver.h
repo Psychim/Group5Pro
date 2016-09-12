@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'tcpserver.ui'
 **
-** Created: Wed Aug 31 16:37:00 2016
+** Created: Fri Sep 9 10:48:45 2016
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -52,12 +52,60 @@ public:
         serverOpenBtn = new QPushButton(TcpServer);
         serverOpenBtn->setObjectName(QString::fromUtf8("serverOpenBtn"));
         serverOpenBtn->setGeometry(QRect(40, 200, 75, 23));
+        serverOpenBtn->setStyleSheet(QString::fromUtf8("QPushButton{border-radius:10px;\n"
+"font: 9pt \"Consolas\";\n"
+"	background-color: rgb(170, 170, 255);\n"
+"}\n"
+"QPushButton:hover{\n"
+"background-color:rgba(100,255,100,100);\n"
+"border-color:rgba(255,225,255,200);\n"
+"color:rgba(0,0,0,200);\n"
+"}\n"
+"QPushButton:pressed{\n"
+"background-color:rgba(100,255,100,200);\n"
+"border-color:rgba(255,225,255,30);\n"
+"border-style:inset;\n"
+"color:rgba(0,0,0,100);\n"
+"}\n"
+""));
         serverSendBtn = new QPushButton(TcpServer);
         serverSendBtn->setObjectName(QString::fromUtf8("serverSendBtn"));
         serverSendBtn->setGeometry(QRect(160, 200, 75, 23));
+        serverSendBtn->setStyleSheet(QString::fromUtf8("QPushButton{border-radius:10px;\n"
+"font: 9pt \"Consolas\";\n"
+"	background-color: rgb(170, 170, 255);\n"
+"}\n"
+"QPushButton:hover{\n"
+"background-color:rgba(100,255,100,100);\n"
+"border-color:rgba(255,225,255,200);\n"
+"color:rgba(0,0,0,200);\n"
+"}\n"
+"QPushButton:pressed{\n"
+"background-color:rgba(100,255,100,200);\n"
+"border-color:rgba(255,225,255,30);\n"
+"border-style:inset;\n"
+"color:rgba(0,0,0,100);\n"
+"}\n"
+""));
         serverCloseBtn = new QPushButton(TcpServer);
         serverCloseBtn->setObjectName(QString::fromUtf8("serverCloseBtn"));
         serverCloseBtn->setGeometry(QRect(280, 200, 75, 23));
+        serverCloseBtn->setStyleSheet(QString::fromUtf8("QPushButton{border-radius:10px;\n"
+"font: 9pt \"Consolas\";\n"
+"	background-color: rgb(170, 170, 255);\n"
+"}\n"
+"QPushButton:hover{\n"
+"background-color:rgba(100,255,100,100);\n"
+"border-color:rgba(255,225,255,200);\n"
+"color:rgba(0,0,0,200);\n"
+"}\n"
+"QPushButton:pressed{\n"
+"background-color:rgba(100,255,100,200);\n"
+"border-color:rgba(255,225,255,30);\n"
+"border-style:inset;\n"
+"color:rgba(0,0,0,100);\n"
+"}\n"
+""));
 
         retranslateUi(TcpServer);
 

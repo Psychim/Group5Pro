@@ -50,7 +50,6 @@ private slots:
     void newConnect();
     void readMessage();
     void displayError(QAbstractSocket::SocketError);
-    void on_tcpClientCancelBtm_clicked();
 };
 
 #endif // TCPCLIENT_H
