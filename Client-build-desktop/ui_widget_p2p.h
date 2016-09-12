@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget_p2p.ui'
 **
-** Created: Wed Sep 7 15:59:08 2016
+** Created: Fri Sep 9 17:51:44 2016
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -51,6 +51,7 @@ public:
     VideoLabel *PartnerVideo;
     QHBoxLayout *horizontalLayout_2;
     QFontComboBox *fontComboBox;
+    QComboBox *KaomojiBox;
     QComboBox *sizeComboBox;
     QToolButton *boldToolBtn;
     QToolButton *italicToolBtn;
@@ -85,13 +86,13 @@ public:
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         messageBrowser = new QTextBrowser(Widget_p2p);
         messageBrowser->setObjectName(QString::fromUtf8("messageBrowser"));
-        QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+        QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Expanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(messageBrowser->sizePolicy().hasHeightForWidth());
         messageBrowser->setSizePolicy(sizePolicy);
         messageBrowser->setMinimumSize(QSize(0, 180));
-        messageBrowser->setMaximumSize(QSize(16777215, 180));
+        messageBrowser->setMaximumSize(QSize(16777215, 16777215));
 
         horizontalLayout->addWidget(messageBrowser);
 
@@ -174,9 +175,18 @@ public:
         sizePolicy2.setVerticalStretch(0);
         sizePolicy2.setHeightForWidth(fontComboBox->sizePolicy().hasHeightForWidth());
         fontComboBox->setSizePolicy(sizePolicy2);
+        fontComboBox->setMinimumSize(QSize(0, 0));
+        fontComboBox->setMaximumSize(QSize(100, 16777215));
         fontComboBox->setEditable(false);
 
         horizontalLayout_2->addWidget(fontComboBox);
+
+        KaomojiBox = new QComboBox(Widget_p2p);
+        KaomojiBox->setObjectName(QString::fromUtf8("KaomojiBox"));
+        sizePolicy2.setHeightForWidth(KaomojiBox->sizePolicy().hasHeightForWidth());
+        KaomojiBox->setSizePolicy(sizePolicy2);
+
+        horizontalLayout_2->addWidget(KaomojiBox);
 
         sizeComboBox = new QComboBox(Widget_p2p);
         sizeComboBox->setObjectName(QString::fromUtf8("sizeComboBox"));
@@ -273,7 +283,7 @@ public:
         sizePolicy.setHeightForWidth(messageTextEdit->sizePolicy().hasHeightForWidth());
         messageTextEdit->setSizePolicy(sizePolicy);
         messageTextEdit->setMinimumSize(QSize(0, 150));
-        messageTextEdit->setMaximumSize(QSize(16777215, 150));
+        messageTextEdit->setMaximumSize(QSize(16777215, 16777215));
         messageTextEdit->setAutoFormatting(QTextEdit::AutoNone);
         messageTextEdit->setUndoRedoEnabled(false);
         messageTextEdit->setLineWrapMode(QTextEdit::WidgetWidth);

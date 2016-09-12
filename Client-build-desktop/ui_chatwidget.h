@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'chatwidget.ui'
 **
-** Created: Thu Sep 1 23:12:32 2016
+** Created: Fri Sep 9 17:56:18 2016
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -250,7 +250,7 @@ public:
         clearToolBtn->setToolTip(QApplication::translate("ChatWidget", "\346\270\205\347\251\272\350\201\212\345\244\251\350\256\260\345\275\225", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
         clearToolBtn->setText(QApplication::translate("ChatWidget", "...", 0, QApplication::UnicodeUTF8));
-        sendButton->setText(QApplication::translate("ChatWidget", "\345\217\221\351\200\201", 0, QApplication::UnicodeUTF8));
+        sendButton->setText(QApplication::translate("ChatWidget", "\345\217\221\351\200\201(&S)", 0, QApplication::UnicodeUTF8));
         exitButton->setText(QApplication::translate("ChatWidget", "\351\200\200\345\207\272", 0, QApplication::UnicodeUTF8));
         userNumberLabel->setText(QApplication::translate("ChatWidget", "TextLabel", 0, QApplication::UnicodeUTF8));
     } // retranslateUi

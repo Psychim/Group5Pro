@@ -36,6 +36,7 @@ private:
     QList<Widget_p2p *> ChattingList;
 protected:
     void closeEvent(QCloseEvent *);
+    void mouseDoubleClickEvent(QMouseEvent *);
 public:
     static UserList *onlineUsers;
 private slots:
@@ -49,6 +50,8 @@ private slots:
     void DeleteRoom(int);
     void MsgPromt(int,int);
     void KIllp2pWidget(Widget_p2p*);
+    void on_nickname_editingFinished();
+    void UpdateOnesNickname(int,QString);
 };
 
 #endif // WIDGET_H

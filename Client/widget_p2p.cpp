@@ -19,7 +19,7 @@ Widget_p2p::Widget_p2p(QWidget *parent) :
 {
     setWindowFlags(Qt::Window);
     ui->setupUi(this);
-    Partner=new User(this);
+    Partner=NULL;
     Self=NULL;
     isOpen=false;
     MsgNotRcved=0;
@@ -35,7 +35,7 @@ Widget_p2p::Widget_p2p(QWidget *parent) :
    connect(server, SIGNAL(sendFileName(QString)), this, SLOT(getFileName(QString)));
    connect(ui->messageTextEdit, SIGNAL(currentCharFormatChanged(QTextCharFormat)),
                this, SLOT(currentFormatChanged(const QTextCharFormat)));
-   //视频对话部分
+   ////////////////////////视频对话部分
    ui->PartnerVideo->hide();
    ui->MyVideo->hide();
    VideoOpened=false;
@@ -399,10 +399,9 @@ void Widget_p2p::setPartnerNickname(QString nickname)
 
 void Widget_p2p::setPartner(User *user)
 {
-    setPartnerAddress(user->getIpAddress());
-    setPartnerID(user->getID());
-    setPartnerNickname(user->getNickname());
-    Partner->setStatus(user->getStatus());
+    Partner=user;
+    ui->id->setText(QString::number(Partner->getID()));
+    ui->nickname->setText(Partner->getNickname());
     setWindowTitle(tr("与%1(ID:%2)聊天中").arg(user->getNickname()).arg(user->getID()));
 }
 

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget.ui'
 **
-** Created: Thu Sep 1 22:55:02 2016
+** Created: Sun Sep 11 18:20:46 2016
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -18,6 +18,7 @@
 #include <QtGui/QGridLayout>
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
+#include <QtGui/QLineEdit>
 #include <QtGui/QTabWidget>
 #include <QtGui/QTableWidget>
 #include <QtGui/QVBoxLayout>
@@ -32,7 +33,6 @@ public:
     QLabel *label;
     QLabel *label_2;
     QLabel *userNumLabel;
-    QLabel *nickname;
     QLabel *idlabel;
     QTabWidget *tabWidget;
     QWidget *tab;
@@ -42,6 +42,7 @@ public:
     QVBoxLayout *verticalLayout;
     QCommandLinkButton *commandLinkButton;
     QTableWidget *roomtableWidget;
+    QLineEdit *nickname;
 
     void setupUi(QWidget *Widget)
     {
@@ -55,11 +56,18 @@ public:
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         label = new QLabel(Widget);
         label->setObjectName(QString::fromUtf8("label"));
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
+        label->setSizePolicy(sizePolicy);
 
         gridLayout->addWidget(label, 0, 0, 1, 1);
 
         label_2 = new QLabel(Widget);
         label_2->setObjectName(QString::fromUtf8("label_2"));
+        sizePolicy.setHeightForWidth(label_2->sizePolicy().hasHeightForWidth());
+        label_2->setSizePolicy(sizePolicy);
 
         gridLayout->addWidget(label_2, 1, 0, 1, 1);
 
@@ -67,11 +75,6 @@ public:
         userNumLabel->setObjectName(QString::fromUtf8("userNumLabel"));
 
         gridLayout->addWidget(userNumLabel, 3, 0, 1, 1);
-
-        nickname = new QLabel(Widget);
-        nickname->setObjectName(QString::fromUtf8("nickname"));
-
-        gridLayout->addWidget(nickname, 0, 1, 1, 1);
 
         idlabel = new QLabel(Widget);
         idlabel->setObjectName(QString::fromUtf8("idlabel"));
@@ -111,9 +114,6 @@ public:
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         commandLinkButton = new QCommandLinkButton(tab_2);
         commandLinkButton->setObjectName(QString::fromUtf8("commandLinkButton"));
-        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(commandLinkButton->sizePolicy().hasHeightForWidth());
         commandLinkButton->setSizePolicy(sizePolicy);
 
@@ -134,7 +134,22 @@ public:
 
         tabWidget->addTab(tab_2, QString());
 
-        gridLayout->addWidget(tabWidget, 2, 0, 1, 5);
+        gridLayout->addWidget(tabWidget, 2, 0, 1, 3);
+
+        nickname = new QLineEdit(Widget);
+        nickname->setObjectName(QString::fromUtf8("nickname"));
+        nickname->setEnabled(false);
+        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(nickname->sizePolicy().hasHeightForWidth());
+        nickname->setSizePolicy(sizePolicy1);
+        nickname->setAutoFillBackground(true);
+        nickname->setFrame(false);
+        nickname->setDragEnabled(false);
+        nickname->setReadOnly(false);
+
+        gridLayout->addWidget(nickname, 0, 1, 1, 1);
 
 
         retranslateUi(Widget);
@@ -151,7 +166,6 @@ public:
         label->setText(QApplication::translate("Widget", "\346\230\265\347\247\260\357\274\232", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("Widget", "ID:", 0, QApplication::UnicodeUTF8));
         userNumLabel->setText(QApplication::translate("Widget", "\345\234\250\347\272\277\344\272\272\346\225\260", 0, QApplication::UnicodeUTF8));
-        nickname->setText(QApplication::translate("Widget", "\346\230\265\347\247\260", 0, QApplication::UnicodeUTF8));
         idlabel->setText(QApplication::translate("Widget", "ID", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem = userTableWidget->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("Widget", "ID", 0, QApplication::UnicodeUTF8));
@@ -168,6 +182,7 @@ public:
         QTableWidgetItem *___qtablewidgetitem5 = roomtableWidget->horizontalHeaderItem(2);
         ___qtablewidgetitem5->setText(QApplication::translate("Widget", "\344\272\272\346\225\260", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("Widget", "\347\276\244\350\201\212", 0, QApplication::UnicodeUTF8));
+        nickname->setText(QApplication::translate("Widget", "\346\230\265\347\247\260", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

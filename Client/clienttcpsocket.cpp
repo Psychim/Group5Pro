@@ -83,6 +83,17 @@ void ClientTcpSocket::ReadMessage(){
     case MessageType::Error:
         emit ServerError(in);
         break;
+    case MessageType::NicknameUpdate:
+    {
+        bool flag;
+        in>>flag;
+        if(!flag){
+            QString err;
+            in>>err;
+            QMessageBox::warning(0,"ÐÞ¸ÄêÇ³ÆÊ§°Ü",err);
+        }
+    }
+    break;
     default:
         emit InvalidMessage();
     }
@@ -103,6 +114,7 @@ void ClientTcpSocket::WriteAndWait(QByteArray &buffer, int timeout){
     if(!(state()==QAbstractSocket::ConnectedState))
         return;
     write(buffer);
+    waitForBytesWritten();
     if(!waitForReadyRead(timeout))
         emit NoRespond();
 }
@@ -191,6 +203,13 @@ void ClientTcpSocket::UDPReadMessage(){
             in>>room;
             emit DeleteRoom(room);
             break;
+        }
+        case MessageType::NicknameUpdate:
+        {
+            int ID;
+            QString NewNick;
+            in>>ID>>NewNick;
+            emit NicknameUpdate(ID,NewNick);
         }
         default:
             break;

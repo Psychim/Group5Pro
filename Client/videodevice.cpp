@@ -27,7 +27,7 @@ bool VideoDevice::OpenCamera()
             break;
         }
     }
-    Opened=true;
+   // vi->showSettingsWindow(runningDevice);
     return Opened;
 
 }

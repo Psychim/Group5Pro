@@ -1,8 +1,8 @@
 #ifndef VIDEODEVICE_H
 #define VIDEODEVICE_H
 #include <QObject>
-#include<cv.h>
-#include<highgui.h>
+//#include<cv.h>
+//#include<highgui.h>
 #include<QImage>
 #include"videoInput.h"
 class VideoDevice : public QObject
@@ -17,7 +17,7 @@ public:
     int width;
     int height;
 private:
-    CvCapture *cp;
+  //  CvCapture *cp;
     unsigned char *buffer;
     bool Opened;
     int devicenum;

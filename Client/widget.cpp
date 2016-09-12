@@ -11,6 +11,7 @@
 #include "global.h"
 #include"widget_p2p.h"
 #include "chatwidget.h"
+#include<QMouseEvent>
 UserList* Widget::onlineUsers=NULL;
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
@@ -94,6 +95,7 @@ void Widget::initialize(User * user)
     connect(tcpSocket,SIGNAL(newRoom(int,QString,int,int)),this,SLOT(HandlenewRoom(int,QString,int,int)));
     connect(tcpSocket,SIGNAL(UpdateUserNumber(int,int)),this,SLOT(UpdateRoomInfo(int,int)));
     connect(tcpSocket,SIGNAL(DeleteRoom(int)),this,SLOT(DeleteRoom(int)));
+    connect(tcpSocket,SIGNAL(NicknameUpdate(int,QString)),this,SLOT(UpdateOnesNickname(int,QString)));
     Self=user;
     Self->setParent(this);
     ui->nickname->setText(Self->getNickname());
@@ -206,4 +208,38 @@ void Widget::closeEvent(QCloseEvent *e)
     tcpSocket->waitForBytesWritten();
     tcpSocket->abort();
     QWidget::closeEvent(e);
+}
+
+void Widget::on_nickname_editingFinished()
+{
+    ui->nickname->setEnabled(false);
+    QByteArray buffer;
+    QDataStream out(&buffer,QIODevice::WriteOnly);
+    out.setVersion(VERSION);
+    out<<(MessageSize)0;
+    out<<MessageType::NicknameUpdate;
+    out<<Self->getID();
+    out<<ui->nickname->text();
+    out.device()->seek(0);
+    out<<(MessageSize)(buffer.size()-sizeof(MessageSize));
+    tcpSocket->WriteAndWait(buffer);
+}
+
+void Widget::mouseDoubleClickEvent(QMouseEvent *e)
+{
+    int x=e->x();
+    int y=e->y();
+    QRect nickrect=ui->nickname->geometry();
+    if(x>=nickrect.x()&&x<=(nickrect.x()+nickrect.width())&&y>=nickrect.y()&&(y<=nickrect.y()+nickrect.height())){
+        ui->nickname->setEnabled(true);
+    }
+    QWidget::mouseDoubleClickEvent(e);
+}
+
+void Widget::UpdateOnesNickname(int ID, QString NewNick)
+{
+    QTableWidgetItem *itm=ui->userTableWidget->findItems(QString::number(ID),Qt::MatchExactly).first();
+    int row=itm->row();
+    QTableWidgetItem *nick_itm=ui->userTableWidget->item(row,1);
+    nick_itm->setText(NewNick);
 }
