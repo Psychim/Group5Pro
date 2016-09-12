@@ -32,6 +32,7 @@ signals:
     void newRoom(int,QString,int,int);
     void UpdateUserNumber(int,int);
     void DeleteRoom(int);
+    void NicknameUpdate(int,QString);
 public slots:
     void ReadMessage();
     void UDPReadMessage();

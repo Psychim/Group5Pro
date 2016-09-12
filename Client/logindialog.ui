@@ -264,6 +264,15 @@ font: 9pt &quot;Consolas&quot;;</string>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>UsernameLineEdit</tabstop>
+  <tabstop>PasswordLineEdit</tabstop>
+  <tabstop>LoginButton</tabstop>
+  <tabstop>RegisterButton</tabstop>
+  <tabstop>listWidget</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>pushButton_2</tabstop>
+ </tabstops>
  <resources>
   <include location="IconSources.qrc"/>
  </resources>

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget.ui'
 **
-** Created: Mon Sep 12 10:49:02 2016
+** Created: Mon Sep 12 19:10:40 2016
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -18,6 +18,7 @@
 #include <QtGui/QFrame>
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
+#include <QtGui/QLineEdit>
 #include <QtGui/QPushButton>
 #include <QtGui/QTabWidget>
 #include <QtGui/QTableWidget>
@@ -35,7 +36,7 @@ public:
     QPushButton *pushButton;
     QPushButton *pushButton_2;
     QLabel *label;
-    QLabel *nickname;
+    QLineEdit *nickname;
     QLabel *label_2;
     QLabel *idlabel;
     QTabWidget *tabWidget;
@@ -53,7 +54,7 @@ public:
         if (Widget->objectName().isEmpty())
             Widget->setObjectName(QString::fromUtf8("Widget"));
         Widget->setWindowModality(Qt::NonModal);
-        Widget->resize(350, 572);
+        Widget->resize(351, 572);
         Widget->setStyleSheet(QString::fromUtf8("QWidget{\n"
 "	\n"
 "	\n"
@@ -92,8 +93,10 @@ public:
 
         verticalLayout_2->addWidget(label);
 
-        nickname = new QLabel(Widget);
+        nickname = new QLineEdit(Widget);
         nickname->setObjectName(QString::fromUtf8("nickname"));
+        nickname->setEnabled(false);
+        nickname->setFrame(false);
 
         verticalLayout_2->addWidget(nickname);
 

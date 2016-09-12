@@ -8,8 +8,6 @@
 #include "widget_p2p.h"
 #include<QtNetwork>
 #include<QTableWidget>
-#include<QMouseEvent>
-#include <QPoint>
 
 namespace Ui {
     class Widget;
@@ -40,6 +38,8 @@ private:
 protected:
     void closeEvent(QCloseEvent *);
     void mouseMoveEvent(QMouseEvent *);
+    void mousePressEvent(QMouseEvent *);
+    void mouseDoubleClickEvent(QMouseEvent *);
 public:
     static UserList *onlineUsers;
 private slots:
@@ -52,7 +52,9 @@ private slots:
     void UpdateRoomInfo(int ,int);
     void DeleteRoom(int);
     void MsgPromt(int,int);
-    void KIllp2pWidget(Widget_p2p*);
+    void Killp2pWidget(Widget_p2p*);
+    void on_nickname_editingFinished();
+    void UpdateOnesNickname(int,QString);
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
 };

@@ -10,6 +10,7 @@ namespace MessageType{
         Register=0x0042,    //消息与注册有关
         UserList=0x0043,
         UserStatusUpdate=0x0044,
+        NicknameUpdate=0x0045,
         Error=0x0051,
         Message=0x0061,
         ParticipantLeft=0x0062,

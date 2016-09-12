@@ -33,6 +33,7 @@ private:
     User *LoginQuery(QMap<QString,QString>);
     bool RegisterQuery(QMap<QString,QString>,QString *);
     void Respond(MessageType::MessageType,QString = "");
+    void HandleNicknameUpdate(QDataStream &);
 signals:
     void Error(QString);
     void UserStatusUpdate(User *);

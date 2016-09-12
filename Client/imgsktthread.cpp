@@ -78,8 +78,9 @@ void ImgSktThread::SendImage(QImage image)
         out<<0<<Self->getID()<<Partner->getID();
     }
     image=image.scaledToHeight(240);
-    image=image.scaledToWidth(180);
-    image.save(&buffer,"JPG");
+    if(!image.save(&buffer,"JPG")){
+        qDebug()<<"failed to save image";
+    }
     out<<imagebuffer;
     udpsocket->writeDatagram(datagram,QHostAddress::Broadcast,port);
 }

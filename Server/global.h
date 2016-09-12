@@ -10,6 +10,7 @@ namespace MessageType{
         Register=0x0042,    //消息与注册有关
         UserList=0x0043,
         UserStatusUpdate=0x0044,
+        NicknameUpdate=0x0045,
         Error=0x0051,   //服务端未接收到有效的数据时，返回这个标志给客户端
         Message=0x0061,
         ParticipantLeft=0x0062,
@@ -17,7 +18,8 @@ namespace MessageType{
         Refuse=0x0064,
         NewParticipant=0x0065,
         CreateRoom=0x0071,
-        DeleteRoom=0x0072
+        DeleteRoom=0x0072,
+        Video=0x0081
     };
 }
 /*----------------------数据包格式----------------------*\

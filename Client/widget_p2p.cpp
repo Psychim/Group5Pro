@@ -502,7 +502,6 @@ void Widget_p2p::on_messageTextEdit_cursorPositionChanged()
 
 void Widget_p2p::on_OpenVideoButton_clicked()
 {
-    udpThread=new CUdpThread();
     if(cm==NULL){
         cm=new CamThread(this);
         connect(cm,SIGNAL(ImageProducted(QImage)),ui->MyVideo,SLOT(ShowImage(QImage)));
@@ -519,7 +518,7 @@ void Widget_p2p::on_OpenVideoButton_clicked()
         cm->start();
 
 
-
+        udpThread=new CUdpThread();
         udpThreadFather=new QThread();
         udpThread->moveToThread(udpThreadFather);
         connect(udpThreadFather,SIGNAL(started()),udpThread,SLOT(run()));
@@ -719,4 +718,9 @@ void Widget_p2p::stopThread()
 {
     udpThreadFather->terminate();
     udpThreadFather->wait();
+}
+void Widget_p2p::mousePressEvent(QMouseEvent *event)
+{
+    if(event->buttons()&Qt::LeftButton)
+        offset=event->globalPos()-pos();
 }

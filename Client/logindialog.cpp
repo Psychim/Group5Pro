@@ -88,3 +88,8 @@ void LoginDialog::on_pushButton_clicked()
 {
     close();
 }
+void LoginDialog::mousePressEvent(QMouseEvent *event)
+{
+    if(event->buttons()&Qt::LeftButton)
+        offset=event->globalPos()-pos();
+}

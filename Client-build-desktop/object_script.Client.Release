@@ -17,6 +17,7 @@ INPUT(
 ./release\cg729decoder.o
 ./release\cg729encoder.o
 ./release\cudpthread.o
+./release\videoInput.o
 ./release\moc_widget_p2p.o
 ./release\moc_widget.o
 ./release\moc_userlist.o

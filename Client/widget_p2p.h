@@ -57,6 +57,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *);
     //QString getUserName();
     QString getMessage();
+    void mousePressEvent(QMouseEvent *);
     void showEvent(QShowEvent *);
 private:
     Ui::Widget_p2p *ui;

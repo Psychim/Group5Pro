@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'widget.h'
 **
-** Created: Mon Sep 12 14:56:09 2016
+** Created: Mon Sep 12 19:12:33 2016
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_Widget[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-      14,   14, // methods
+      16,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -44,7 +44,9 @@ static const uint qt_meta_data_Widget[] = {
      273,  231,    7,    7, 0x08,
      291,    7,    7,    7, 0x08,
      318,    7,    7,    7, 0x08,
-     342,    7,    7,    7, 0x08,
+     348,  231,    7,    7, 0x08,
+     380,    7,    7,    7, 0x08,
+     404,    7,    7,    7, 0x08,
 
        0        // eod
 };
@@ -57,7 +59,9 @@ static const char qt_meta_stringdata_Widget[] = {
     "initialize(User*)\0on_commandLinkButton_clicked()\0"
     "roomdoubleClicked(QTableWidgetItem*)\0"
     ",\0UpdateRoomInfo(int,int)\0DeleteRoom(int)\0"
-    "MsgPromt(int,int)\0KIllp2pWidget(Widget_p2p*)\0"
+    "MsgPromt(int,int)\0Killp2pWidget(Widget_p2p*)\0"
+    "on_nickname_editingFinished()\0"
+    "UpdateOnesNickname(int,QString)\0"
     "on_pushButton_clicked()\0"
     "on_pushButton_2_clicked()\0"
 };
@@ -102,12 +106,14 @@ int Widget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 8: UpdateRoomInfo((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         case 9: DeleteRoom((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 10: MsgPromt((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 11: KIllp2pWidget((*reinterpret_cast< Widget_p2p*(*)>(_a[1]))); break;
-        case 12: on_pushButton_clicked(); break;
-        case 13: on_pushButton_2_clicked(); break;
+        case 11: Killp2pWidget((*reinterpret_cast< Widget_p2p*(*)>(_a[1]))); break;
+        case 12: on_nickname_editingFinished(); break;
+        case 13: UpdateOnesNickname((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 14: on_pushButton_clicked(); break;
+        case 15: on_pushButton_2_clicked(); break;
         default: ;
         }
-        _id -= 14;
+        _id -= 16;
     }
     return _id;
 }

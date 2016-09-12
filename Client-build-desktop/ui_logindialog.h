@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'logindialog.ui'
 **
-** Created: Mon Sep 12 10:07:27 2016
+** Created: Mon Sep 12 19:23:05 2016
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -147,6 +147,12 @@ public:
         label = new QLabel(frame);
         label->setObjectName(QString::fromUtf8("label"));
         label->setGeometry(QRect(20, 10, 72, 16));
+        QWidget::setTabOrder(UsernameLineEdit, PasswordLineEdit);
+        QWidget::setTabOrder(PasswordLineEdit, LoginButton);
+        QWidget::setTabOrder(LoginButton, RegisterButton);
+        QWidget::setTabOrder(RegisterButton, listWidget);
+        QWidget::setTabOrder(listWidget, pushButton);
+        QWidget::setTabOrder(pushButton, pushButton_2);
 
         retranslateUi(LoginDialog);
 

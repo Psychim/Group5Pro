@@ -1,35 +1,57 @@
 #include "videodevice.h"
+#include<QDebug>
 VideoDevice::VideoDevice(QObject *parent) :
     QObject(parent)
 {
     Opened=false;
+    devicenum=videoInput::listDevices();
+    vi=NULL;
+    buffer=NULL;
 
 }
 VideoDevice::~VideoDevice(){
-    if(Opened)
-        cvReleaseCapture(&cp);
+    CloseCamera();
 }
 
-void VideoDevice::OpenCamera()
+bool VideoDevice::OpenCamera()
 {
-    cp=cvCreateCameraCapture(-1);
-    cvSetCaptureProperty(cp,CV_CAP_PROP_FRAME_WIDTH,640);
-    cvSetCaptureProperty(cp,CV_CAP_PROP_FRAME_HEIGHT,480);
-    Opened=true;
+    if(Opened) return true;
+    vi=new videoInput;
+    for(runningDevice=0;runningDevice<devicenum;runningDevice++){
+        if(vi->setupDevice(runningDevice)){
+            Opened=true;
+            width=vi->getWidth(runningDevice);
+            height=vi->getHeight(runningDevice);
+            if(buffer)  delete buffer;
+                buffer=new unsigned char[vi->getSize(runningDevice)];
+            break;
+        }
+    }
+   // vi->showSettingsWindow(runningDevice);
+    return Opened;
+
 }
 
 void VideoDevice::CloseCamera()
 {
-    cvReleaseCapture(&cp);
+    vi->stopDevice(runningDevice);
+    delete buffer;
+    delete vi;
+    buffer=NULL;
     Opened=false;
 }
 
 QImage VideoDevice::GetFrame()
 {
-    frame=cvQueryFrame(cp);
-    cvCvtColor(frame,frame,CV_BGR2RGB);
-    QImage image((const uchar *)frame->imageData,frame->width,frame->height,QImage::Format_RGB888);
-    return image;
+    if(vi->isFrameNew(runningDevice)){
+        qDebug()<<" succeed to get frame";
+        vi->getPixels(runningDevice,buffer,true,true);
+        QImage image((const uchar *)buffer,width,height,QImage::Format_RGB888);
+        return image;
+    }
+    else{
+        return QImage();
+    }
 }
 
 bool VideoDevice::isOpen()

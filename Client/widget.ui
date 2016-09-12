@@ -104,9 +104,15 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="nickname">
+    <widget class="QLineEdit" name="nickname">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="text">
       <string>昵称</string>
+     </property>
+     <property name="frame">
+      <bool>false</bool>
      </property>
     </widget>
    </item>

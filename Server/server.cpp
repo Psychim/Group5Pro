@@ -42,11 +42,13 @@ User * Server::LoginQuery(QMap<QString,QString> Info){
         int id=query->value(rec.indexOf("id")).toInt();
         QString name=query->value(rec.indexOf("nickname")).toString();
         User * LoggedUser=new User(this,id,name,Info["IpAddress"],User::Online);
-
+        delete query;
         return LoggedUser;
     }
-    else
+    else{
+        delete query;
         return NULL;
+    }
 }
 //处理用户登录
 void Server::HandleUserLogin(QDataStream &in){
@@ -166,6 +168,9 @@ void Server::TcpReadMessage(){
         }
             break;
         }
+        break;
+    case MessageType::NicknameUpdate:
+        HandleNicknameUpdate(in);
         break;
     default:
         emit Error(tr("无效的消息"));
@@ -471,4 +476,47 @@ void Server::HandlePtcpLeft(QDataStream &in)
         ServerUdpSocket->writeDatagram(buffer2,QHostAddress::Broadcast,UDPPort);
         ServerUdpSocket->waitForBytesWritten();
     }
+}
+
+void Server::HandleNicknameUpdate(QDataStream &in)
+{
+    int ID;
+    QString NewNick;
+    in>>ID>>NewNick;
+    bool flag=true;
+    QString err;
+    if(!db.open()){
+        flag=false;
+        err=tr("服务器数据库未打开");
+    }
+    else{
+        QSqlQuery query;
+        query.prepare("update users set nickname=:nickname where id=:id");
+        query.bindValue(":nickname",NewNick);
+        query.bindValue(":id",ID);
+        flag=query.exec();
+        qDebug()<<query.lastQuery();
+        if(!flag)
+            err=query.lastError().text();
+    }
+    ////////////////////////////////////////
+    QByteArray tcpbuffer;
+    QDataStream tcpout(&tcpbuffer,QIODevice::WriteOnly);
+    tcpout<<(MessageSize)0;
+    tcpout<<MessageType::NicknameUpdate;
+    tcpout<<flag;
+    if(!flag)
+        tcpout<<err;
+    tcpout.device()->seek(0);
+    tcpout<<(MessageSize)(tcpbuffer.size()-sizeof(MessageSize));
+    ServerTcpSocket->write(tcpbuffer);
+    ServerTcpSocket->waitForBytesWritten();
+    if(!flag)   return;
+    ///////////////////////////////////////
+    QByteArray udpbuffer;
+    QDataStream udpout(&udpbuffer,QIODevice::WriteOnly);
+    udpout<<MessageType::NicknameUpdate;
+    udpout<<ID<<NewNick;
+    ServerUdpSocket->writeDatagram(udpbuffer,QHostAddress::Broadcast,UDPPort);
+    ServerUdpSocket->waitForBytesWritten();
 }

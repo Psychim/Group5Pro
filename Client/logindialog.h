@@ -29,7 +29,7 @@ public slots:
     void DialogInit();
 protected:
     void mouseMoveEvent(QMouseEvent *);
-
+    void mousePressEvent(QMouseEvent *);
 private:
     Ui::LoginDialog *ui;
     ClientTcpSocket *tcpSocket;
