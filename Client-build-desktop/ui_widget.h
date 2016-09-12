@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget.ui'
 **
-** Created: Mon Sep 12 19:10:40 2016
+** Created: Mon Sep 12 20:22:25 2016
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -16,10 +16,12 @@
 #include <QtGui/QButtonGroup>
 #include <QtGui/QCommandLinkButton>
 #include <QtGui/QFrame>
+#include <QtGui/QHBoxLayout>
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
 #include <QtGui/QLineEdit>
 #include <QtGui/QPushButton>
+#include <QtGui/QSpacerItem>
 #include <QtGui/QTabWidget>
 #include <QtGui/QTableWidget>
 #include <QtGui/QVBoxLayout>
@@ -35,10 +37,16 @@ public:
     QLabel *label_3;
     QPushButton *pushButton;
     QPushButton *pushButton_2;
+    QHBoxLayout *horizontalLayout;
+    QSpacerItem *horizontalSpacer_4;
     QLabel *label;
     QLineEdit *nickname;
+    QSpacerItem *horizontalSpacer;
+    QHBoxLayout *horizontalLayout_2;
+    QSpacerItem *horizontalSpacer_3;
     QLabel *label_2;
     QLabel *idlabel;
+    QSpacerItem *horizontalSpacer_2;
     QTabWidget *tabWidget;
     QWidget *tab;
     QVBoxLayout *verticalLayout_3;
@@ -54,7 +62,7 @@ public:
         if (Widget->objectName().isEmpty())
             Widget->setObjectName(QString::fromUtf8("Widget"));
         Widget->setWindowModality(Qt::NonModal);
-        Widget->resize(351, 572);
+        Widget->resize(353, 572);
         Widget->setStyleSheet(QString::fromUtf8("QWidget{\n"
 "	\n"
 "	\n"
@@ -62,8 +70,9 @@ public:
 ""));
         verticalLayout_2 = new QVBoxLayout(Widget);
         verticalLayout_2->setSpacing(6);
-        verticalLayout_2->setContentsMargins(0, 0, 0, 0);
+        verticalLayout_2->setContentsMargins(11, 11, 11, 11);
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        verticalLayout_2->setContentsMargins(1, 0, 1, 0);
         frame = new QFrame(Widget);
         frame->setObjectName(QString::fromUtf8("frame"));
         frame->setMinimumSize(QSize(351, 30));
@@ -88,29 +97,71 @@ public:
 
         verticalLayout_2->addWidget(frame);
 
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer_4);
+
         label = new QLabel(Widget);
         label->setObjectName(QString::fromUtf8("label"));
 
-        verticalLayout_2->addWidget(label);
+        horizontalLayout->addWidget(label);
 
         nickname = new QLineEdit(Widget);
         nickname->setObjectName(QString::fromUtf8("nickname"));
         nickname->setEnabled(false);
+        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(nickname->sizePolicy().hasHeightForWidth());
+        nickname->setSizePolicy(sizePolicy);
+        nickname->setAutoFillBackground(false);
+        nickname->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
+"background-color: rgb(240, 240, 240);"));
         nickname->setFrame(false);
+        nickname->setReadOnly(false);
 
-        verticalLayout_2->addWidget(nickname);
+        horizontalLayout->addWidget(nickname);
+
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer);
+
+
+        verticalLayout_2->addLayout(horizontalLayout);
+
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setSpacing(6);
+        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
+        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
+
+        horizontalLayout_2->addItem(horizontalSpacer_3);
 
         label_2 = new QLabel(Widget);
         label_2->setObjectName(QString::fromUtf8("label_2"));
 
-        verticalLayout_2->addWidget(label_2);
+        horizontalLayout_2->addWidget(label_2);
 
         idlabel = new QLabel(Widget);
         idlabel->setObjectName(QString::fromUtf8("idlabel"));
         idlabel->setEnabled(true);
+        QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(idlabel->sizePolicy().hasHeightForWidth());
+        idlabel->setSizePolicy(sizePolicy1);
         idlabel->setStyleSheet(QString::fromUtf8(""));
 
-        verticalLayout_2->addWidget(idlabel);
+        horizontalLayout_2->addWidget(idlabel);
+
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_2->addItem(horizontalSpacer_2);
+
+
+        verticalLayout_2->addLayout(horizontalLayout_2);
 
         tabWidget = new QTabWidget(Widget);
         tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
@@ -153,11 +204,11 @@ public:
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         commandLinkButton = new QCommandLinkButton(tab_2);
         commandLinkButton->setObjectName(QString::fromUtf8("commandLinkButton"));
-        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(commandLinkButton->sizePolicy().hasHeightForWidth());
-        commandLinkButton->setSizePolicy(sizePolicy);
+        QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Preferred);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(commandLinkButton->sizePolicy().hasHeightForWidth());
+        commandLinkButton->setSizePolicy(sizePolicy2);
         commandLinkButton->setStyleSheet(QString::fromUtf8("QCommandLinkButton{border-radius:10px;\n"
 "\n"
 "}\n"

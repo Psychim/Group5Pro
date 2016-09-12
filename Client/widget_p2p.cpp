@@ -111,11 +111,12 @@ Widget_p2p::~Widget_p2p()
 void Widget_p2p::mouseMoveEvent(QMouseEvent *event){
     if(event->buttons()&Qt::LeftButton)
     {
-        if(event->y()<=ui->frame->height())
-        {QPoint temp;
-        temp=event->globalPos()-offset;
-        move(temp);
-        }
+     //   if(event->y()<=ui->frame->height())
+     //   {
+            QPoint temp;
+            temp=event->globalPos()-offset;
+            move(temp);
+    //    }
     }
 }
 
@@ -469,11 +470,10 @@ void Widget_p2p::setPartnerNickname(QString nickname)
 
 void Widget_p2p::setPartner(User *user)
 {
-    setPartnerAddress(user->getIpAddress());
-    setPartnerID(user->getID());
-    setPartnerNickname(user->getNickname());
-    Partner->setStatus(user->getStatus());
-    setWindowTitle(tr("与%1(ID:%2)聊天中").arg(user->getNickname()).arg(user->getID()));
+    Partner=user;
+    ui->id->setText(QString::number(Partner->getID()));
+    ui->nickname->setText(Partner->getNickname());
+    ui->label_3->setText(tr("与%1(ID:%2)聊天中").arg(user->getNickname()).arg(user->getID()));
 }
 
 void Widget_p2p::setSelf(User *user)
@@ -722,5 +722,6 @@ void Widget_p2p::stopThread()
 void Widget_p2p::mousePressEvent(QMouseEvent *event)
 {
     if(event->buttons()&Qt::LeftButton)
-        offset=event->globalPos()-pos();
+        if(event->y()<=ui->frame->height())
+            offset=event->globalPos()-pos();
 }

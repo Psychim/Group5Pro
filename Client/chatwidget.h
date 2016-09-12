@@ -30,11 +30,14 @@ protected:
     void hasPendingFile(int ID,QString nickName,QString serverAddress,QString clientAddress,QString fileName);
     bool saveFile(const QString& fileName);
     void closeEvent(QCloseEvent*);
-
+    void mouseMoveEvent(QMouseEvent *);
+    void mousePressEvent(QMouseEvent *);
+    void on_pushButton_clicked();
+    void on_pushButton_2_clicked();
     QString getIP();
     QString getUserName();
     QString getMessage();
-
+    QPoint offset;
 private:
     Ui::ChatWidget *ui;
     QUdpSocket* udpSocket;

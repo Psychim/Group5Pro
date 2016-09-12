@@ -18,7 +18,7 @@ Widget::Widget(QWidget *parent) :
 {
     this->setWindowFlags(Qt::FramelessWindowHint);
     ui->setupUi(this);
-
+    ui->nickname->setBackgroundRole(this->backgroundRole());
     connect(ui->userTableWidget,SIGNAL(itemDoubleClicked(QTableWidgetItem*)),this,SLOT(doubleClicked(QTableWidgetItem*)));
     connect(ui->roomtableWidget,SIGNAL(itemDoubleClicked(QTableWidgetItem*)),this,SLOT(roomdoubleClicked(QTableWidgetItem*)));
     Self=NULL;
@@ -39,11 +39,12 @@ void Widget::mouseMoveEvent(QMouseEvent *event){
     if(event->buttons()&Qt::LeftButton)
     {
 
-        if(event->y()<=ui->frame->height())
-        {   QPoint temp;
+      //  if(event->y()<=ui->frame->height())
+      // {
+            QPoint temp;
             temp=event->globalPos()-offset;
             move(temp);
-        }
+      //  }
     }
 }
 
@@ -269,5 +270,6 @@ void Widget::UpdateOnesNickname(int ID, QString NewNick)
 void Widget::mousePressEvent(QMouseEvent *event)
 {
     if(event->buttons()&Qt::LeftButton)
-        offset=event->globalPos()-pos();
+        if(event->y()<=ui->frame->height())
+            offset=event->globalPos()-pos();
 }

@@ -7,17 +7,113 @@
     <x>0</x>
     <y>0</y>
     <width>929</width>
-    <height>450</height>
+    <height>500</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>局域网聊天工具</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0" colspan="9">
+   <property name="margin">
+    <number>0</number>
+   </property>
+   <item row="0" column="0" colspan="11">
+    <widget class="QFrame" name="frame">
+     <property name="minimumSize">
+      <size>
+       <width>929</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>929</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>111</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Chat Room</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton">
+      <property name="geometry">
+       <rect>
+        <x>850</x>
+        <y>0</y>
+        <width>40</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="IconSources.qrc">
+        <normaloff>:/new/icon/images/minmin.png</normaloff>:/new/icon/images/minmin.png</iconset>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_2">
+      <property name="geometry">
+       <rect>
+        <x>890</x>
+        <y>0</y>
+        <width>40</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="IconSources.qrc">
+        <normaloff>:/new/icon/images/close.png</normaloff>:/new/icon/images/close.png</iconset>
+      </property>
+     </widget>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="9">
     <widget class="QTextBrowser" name="messageBrowser"/>
    </item>
-   <item row="0" column="9" rowspan="3" colspan="2">
+   <item row="1" column="9" rowspan="3" colspan="2">
     <widget class="QTableWidget" name="userTableWidget">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
@@ -46,10 +142,10 @@
      </column>
     </widget>
    </item>
-   <item row="1" column="0">
+   <item row="2" column="0">
     <widget class="QFontComboBox" name="fontComboBox"/>
    </item>
-   <item row="1" column="1">
+   <item row="2" column="1">
     <widget class="QComboBox" name="sizeComboBox">
      <property name="currentIndex">
       <number>3</number>
@@ -91,7 +187,7 @@
      </item>
     </widget>
    </item>
-   <item row="1" column="2">
+   <item row="2" column="2">
     <widget class="QToolButton" name="boldToolBtn">
      <property name="enabled">
       <bool>false</bool>
@@ -120,7 +216,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="3">
+   <item row="2" column="3">
     <widget class="QToolButton" name="italicToolBtn">
      <property name="toolTip">
       <string>倾斜</string>
@@ -146,7 +242,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="4">
+   <item row="2" column="4">
     <widget class="QToolButton" name="underlineToolBtn">
      <property name="toolTip">
       <string>下划线</string>
@@ -172,7 +268,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="5">
+   <item row="2" column="5">
     <widget class="QToolButton" name="colorToolBtn">
      <property name="toolTip">
       <string>更改字体颜色</string>
@@ -195,7 +291,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="6">
+   <item row="2" column="6">
     <widget class="QToolButton" name="sendToolBtn">
      <property name="toolTip">
       <string>传输文件</string>
@@ -218,7 +314,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="7">
+   <item row="2" column="7">
     <widget class="QToolButton" name="saveToolBtn">
      <property name="toolTip">
       <string>保存聊天记录</string>
@@ -241,7 +337,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="8">
+   <item row="2" column="8">
     <widget class="QToolButton" name="clearToolBtn">
      <property name="toolTip">
       <string>清空聊天记录</string>
@@ -264,17 +360,17 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="9">
+   <item row="3" column="0" colspan="9">
     <widget class="QTextEdit" name="messageTextEdit"/>
    </item>
-   <item row="3" column="5" colspan="2">
+   <item row="4" column="6" colspan="3">
     <widget class="QLabel" name="userNumberLabel">
      <property name="text">
       <string>TextLabel</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="9">
+   <item row="4" column="9">
     <widget class="QPushButton" name="sendButton">
      <property name="styleSheet">
       <string notr="true"/>
@@ -284,7 +380,7 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="10">
+   <item row="4" column="10">
     <widget class="QPushButton" name="exitButton">
      <property name="styleSheet">
       <string notr="true"/>

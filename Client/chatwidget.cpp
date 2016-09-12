@@ -20,7 +20,8 @@ ChatWidget::ChatWidget(QWidget *parent,User *user,int roomID,QString roomName) :
     QWidget(parent),
     ui(new Ui::ChatWidget)
 {
-    setWindowFlags(Qt::Window);
+
+    setWindowFlags(Qt::Window|Qt::FramelessWindowHint);
     ui->setupUi(this);
     udpSocket=new QUdpSocket(this);
     server=new TcpServer(this);
@@ -43,6 +44,18 @@ ChatWidget::ChatWidget(QWidget *parent,User *user,int roomID,QString roomName) :
 ChatWidget::~ChatWidget()
 {
     delete ui;
+}
+
+void ChatWidget::mouseMoveEvent(QMouseEvent *event){
+    if(event->buttons()&Qt::LeftButton)
+    {
+       // if(event->y()<=ui->frame->height())
+       // {
+        QPoint temp;
+        temp=event->globalPos()-offset;
+        move(temp);
+        //}
+    }
 }
 
 // 发送信息，在信息处理是，根据私聊和群聊来做不同修改
@@ -465,4 +478,21 @@ void ChatWidget::on_messageTextEdit_cursorPositionChanged()
     else
         ui->messageTextEdit->setFontWeight(QFont::Normal);
     ui->messageTextEdit->setTextColor(color);
+}
+
+void ChatWidget::on_pushButton_clicked()
+{
+    showMinimized();
+}
+
+void ChatWidget::on_pushButton_2_clicked()
+{
+    close();
+}
+
+void ChatWidget::mousePressEvent(QMouseEvent *event)
+{
+    if(event->buttons()&Qt::LeftButton)
+        if(event->y()<=ui->frame->height())
+            offset=event->globalPos()-pos();
 }
